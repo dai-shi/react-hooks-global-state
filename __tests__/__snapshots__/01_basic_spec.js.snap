@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`basic spec should create a component with a global state 1`] = `
+<App>
+  <StateProvider>
+    <StateProvider>
+      <div
+        className="first"
+      >
+        <Counter>
+          <StateConsumer
+            name="counter1"
+          >
+            <div>
+              <span>
+                0
+              </span>
+              <button
+                onClick={[Function]}
+                type="button"
+              >
+                +1
+              </button>
+            </div>
+          </StateConsumer>
+        </Counter>
+      </div>
+      <div
+        className="second"
+      >
+        <Counter>
+          <StateConsumer
+            name="counter1"
+          >
+            <div>
+              <span>
+                0
+              </span>
+              <button
+                onClick={[Function]}
+                type="button"
+              >
+                +1
+              </button>
+            </div>
+          </StateConsumer>
+        </Counter>
+      </div>
+    </StateProvider>
+  </StateProvider>
+</App>
+`;
+
+exports[`basic spec should create a component with a global state 2`] = `
+<App>
+  <StateProvider>
+    <StateProvider>
+      <div
+        className="first"
+      >
+        <Counter>
+          <StateConsumer
+            name="counter1"
+          >
+            <div>
+              <span>
+                1
+              </span>
+              <button
+                onClick={[Function]}
+                type="button"
+              >
+                +1
+              </button>
+            </div>
+          </StateConsumer>
+        </Counter>
+      </div>
+      <div
+        className="second"
+      >
+        <Counter>
+          <StateConsumer
+            name="counter1"
+          >
+            <div>
+              <span>
+                1
+              </span>
+              <button
+                onClick={[Function]}
+                type="button"
+              >
+                +1
+              </button>
+            </div>
+          </StateConsumer>
+        </Counter>
+      </div>
+    </StateProvider>
+  </StateProvider>
+</App>
+`;
