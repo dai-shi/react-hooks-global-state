@@ -41,10 +41,10 @@ const Counter = () => {
 };
 
 const App = () => (
-  <StateProvider>
+  <div>
     <Counter />
     <Counter />
-  </StateProvider>
+  </div>
 );
 ```
 
