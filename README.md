@@ -59,3 +59,8 @@ PORT=8080 npm run examples:minimal
 ```
 
 and open <http://localhost:8080> in your web browser.
+
+Blogs
+-----
+
+- [TypeScript-aware React hooks for global state](https://medium.com/@dai_shi/typescript-aware-react-hooks-for-global-state-b6e2dfc0e9a7)
