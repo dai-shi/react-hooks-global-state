@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useToggle } from 'react-use';
+import { useBoolean } from 'react-use';
 
 import { setErrorMessage, setPageTitle } from './state';
 
@@ -20,7 +20,7 @@ const fetchPageTitle = async (setLoading: SetLoading) => {
 };
 
 const RandomButton = () => {
-  const [loading, toggle, setLoading] = useToggle(false);
+  const [loading, setLoading] = useBoolean(false);
   return (
     <div>
       {loading ? 'Loading...' : (
