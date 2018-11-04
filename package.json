@@ -21,7 +21,8 @@
     "examples:typescript": "webpack-dev-server --entry ./examples/02_typescript/main.ts --content-base examples/02_typescript",
     "examples:actions": "webpack-dev-server --entry ./examples/03_actions/main.ts --content-base examples/03_actions",
     "examples:fetch": "webpack-dev-server --entry ./examples/04_fetch/main.ts --content-base examples/04_fetch",
-    "examples:onmount": "webpack-dev-server --entry ./examples/05_onmount/main.ts --content-base examples/05_onmount"
+    "examples:onmount": "webpack-dev-server --entry ./examples/05_onmount/main.ts --content-base examples/05_onmount",
+    "examples:reducer": "webpack-dev-server --entry ./examples/06_reducer/main.ts --content-base examples/06_reducer"
   },
   "keywords": [
     "react",
