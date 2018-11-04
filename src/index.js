@@ -1,36 +1,63 @@
 import { useState, useEffect } from 'react';
 
-const isFunction = fn => (typeof fn === 'function');
-
-export const createGlobalState = (initialState) => {
-  const globalState = { ...initialState };
-  const stateItemListeners = {};
-  const stateItemUpdaters = {};
-  const stateItemHooks = {};
-  Object.keys(globalState).forEach((name) => {
-    stateItemListeners[name] = [];
-    stateItemUpdaters[name] = (func) => {
-      if (isFunction(func)) {
-        globalState[name] = func(globalState[name]);
-      } else {
-        globalState[name] = func;
-      }
-      stateItemListeners[name].forEach(f => f(globalState[name]));
-    };
-    stateItemHooks[name] = () => {
-      const [value, setValue] = useState(globalState[name]);
-      useEffect(() => {
-        stateItemListeners[name].push(setValue);
-        const cleanup = () => {
-          const index = stateItemListeners[name].indexOf(setValue);
-          stateItemListeners[name].splice(index, 1);
-        };
-        return cleanup;
-      }, []);
-      return [value, stateItemUpdaters[name]];
-    };
+const map = (obj, func) => {
+  const newObj = {};
+  Object.keys(obj).forEach((key) => {
+    newObj[key] = func(obj[key]);
   });
-  Object.freeze(stateItemUpdaters);
-  Object.freeze(stateItemHooks);
-  return { stateItemUpdaters, stateItemHooks };
+  return newObj;
+};
+const isFunction = fn => (typeof fn === 'function');
+const defaultReducer = state => state;
+
+const createStateItem = (initialValue) => {
+  let value = initialValue;
+  const getValue = () => value;
+  const listeners = [];
+  const updater = (funcOrVal) => {
+    if (isFunction(funcOrVal)) {
+      value = funcOrVal(value);
+    } else {
+      value = funcOrVal;
+    }
+    listeners.forEach(f => f(value));
+  };
+  const hook = () => {
+    const [val, setVal] = useState(value);
+    useEffect(() => {
+      listeners.push(setVal);
+      const cleanup = () => {
+        const index = listeners.indexOf(setVal);
+        listeners.splice(index, 1);
+      };
+      return cleanup;
+    }, []);
+    return [val, updater];
+  };
+  return { getValue, updater, hook };
+};
+
+const createDispatch = (stateItemMap, reducer) => {
+  const dispatch = (action) => {
+    const oldState = {};
+    Object.keys(stateItemMap).forEach((name) => {
+      oldState[name] = stateItemMap[name].getValue();
+    });
+    const newState = reducer(oldState, action);
+    Object.keys(oldState).forEach((name) => {
+      if (oldState[name] !== newState[name]) {
+        stateItemMap[name].updater(newState[name]);
+      }
+    });
+  };
+  return dispatch;
+};
+
+export const createGlobalState = (initialState, reducer = defaultReducer) => {
+  const stateItemMap = map(initialState, createStateItem);
+  return {
+    stateItemUpdaters: Object.freeze(map(stateItemMap, x => x.updater)),
+    stateItemHooks: Object.freeze(map(stateItemMap, x => x.hook)),
+    dispatch: createDispatch(stateItemMap, reducer),
+  };
 };
