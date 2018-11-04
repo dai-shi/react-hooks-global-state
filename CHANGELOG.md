@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+
+## [0.0.3] - 2018-11-04
 ### Added
 - Reducer support
 
