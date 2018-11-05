@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 
+// utility functions
+
 const map = (obj, func) => {
   const newObj = {};
-  Object.keys(obj).forEach((key) => {
-    newObj[key] = func(obj[key]);
-  });
+  Object.keys(obj).forEach((key) => { newObj[key] = func(obj[key]); });
   return newObj;
 };
 const isFunction = fn => (typeof fn === 'function');
-const defaultReducer = state => state;
+const defaultEnhancer = store => store;
+
+// core functions
 
 const createStateItem = (initialValue) => {
   let value = initialValue;
@@ -37,27 +39,54 @@ const createStateItem = (initialValue) => {
   return { getValue, updater, hook };
 };
 
-const createDispatch = (stateItemMap, reducer) => {
-  const dispatch = (action) => {
-    const oldState = {};
-    Object.keys(stateItemMap).forEach((name) => {
-      oldState[name] = stateItemMap[name].getValue();
+const createGetState = (stateItemMap, initialState) => {
+  const keys = Object.keys(stateItemMap);
+  let globalState = initialState;
+  const getState = () => {
+    let changed = false;
+    const currentState = {};
+    // XXX an extra overhead here
+    keys.forEach((key) => {
+      currentState[key] = stateItemMap[key].getValue();
+      if (currentState[key] !== globalState[key]) changed = true;
     });
+    if (changed) globalState = currentState;
+    return globalState;
+  };
+  return getState;
+};
+
+const createDispatch = (stateItemMap, getState, reducer) => {
+  const keys = Object.keys(stateItemMap);
+  const dispatch = (action) => {
+    const oldState = getState();
     const newState = reducer(oldState, action);
-    Object.keys(oldState).forEach((name) => {
-      if (oldState[name] !== newState[name]) {
-        stateItemMap[name].updater(newState[name]);
+    if (oldState === newState) return;
+    keys.forEach((key) => {
+      if (oldState[key] !== newState[key]) {
+        stateItemMap[key].updater(newState[key]);
       }
     });
   };
   return dispatch;
 };
 
-export const createGlobalState = (initialState, reducer = defaultReducer) => {
+// export functions
+
+export const createGlobalState = (initialState) => {
   const stateItemMap = map(initialState, createStateItem);
   return {
     stateItemUpdaters: Object.freeze(map(stateItemMap, x => x.updater)),
     stateItemHooks: Object.freeze(map(stateItemMap, x => x.hook)),
-    dispatch: createDispatch(stateItemMap, reducer),
+  };
+};
+
+export const createStore = (reducer, initialState, enhancer = defaultEnhancer) => {
+  const stateItemMap = map(initialState, createStateItem);
+  const getState = createGetState(stateItemMap, initialState);
+  const dispatch = createDispatch(stateItemMap, getState, reducer);
+  return {
+    stateItemHooks: Object.freeze(map(stateItemMap, x => x.hook)),
+    ...enhancer({ getState, dispatch }),
   };
 };

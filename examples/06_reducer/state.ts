@@ -1,4 +1,4 @@
-import { createGlobalState } from '../../src/index';
+import { createStore } from '../../src/index';
 
 type Action = {
   type: 'increment',
@@ -15,15 +15,7 @@ type Action = {
   age: number,
 };
 
-const { dispatch, stateItemHooks } = createGlobalState(
-  {
-    counter: 0,
-    person: {
-      age: 0,
-      firstName: '',
-      lastName: '',
-    },
-  },
+const { dispatch, stateItemHooks } = createStore(
   (state, action: Action) => {
     switch (action.type) {
       case 'increment': return {
@@ -57,6 +49,14 @@ const { dispatch, stateItemHooks } = createGlobalState(
       };
       default: return state;
     }
+  },
+  {
+    counter: 0,
+    person: {
+      age: 0,
+      firstName: '',
+      lastName: '',
+    },
   },
 );
 

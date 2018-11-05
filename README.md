@@ -22,6 +22,8 @@ npm install react-hooks-global-state
 Usage
 -----
 
+### setState style
+
 ```javascript
 import React from 'react';
 import { createGlobalState } from 'react-hooks-global-state';
@@ -35,7 +37,44 @@ const Counter = () => {
   return (
     <div>
       <span>Counter: {value}</span>
-      <button onClick={() => update(v => v + 1)}>Click</button>
+      <button onClick={() => update(v => v + 1)}>+1</button>
+      <button onClick={() => update(v => v - 1)}>-1</button>
+    </div>
+  );
+};
+
+const App = () => (
+  <div>
+    <Counter />
+    <Counter />
+  </div>
+);
+```
+
+### reducer style
+
+```javascript
+import React from 'react';
+import { createStore } from 'react-hooks-global-state';
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case: 'increment': return { ...state, counter: state.counter + 1 };
+    case: 'decrement': return { ...state, counter: state.counter - 1 };
+    default: return state;
+  }
+};
+const initialState = { counter: 0 }; // initialState is not optional.
+const { dispatch, stateItemHooks } = createStore(reducer, initialState);
+const useCounter = stateItemHooks.counter;
+
+const Counter = () => {
+  const [value] = useCounter();
+  return (
+    <div>
+      <span>Counter: {value}</span>
+      <button onClick={() => dispatch({ type: 'increment' })}>+1</button>
+      <button onClick={() => dispatch({ type: 'decrement' })}>-1</button>
     </div>
   );
 };
