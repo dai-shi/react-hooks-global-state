@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+
+## [0.0.4] - 2018-11-05
 ### Changed
 - Redux-like createStore
 - Update README

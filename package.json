@@ -1,7 +1,7 @@
 {
   "name": "react-hooks-global-state",
   "description": "Simple global state for React by Hooks API",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Daishi Kato",
   "repository": {
     "type": "git",
