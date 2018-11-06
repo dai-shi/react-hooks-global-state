@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [0.0.5] - 2018-11-06
+### Changed
+- Store enhancer support
+
 ## [0.0.4] - 2018-11-05
 ### Changed
 - Redux-like createStore
