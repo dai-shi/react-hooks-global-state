@@ -8,7 +8,6 @@ const map = (obj, func) => {
   return newObj;
 };
 const isFunction = fn => (typeof fn === 'function');
-const defaultEnhancer = store => store;
 
 // core functions
 
@@ -61,12 +60,14 @@ const createDispatch = (stateItemMap, getState, reducer) => {
   const dispatch = (action) => {
     const oldState = getState();
     const newState = reducer(oldState, action);
-    if (oldState === newState) return;
-    keys.forEach((key) => {
-      if (oldState[key] !== newState[key]) {
-        stateItemMap[key].updater(newState[key]);
-      }
-    });
+    if (oldState !== newState) {
+      keys.forEach((key) => {
+        if (oldState[key] !== newState[key]) {
+          stateItemMap[key].updater(newState[key]);
+        }
+      });
+    }
+    return action;
   };
   return dispatch;
 };
@@ -81,12 +82,14 @@ export const createGlobalState = (initialState) => {
   };
 };
 
-export const createStore = (reducer, initialState, enhancer = defaultEnhancer) => {
+export const createStore = (reducer, initialState, enhancer) => {
+  if (enhancer) return enhancer(createStore)(reducer, initialState);
   const stateItemMap = map(initialState, createStateItem);
   const getState = createGetState(stateItemMap, initialState);
   const dispatch = createDispatch(stateItemMap, getState, reducer);
   return {
     stateItemHooks: Object.freeze(map(stateItemMap, x => x.hook)),
-    ...enhancer({ getState, dispatch }),
+    getState,
+    dispatch,
   };
 };
