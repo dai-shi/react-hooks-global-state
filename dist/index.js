@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createGlobalState = void 0;
+exports.createStore = exports.createGlobalState = void 0;
 
 var _react = require("react");
 
@@ -15,60 +15,134 @@ function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = 
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+// utility functions
+var map = function map(obj, func) {
+  var newObj = {};
+  Object.keys(obj).forEach(function (key) {
+    newObj[key] = func(obj[key]);
+  });
+  return newObj;
+};
 
 var isFunction = function isFunction(fn) {
   return typeof fn === 'function';
+}; // core functions
+
+
+var createStateItem = function createStateItem(initialValue) {
+  var value = initialValue;
+
+  var getValue = function getValue() {
+    return value;
+  };
+
+  var listeners = [];
+
+  var updater = function updater(funcOrVal) {
+    if (isFunction(funcOrVal)) {
+      value = funcOrVal(value);
+    } else {
+      value = funcOrVal;
+    }
+
+    listeners.forEach(function (f) {
+      return f(value);
+    });
+  };
+
+  var hook = function hook() {
+    var _useState = (0, _react.useState)(value),
+        _useState2 = _slicedToArray(_useState, 2),
+        val = _useState2[0],
+        setVal = _useState2[1];
+
+    (0, _react.useEffect)(function () {
+      listeners.push(setVal);
+
+      var cleanup = function cleanup() {
+        var index = listeners.indexOf(setVal);
+        listeners.splice(index, 1);
+      };
+
+      return cleanup;
+    }, []);
+    return [val, updater];
+  };
+
+  return {
+    getValue: getValue,
+    updater: updater,
+    hook: hook
+  };
 };
 
-var createGlobalState = function createGlobalState(initialState) {
-  var globalState = _objectSpread({}, initialState);
+var createGetState = function createGetState(stateItemMap, initialState) {
+  var keys = Object.keys(stateItemMap);
+  var globalState = initialState;
 
-  var stateItemListeners = {};
-  var stateItemUpdaters = {};
-  var stateItemHooks = {};
-  Object.keys(globalState).forEach(function (name) {
-    stateItemListeners[name] = [];
+  var getState = function getState() {
+    var changed = false;
+    var currentState = {}; // XXX an extra overhead here
 
-    stateItemUpdaters[name] = function (func) {
-      if (isFunction(func)) {
-        globalState[name] = func(globalState[name]);
-      } else {
-        globalState[name] = func;
-      }
+    keys.forEach(function (key) {
+      currentState[key] = stateItemMap[key].getValue();
+      if (currentState[key] !== globalState[key]) changed = true;
+    });
+    if (changed) globalState = currentState;
+    return globalState;
+  };
 
-      stateItemListeners[name].forEach(function (f) {
-        return f(globalState[name]);
+  return getState;
+};
+
+var createDispatch = function createDispatch(stateItemMap, getState, reducer) {
+  var keys = Object.keys(stateItemMap);
+
+  var dispatch = function dispatch(action) {
+    var oldState = getState();
+    var newState = reducer(oldState, action);
+
+    if (oldState !== newState) {
+      keys.forEach(function (key) {
+        if (oldState[key] !== newState[key]) {
+          stateItemMap[key].updater(newState[key]);
+        }
       });
-    };
+    }
 
-    stateItemHooks[name] = function () {
-      var _useState = (0, _react.useState)(globalState[name]),
-          _useState2 = _slicedToArray(_useState, 2),
-          value = _useState2[0],
-          setValue = _useState2[1];
+    return action;
+  };
 
-      (0, _react.useEffect)(function () {
-        stateItemListeners[name].push(setValue);
+  return dispatch;
+}; // export functions
 
-        var cleanup = function cleanup() {
-          var index = stateItemListeners[name].indexOf(setValue);
-          stateItemListeners[name].splice(index, 1);
-        };
 
-        return cleanup;
-      }, []);
-      return [value, stateItemUpdaters[name]];
-    };
-  });
-  Object.freeze(stateItemUpdaters);
-  Object.freeze(stateItemHooks);
+var createGlobalState = function createGlobalState(initialState) {
+  var stateItemMap = map(initialState, createStateItem);
   return {
-    stateItemUpdaters: stateItemUpdaters,
-    stateItemHooks: stateItemHooks
+    useGlobalState: function useGlobalState(name) {
+      return stateItemMap[name].hook();
+    },
+    setGlobalState: function setGlobalState(name, update) {
+      return stateItemMap[name].updater(update);
+    }
   };
 };
 
 exports.createGlobalState = createGlobalState;
+
+var createStore = function createStore(reducer, initialState, enhancer) {
+  if (enhancer) return enhancer(createStore)(reducer, initialState);
+  var stateItemMap = map(initialState, createStateItem);
+  var getState = createGetState(stateItemMap, initialState);
+  var dispatch = createDispatch(stateItemMap, getState, reducer);
+  return {
+    useGlobalState: function useGlobalState(name) {
+      return stateItemMap[name].hook();
+    },
+    getState: getState,
+    dispatch: dispatch
+  };
+};
+
+exports.createStore = createStore;
