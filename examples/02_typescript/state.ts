@@ -1,6 +1,6 @@
 import { createGlobalState } from '../../src/index';
 
-const { useGlobalState } = createGlobalState({
+export const { useGlobalState } = createGlobalState({
   counter: 0,
   person: {
     age: 0,
@@ -8,5 +8,3 @@ const { useGlobalState } = createGlobalState({
     lastName: '',
   },
 });
-
-export { useGlobalState };
