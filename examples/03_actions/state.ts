@@ -1,6 +1,6 @@
 import { createGlobalState } from '../../src/index';
 
-const { stateItemHooks, stateItemUpdaters } = createGlobalState({
+const { setGlobalState, useGlobalState } = createGlobalState({
   counter: 0,
   person: {
     age: 0,
@@ -9,32 +9,24 @@ const { stateItemHooks, stateItemUpdaters } = createGlobalState({
   },
 });
 
-export const {
-  counter: useGlobalStateCounter,
-  person: useGlobalStatePerson,
-} = stateItemHooks;
-
 export const countUp = () => {
-  const update = stateItemUpdaters.counter;
-  update(v => v + 1);
+  setGlobalState('counter', v => v + 1);
 };
 
 export const countDown = () => {
-  const update = stateItemUpdaters.counter;
-  update(v => v - 1);
+  setGlobalState('counter', v => v - 1);
 };
 
 export const setPersonFirstName = (firstName: string) => {
-  const update = stateItemUpdaters.person;
-  update(v => ({ ...v, firstName }));
+  setGlobalState('person', v => ({ ...v, firstName }));
 };
 
 export const setPersonLastName = (lastName: string) => {
-  const update = stateItemUpdaters.person;
-  update(v => ({ ...v, lastName }));
+  setGlobalState('person', v => ({ ...v, lastName }));
 };
 
 export const setPersonAge = (age: number) => {
-  const update = stateItemUpdaters.person;
-  update(v => ({ ...v, age }));
+  setGlobalState('person', v => ({ ...v, age }));
 };
+
+export { useGlobalState };

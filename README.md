@@ -29,11 +29,10 @@ import React from 'react';
 import { createGlobalState } from 'react-hooks-global-state';
 
 const initialState = { counter: 0 };
-const { stateItemHooks } = createGlobalState(initialState);
-const useCounter = stateItemHooks.counter;
+const { useGlobalState } = createGlobalState(initialState);
 
 const Counter = () => {
-  const [value, update] = useCounter();
+  const [value, update] = useGlobalState('counter');
   return (
     <div>
       <span>Counter: {value}</span>
@@ -65,11 +64,10 @@ const reducer = (state, action) => {
   }
 };
 const initialState = { counter: 0 }; // initialState is not optional.
-const { dispatch, stateItemHooks } = createStore(reducer, initialState);
-const useCounter = stateItemHooks.counter;
+const { dispatch, useGlobalState } = createStore(reducer, initialState);
 
 const Counter = () => {
-  const [value] = useCounter();
+  const [value] = useGlobalState('counter');
   return (
     <div>
       <span>Counter: {value}</span>

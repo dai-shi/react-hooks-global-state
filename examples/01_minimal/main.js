@@ -9,14 +9,10 @@ const initialState = {
   counter: 0,
   text: 'hello',
 };
-const { stateItemHooks } = createGlobalState(initialState);
-const {
-  counter: useGlobalStateCounter,
-  text: useGlobalStateText,
-} = stateItemHooks;
+const { useGlobalState } = createGlobalState(initialState);
 
 const Counter = () => {
-  const [value, update] = useGlobalStateCounter();
+  const [value, update] = useGlobalState('counter');
   return (
     <div>
       <span>
@@ -30,7 +26,7 @@ const Counter = () => {
 };
 
 const TextBox = () => {
-  const [value, update] = useGlobalStateText();
+  const [value, update] = useGlobalState('text');
   return (
     <div>
       <span>

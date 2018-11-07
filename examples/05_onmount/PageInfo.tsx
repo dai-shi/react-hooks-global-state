@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import { useGlobalStatePageTitle } from './state';
+import { useGlobalState } from './state';
 
 const PageInfo = () => {
-  const [value] = useGlobalStatePageTitle();
+  const [value] = useGlobalState('pageTitle');
   return (
     <div>
       <h1>PageInfo</h1>

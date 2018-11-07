@@ -4,11 +4,11 @@ import {
   setPersonAge,
   setPersonFirstName,
   setPersonLastName,
-  useGlobalStatePerson,
+  useGlobalState,
 } from './state';
 
 const Person = () => {
-  const [{ firstName, lastName, age }] = useGlobalStatePerson();
+  const [{ firstName, lastName, age }] = useGlobalState('person');
   return (
     <div>
       <div>

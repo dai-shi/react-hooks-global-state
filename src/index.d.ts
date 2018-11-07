@@ -1,14 +1,18 @@
-export type StateItemUpdater<T> = (f: ((v: T) => T) | T) => void;
+export type Update<T> = ((v: T) => T) | T;
 
-export type StateItemHook<T> = () => [T, StateItemUpdater<T>];
-export type StateItemHookCalled<T> = [T, StateItemUpdater<T>];
+export type SetGlobalState<S> = <N extends keyof S, T extends S[N]>(
+  name: N,
+  update: Update<T>,
+) => void;
+
+export type HookResult<T> = [T, (u: Update<T>) => void];
 
 export type Reducer<S, A> = (state: S, action: A) => S;
 
 export type Dispatch<A> = (action: A) => A;
 
 export type UseGlobalState<S> = <N extends keyof S>(name: N) =>
-  { [K in keyof S]: N extends K ? StateItemHookCalled<S[K]> : never }[keyof S];
+  { [K in keyof S]: N extends K ? HookResult<S[K]> : never }[keyof S];
 
 export type Store<S, A> = {
   useGlobalState: UseGlobalState<S>,
@@ -21,8 +25,8 @@ export type StoreCreator<S, A> = (reducer: Reducer<S, A>, initialState: S) => St
 export type Enhancer<S, A> = (creator: StoreCreator<S, A>) => StoreCreator<S, A>;
 
 export type CreateGlobalState = <S extends {}, A extends {}>(initialState: S) => {
-  stateItemHooks: { [K in keyof S]: StateItemHook<S[K]> },
-  stateItemUpdaters: { [K in keyof S]: StateItemUpdater<S[K]> },
+  useGlobalState: UseGlobalState<S>,
+  setGlobalState: SetGlobalState<S>,
 };
 
 export type CreateStore = <S extends {}, A extends {}>(

@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import { useGlobalStateErrorMessage } from './state';
+import { useGlobalState } from './state';
 
 const ErrorMessage = () => {
-  const [value] = useGlobalStateErrorMessage();
+  const [value] = useGlobalState('errorMessage');
   return (
     <div style={{ color: 'red' }}>
       {value}

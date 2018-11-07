@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import { useGlobalStateCounter } from './state';
+import { useGlobalState } from './state';
 
 const Counter = () => {
-  const [value, update] = useGlobalStateCounter();
+  const [value, update] = useGlobalState('counter');
   return (
     <div>
       <span>

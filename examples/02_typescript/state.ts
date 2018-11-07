@@ -1,6 +1,6 @@
 import { createGlobalState } from '../../src/index';
 
-const { stateItemHooks } = createGlobalState({
+const { useGlobalState } = createGlobalState({
   counter: 0,
   person: {
     age: 0,
@@ -9,7 +9,4 @@ const { stateItemHooks } = createGlobalState({
   },
 });
 
-export const {
-  counter: useGlobalStateCounter,
-  person: useGlobalStatePerson,
-} = stateItemHooks;
+export { useGlobalState };

@@ -1,21 +1,16 @@
 import { createGlobalState } from '../../src/index';
 
-const { stateItemHooks, stateItemUpdaters } = createGlobalState({
+const { setGlobalState, useGlobalState } = createGlobalState({
   errorMessage: '',
   pageTitle: '',
 });
 
-export const {
-  errorMessage: useGlobalStateErrorMessage,
-  pageTitle: useGlobalStatePageTitle,
-} = stateItemHooks;
-
 export const setErrorMessage = (s: string) => {
-  const update = stateItemUpdaters.errorMessage;
-  update(s);
+  setGlobalState('errorMessage', s);
 };
 
 export const setPageTitle = (s: string) => {
-  const update = stateItemUpdaters.pageTitle;
-  update(s);
+  setGlobalState('pageTitle', s);
 };
+
+export { useGlobalState };

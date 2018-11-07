@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import { useGlobalStatePerson } from './state';
+import { useGlobalState } from './state';
 
 const Person = () => {
-  const [value, update] = useGlobalStatePerson();
+  const [value, update] = useGlobalState('person');
   return (
     <div>
       <div>
