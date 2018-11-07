@@ -61,11 +61,11 @@ const { dispatch, useGlobalState } = createStore(
 );
 
 export const useGlobalStateCounter = () => {
-  return useGlobalState().counter();
+  return useGlobalState('counter');
 };
 
 export const useGlobalStatePerson = () => {
-  return useGlobalState().person();
+  return useGlobalState('person');
 };
 
 export { dispatch };
