@@ -7,7 +7,7 @@ export type Reducer<S, A> = (state: S, action: A) => S;
 export type Dispatch<A> = (action: A) => A;
 
 export type Store<S, A> = {
-  stateItemHooks: { [K in keyof S]: StateItemHook<S[K]> },
+  useGlobalState: () => { [K in keyof S]: StateItemHook<S[K]> },
   getState: () => S,
   dispatch: Dispatch<A>,
 };

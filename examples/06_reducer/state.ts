@@ -15,7 +15,7 @@ type Action = {
   age: number,
 };
 
-const { dispatch, stateItemHooks } = createStore(
+const { dispatch, useGlobalState } = createStore(
   (state, action: Action) => {
     switch (action.type) {
       case 'increment': return {
@@ -60,9 +60,12 @@ const { dispatch, stateItemHooks } = createStore(
   },
 );
 
-export const {
-  counter: useGlobalStateCounter,
-  person: useGlobalStatePerson,
-} = stateItemHooks;
+export const useGlobalStateCounter = () => {
+  return useGlobalState().counter();
+};
+
+export const useGlobalStatePerson = () => {
+  return useGlobalState().person();
+};
 
 export { dispatch };

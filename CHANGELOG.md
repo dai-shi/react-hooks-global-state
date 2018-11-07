@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+### Changed
+- API changed to useGlobalState
 
 ## [0.0.5] - 2018-11-06
 ### Changed

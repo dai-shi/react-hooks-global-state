@@ -76,15 +76,18 @@ const logger = ({ getState }: Store<State, Action>) =>
     return returnValue;
   };
 
-const { dispatch, stateItemHooks } = createStore(
+const { dispatch, useGlobalState } = createStore(
   reducer,
   initialState,
   applyMiddleware(logger),
 );
 
-export const {
-  counter: useGlobalStateCounter,
-  person: useGlobalStatePerson,
-} = stateItemHooks;
+export const useGlobalStateCounter = () => {
+  return useGlobalState().counter();
+};
+
+export const useGlobalStatePerson = () => {
+  return useGlobalState().person();
+};
 
 export { dispatch };

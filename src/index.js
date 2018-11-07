@@ -87,8 +87,9 @@ export const createStore = (reducer, initialState, enhancer) => {
   const stateItemMap = map(initialState, createStateItem);
   const getState = createGetState(stateItemMap, initialState);
   const dispatch = createDispatch(stateItemMap, getState, reducer);
+  const stateItemHooks = Object.freeze(map(stateItemMap, x => x.hook));
   return {
-    stateItemHooks: Object.freeze(map(stateItemMap, x => x.hook)),
+    useGlobalState: () => stateItemHooks,
     getState,
     dispatch,
   };
