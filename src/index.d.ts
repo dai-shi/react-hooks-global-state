@@ -1,8 +1,8 @@
 export type Update<T> = ((v: T) => T) | T;
 
-export type SetGlobalState<S> = <N extends keyof S, T extends S[N]>(
+export type SetGlobalState<S> = <N extends keyof S>(
   name: N,
-  update: Update<T>,
+  update: Update<S[N]>,
 ) => void;
 
 export type HookResult<T> = [T, (u: Update<T>) => void];
