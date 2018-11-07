@@ -11,8 +11,7 @@ export type Reducer<S, A> = (state: S, action: A) => S;
 
 export type Dispatch<A> = (action: A) => A;
 
-export type UseGlobalState<S> = <N extends keyof S>(name: N) =>
-  { [K in keyof S]: N extends K ? HookResult<S[K]> : never }[keyof S];
+export type UseGlobalState<S> = <N extends keyof S>(name: N) => HookResult<S[N]>;
 
 export type Store<S, A> = {
   useGlobalState: UseGlobalState<S>,
