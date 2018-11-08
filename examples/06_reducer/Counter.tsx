@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-import { dispatch, useGlobalStateCounter } from './state';
+import { dispatch, useGlobalState } from './state';
 
 const increment = () => dispatch({ type: 'increment' });
 const decrement = () => dispatch({ type: 'decrement' });
 
 const Counter = () => {
-  const [value] = useGlobalStateCounter();
+  const [value] = useGlobalState('counter');
   return (
     <div>
       <span>

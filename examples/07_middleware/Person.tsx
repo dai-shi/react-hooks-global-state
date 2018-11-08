@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { dispatch, useGlobalStatePerson } from './state';
+import { dispatch, useGlobalState } from './state';
 
 const setFirstName = (event: React.FormEvent<HTMLInputElement>) => dispatch({
   firstName: event.currentTarget.value,
@@ -18,7 +18,7 @@ const setAge = (event: React.FormEvent<HTMLInputElement>) => dispatch({
 });
 
 const Person = () => {
-  const [value] = useGlobalStatePerson();
+  const [value] = useGlobalState('person');
   return (
     <div>
       <div>
