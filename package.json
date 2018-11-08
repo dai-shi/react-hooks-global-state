@@ -23,7 +23,8 @@
     "examples:fetch": "webpack-dev-server --entry ./examples/04_fetch/main.ts --content-base examples/04_fetch",
     "examples:onmount": "webpack-dev-server --entry ./examples/05_onmount/main.ts --content-base examples/05_onmount",
     "examples:reducer": "webpack-dev-server --entry ./examples/06_reducer/main.ts --content-base examples/06_reducer",
-    "examples:middleware": "webpack-dev-server --entry ./examples/07_middleware/main.ts --content-base examples/07_middleware"
+    "examples:middleware": "webpack-dev-server --entry ./examples/07_middleware/main.ts --content-base examples/07_middleware",
+    "examples:thunk": "webpack-dev-server --entry ./examples/08_thunk/main.ts --content-base examples/08_thunk"
   },
   "keywords": [
     "react",
@@ -42,6 +43,7 @@
     "@babel/preset-react": "^7.0.0",
     "@types/react": "^16.4.18",
     "@types/react-dom": "^16.0.9",
+    "@types/redux-logger": "^3.0.6",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.4",
@@ -58,6 +60,8 @@
     "react-dom": "^16.7.0-alpha.0",
     "react-use": "^3.1.0",
     "redux": "^4.0.1",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
     "ts-loader": "^5.3.0",
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.11.0",
