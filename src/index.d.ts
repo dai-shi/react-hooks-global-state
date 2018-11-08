@@ -36,3 +36,15 @@ export type CreateStore = <S extends {}, A extends {}>(
 
 export const createGlobalState: CreateGlobalState;
 export const createStore: CreateStore;
+
+// for patch redux
+
+export type MiddlewareAPI<S, A> = {
+  getState: () => S,
+  dispatch: Dispatch<A>,
+};
+
+export type Middleware<S, A> =
+  (store: MiddlewareAPI<S, A>) => (next: Dispatch<A>) => (action: A) => A;
+
+export type ApplyMiddleware<S, A> = (...args: Array<Middleware<S, A>>) => Enhancer<S, A>;

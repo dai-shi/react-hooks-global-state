@@ -1,17 +1,8 @@
 import { applyMiddleware, combineReducers } from 'redux';
 
-import { createStore, Dispatch, Store } from '../../src/index';
+import { ApplyMiddleware, createStore, Dispatch } from '../../src/index';
 
-type State = {
-  counter: number,
-  person: {
-    age: number,
-    firstName: string,
-    lastName: string,
-  },
-};
-
-const initialState: State = {
+const initialState = {
   counter: 0,
   person: {
     age: 0,
@@ -19,6 +10,8 @@ const initialState: State = {
     lastName: '',
   },
 };
+
+type State = typeof initialState;
 
 type Action = {
   type: 'increment',
@@ -66,7 +59,7 @@ const reducer = combineReducers({
   person: personReducer,
 });
 
-const logger = ({ getState }: Store<State, Action>) =>
+const logger = ({ getState }: { getState: () => State }) =>
   (next: Dispatch<Action>) => (action: Action) => {
     // tslint:disable no-console
     console.log('will dispatch', action);
@@ -79,5 +72,5 @@ const logger = ({ getState }: Store<State, Action>) =>
 export const { dispatch, useGlobalState } = createStore(
   reducer,
   initialState,
-  applyMiddleware(logger),
+  (applyMiddleware as unknown as ApplyMiddleware<State, Action>)(logger),
 );
