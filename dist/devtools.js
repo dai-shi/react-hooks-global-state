@@ -1,0 +1,129 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.reduxDevToolsExt = void 0;
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/* eslint-env browser */
+var compose = function compose() {
+  for (var _len = arguments.length, fns = new Array(_len), _key = 0; _key < _len; _key++) {
+    fns[_key] = arguments[_key];
+  }
+
+  return fns.reduce(function (p, c) {
+    return function () {
+      return p(c.apply(void 0, arguments));
+    };
+  });
+};
+
+var initAction = function initAction() {
+  return {
+    type: '@@redux/INIT'
+  };
+};
+
+var createEnhancers = function createEnhancers() {
+  var savedInitialState;
+
+  var before = function before(createStore) {
+    return function (reducer, initialState, enhancer) {
+      savedInitialState = initialState;
+      if (enhancer) return enhancer(createStore)(reducer, initialState);
+      var store = createStore(reducer, initialState);
+      return _objectSpread({}, store, {
+        useGlobalState: function useGlobalState(name) {
+          var _store$useGlobalState = store.useGlobalState(name),
+              _store$useGlobalState2 = _slicedToArray(_store$useGlobalState, 1),
+              value = _store$useGlobalState2[0];
+
+          var MESG = 'Update is not allowed when using DevTools';
+          return [value, function () {
+            throw new Error(MESG);
+          }];
+        }
+      });
+    };
+  };
+
+  var after = function after(createStore) {
+    return function (reducer, initialState, enhancer) {
+      if (enhancer) return enhancer(createStore)(reducer, initialState);
+      var store = createStore(null, savedInitialState);
+
+      var devState = _objectSpread({}, reducer(initialState, initAction()), savedInitialState);
+
+      var getState = function getState() {
+        return devState;
+      };
+
+      var listeners = [];
+      var keys = Object.keys(savedInitialState);
+
+      var dispatch = function dispatch(action) {
+        devState = reducer(devState, action);
+        keys.forEach(function (key) {
+          var value = devState.computedStates[devState.currentStateIndex].state[key];
+          var stateItem = store.stateItemMap[key];
+
+          if (stateItem.getValue() !== value) {
+            stateItem.updater(value);
+          }
+        });
+        listeners.forEach(function (f) {
+          return f();
+        });
+        return action;
+      };
+
+      var subscribe = function subscribe(listener) {
+        listeners.push(listener);
+
+        var unsubscribe = function unsubscribe() {
+          var index = listeners.indexOf(listener);
+          listeners.splice(index, 1);
+        };
+
+        return unsubscribe;
+      };
+
+      return _objectSpread({}, store, {
+        getState: getState,
+        dispatch: dispatch,
+        subscribe: subscribe
+      });
+    };
+  };
+
+  return {
+    before: before,
+    after: after
+  };
+};
+
+var reduxDevToolsExt = function reduxDevToolsExt() {
+  if (!window.__REDUX_DEVTOOLS_EXTENSION__) return function (f) {
+    return f;
+  };
+
+  var _createEnhancers = createEnhancers(),
+      before = _createEnhancers.before,
+      after = _createEnhancers.after;
+
+  return compose(before, window.__REDUX_DEVTOOLS_EXTENSION__(), after);
+};
+
+exports.reduxDevToolsExt = reduxDevToolsExt;

@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+
+## [0.2.0] - 2018-11-09
 ### Changed
 - Hacky/dirty Redux DevTools Extension support
 - Fix type definition
