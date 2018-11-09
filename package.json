@@ -24,7 +24,8 @@
     "examples:onmount": "webpack-dev-server --entry ./examples/05_onmount/main.ts --content-base examples/05_onmount",
     "examples:reducer": "webpack-dev-server --entry ./examples/06_reducer/main.ts --content-base examples/06_reducer",
     "examples:middleware": "webpack-dev-server --entry ./examples/07_middleware/main.ts --content-base examples/07_middleware",
-    "examples:thunk": "webpack-dev-server --entry ./examples/08_thunk/main.ts --content-base examples/08_thunk"
+    "examples:thunk": "webpack-dev-server --entry ./examples/08_thunk/main.ts --content-base examples/08_thunk",
+    "examples:comparison": "webpack-dev-server --entry ./examples/09_comparison/main.ts --content-base examples/09_comparison"
   },
   "keywords": [
     "react",
