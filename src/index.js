@@ -91,5 +91,6 @@ export const createStore = (reducer, initialState, enhancer) => {
     useGlobalState: name => stateItemMap[name].hook(),
     getState,
     dispatch,
+    ...(reducer === null ? { stateItemMap } : {}), // for devtools.js
   };
 };

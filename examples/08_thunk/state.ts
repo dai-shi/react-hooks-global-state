@@ -1,7 +1,8 @@
-import { applyMiddleware, combineReducers } from 'redux';
+import { applyMiddleware, combineReducers, compose } from 'redux';
 import reduxLogger from 'redux-logger';
 import reduxThunk from 'redux-thunk';
 
+import { reduxDevToolsExt } from '../../src/devtools';
 import { ApplyMiddleware, createStore, Middleware } from '../../src/index';
 
 const initialState = {
@@ -64,8 +65,11 @@ const reducer = combineReducers({
 export const { dispatch, useGlobalState } = createStore<State, Action>(
   reducer,
   initialState,
-  (applyMiddleware as unknown as ApplyMiddleware<State, Action>)(
-    reduxThunk as unknown as Middleware<State, Action>,
-    reduxLogger as Middleware<State, Action>,
+  compose(
+    (applyMiddleware as unknown as ApplyMiddleware<State, Action>)(
+      reduxThunk as unknown as Middleware<State, Action>,
+      reduxLogger as Middleware<State, Action>,
+    ),
+    reduxDevToolsExt(),
   ),
 );
