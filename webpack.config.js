@@ -1,5 +1,8 @@
+const { DIR, EXT = 'ts' } = process.env;
+
 module.exports = {
   mode: 'development',
+  entry: `./examples/${DIR}/main.${EXT}`,
   output: {
     filename: 'bundle.js',
   },
@@ -25,5 +28,6 @@ module.exports = {
   },
   devServer: {
     port: process.env.PORT || '8080',
+    contentBase: `./examples/${DIR}`,
   },
 };
