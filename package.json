@@ -25,7 +25,8 @@
     "examples:reducer": "DIR=06_reducer webpack-dev-server",
     "examples:middleware": "DIR=07_middleware webpack-dev-server",
     "examples:thunk": "DIR=08_thunk webpack-dev-server",
-    "examples:comparison": "DIR=09_comparison webpack-dev-server"
+    "examples:comparison": "DIR=09_comparison webpack-dev-server",
+    "examples:immer": "DIR=10_immer webpack-dev-server"
   },
   "keywords": [
     "react",
@@ -56,6 +57,7 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
+    "immer": "^1.7.4",
     "jest": "^23.6.0",
     "react": "^16.7.0-alpha.0",
     "react-dom": "^16.7.0-alpha.0",

@@ -1,19 +1,11 @@
 import { createStore } from '../../src/index';
 
-type Action = {
-  type: 'increment',
-} | {
-  type: 'decrement',
-} | {
-  type: 'setFirstName',
-  firstName: string,
-} | {
-  type: 'setLastName',
-  lastName: string,
-} | {
-  type: 'setAge',
-  age: number,
-};
+type Action =
+  | { type: 'increment' }
+  | { type: 'decrement' }
+  | { type: 'setFirstName', firstName: string }
+  | { type: 'setLastName', lastName: string }
+  | { type: 'setAge', age: number };
 
 export const { dispatch, useGlobalState } = createStore(
   (state, action: Action) => {
