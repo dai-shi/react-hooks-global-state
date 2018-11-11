@@ -2,11 +2,13 @@ import * as React from 'react';
 
 import { useDispatch, useGlobalState } from './state2';
 
+const { useCallback } = React;
+
 const Counter = () => {
   const value = useGlobalState('counter');
   const dispatch = useDispatch();
-  const increment = () => dispatch({ type: 'increment' });
-  const decrement = () => dispatch({ type: 'decrement' });
+  const increment = useCallback(() => dispatch({ type: 'increment' }), [dispatch]);
+  const decrement = useCallback(() => dispatch({ type: 'decrement' }), [dispatch]);
   return (
     <div>
       <span>

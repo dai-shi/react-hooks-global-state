@@ -8,7 +8,7 @@ import Person2 from './Person2';
 import { Provider } from './state2';
 
 const App = () => (
-  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+  <div style={{ display: 'flex', justifyContent: 'space-around' }}>
     <div>
       <h1>useReducer + useContext</h1>
       <Provider>
