@@ -20,116 +20,104 @@ function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 // utility functions
-var map = function map(obj, func) {
-  var newObj = {};
-  Object.keys(obj).forEach(function (key) {
-    newObj[key] = func(obj[key]);
-  });
-  return newObj;
-};
-
 var isFunction = function isFunction(fn) {
   return typeof fn === 'function';
+};
+
+var updateValue = function updateValue(oldValue, newValue) {
+  if (isFunction(newValue)) {
+    return newValue(oldValue);
+  }
+
+  return newValue;
 }; // core functions
 
 
-var createStateItem = function createStateItem(initialValue) {
-  var value = initialValue;
-
-  var getValue = function getValue() {
-    return value;
-  };
-
+var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
+  var keys = Object.keys(initialState);
+  var globalState = initialState;
   var listeners = [];
 
-  var updater = function updater(funcOrVal) {
-    if (isFunction(funcOrVal)) {
-      value = funcOrVal(value);
-    } else {
-      value = funcOrVal;
-    }
-
-    listeners.forEach(function (f) {
-      return f(value);
+  var calculateChangedBits = function calculateChangedBits(a, b) {
+    var bits = 0;
+    keys.forEach(function (k, i) {
+      if (a[k] !== b[k]) bits |= 1 << i;
     });
+    return bits;
   };
 
-  var hook = function hook() {
-    var _useState = (0, _react.useState)(value),
+  var context = (0, _react.createContext)(initialState, calculateChangedBits);
+
+  var GlobalStateProvider = function GlobalStateProvider(_ref) {
+    var children = _ref.children;
+
+    var _useState = (0, _react.useState)(initialState),
         _useState2 = _slicedToArray(_useState, 2),
-        val = _useState2[0],
-        setVal = _useState2[1];
+        state = _useState2[0],
+        setState = _useState2[1];
 
     (0, _react.useEffect)(function () {
-      listeners.push(setVal);
+      listeners.push(setState);
 
       var cleanup = function cleanup() {
-        var index = listeners.indexOf(setVal);
+        var index = listeners.indexOf(setState);
         listeners.splice(index, 1);
       };
 
       return cleanup;
     }, []);
-    return [val, updater];
+    return (0, _react.createElement)(context.Provider, {
+      value: state
+    }, children);
   };
 
-  return {
-    getValue: getValue,
-    updater: updater,
-    hook: hook
+  var setGlobalState = function setGlobalState(name, update) {
+    globalState = _objectSpread({}, globalState, _defineProperty({}, name, updateValue(globalState[name], update)));
+    listeners.forEach(function (f) {
+      return f(globalState);
+    });
   };
-};
 
-var createGetState = function createGetState(stateItemMap, initialState) {
-  var keys = Object.keys(stateItemMap);
-  var globalState = initialState;
+  var useGlobalState = function useGlobalState(name) {
+    var index = keys.indexOf(name);
+    var state = (0, _react.useContext)(context, 1 << index);
+    var updater = (0, _react.useCallback)(function (u) {
+      return setGlobalState(name, u);
+    }, [name]);
+    return [state[name], updater];
+  };
 
   var getState = function getState() {
-    var changed = false;
-    var currentState = {}; // XXX an extra overhead here
-
-    keys.forEach(function (key) {
-      currentState[key] = stateItemMap[key].getValue();
-      if (currentState[key] !== globalState[key]) changed = true;
-    });
-    if (changed) globalState = currentState;
     return globalState;
   };
 
-  return getState;
-};
-
-var createDispatch = function createDispatch(stateItemMap, getState, reducer) {
-  var keys = Object.keys(stateItemMap);
-
-  var dispatch = function dispatch(action) {
-    var oldState = getState();
-    var newState = reducer(oldState, action);
-
-    if (oldState !== newState) {
-      keys.forEach(function (key) {
-        if (oldState[key] !== newState[key]) {
-          stateItemMap[key].updater(newState[key]);
-        }
-      });
-    }
-
-    return action;
+  var setState = function setState(state) {
+    globalState = state;
+    listeners.forEach(function (f) {
+      return f(globalState);
+    });
   };
 
-  return dispatch;
+  return {
+    GlobalStateProvider: GlobalStateProvider,
+    setGlobalState: setGlobalState,
+    useGlobalState: useGlobalState,
+    getState: getState,
+    setState: setState
+  };
 }; // export functions
 
 
 var createGlobalState = function createGlobalState(initialState) {
-  var stateItemMap = map(initialState, createStateItem);
+  var _createGlobalStateCom = createGlobalStateCommon(initialState),
+      GlobalStateProvider = _createGlobalStateCom.GlobalStateProvider,
+      useGlobalState = _createGlobalStateCom.useGlobalState,
+      setGlobalState = _createGlobalStateCom.setGlobalState;
+
   return {
-    useGlobalState: function useGlobalState(name) {
-      return stateItemMap[name].hook();
-    },
-    setGlobalState: function setGlobalState(name, update) {
-      return stateItemMap[name].updater(update);
-    }
+    GlobalStateProvider: GlobalStateProvider,
+    useGlobalState: useGlobalState,
+    setGlobalState: setGlobalState
   };
 };
 
@@ -137,18 +125,28 @@ exports.createGlobalState = createGlobalState;
 
 var createStore = function createStore(reducer, initialState, enhancer) {
   if (enhancer) return enhancer(createStore)(reducer, initialState);
-  var stateItemMap = map(initialState, createStateItem);
-  var getState = createGetState(stateItemMap, initialState);
-  var dispatch = createDispatch(stateItemMap, getState, reducer);
-  return _objectSpread({
-    useGlobalState: function useGlobalState(name) {
-      return stateItemMap[name].hook();
-    },
+
+  var _createGlobalStateCom2 = createGlobalStateCommon(initialState),
+      GlobalStateProvider = _createGlobalStateCom2.GlobalStateProvider,
+      useGlobalState = _createGlobalStateCom2.useGlobalState,
+      getState = _createGlobalStateCom2.getState,
+      setState = _createGlobalStateCom2.setState;
+
+  var dispatch = function dispatch(action) {
+    var oldState = getState();
+    var newState = reducer(oldState, action);
+    setState(newState);
+    return action;
+  };
+
+  return {
+    GlobalStateProvider: GlobalStateProvider,
+    useGlobalState: useGlobalState,
     getState: getState,
+    setState: setState,
+    // for devtools.js
     dispatch: dispatch
-  }, reducer === null ? {
-    stateItemMap: stateItemMap
-  } : {});
+  };
 };
 
 exports.createStore = createStore;

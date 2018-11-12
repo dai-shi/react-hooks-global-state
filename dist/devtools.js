@@ -37,10 +37,12 @@ var initAction = function initAction() {
 };
 
 var createEnhancers = function createEnhancers() {
+  var savedReducer;
   var savedInitialState;
 
   var before = function before(createStore) {
     return function (reducer, initialState, enhancer) {
+      savedReducer = reducer;
       savedInitialState = initialState;
       if (enhancer) return enhancer(createStore)(reducer, initialState);
       var store = createStore(reducer, initialState);
@@ -62,7 +64,7 @@ var createEnhancers = function createEnhancers() {
   var after = function after(createStore) {
     return function (reducer, initialState, enhancer) {
       if (enhancer) return enhancer(createStore)(reducer, initialState);
-      var store = createStore(null, savedInitialState);
+      var store = createStore(savedReducer, savedInitialState);
 
       var devState = _objectSpread({}, reducer(initialState, initAction()), savedInitialState);
 
@@ -71,18 +73,10 @@ var createEnhancers = function createEnhancers() {
       };
 
       var listeners = [];
-      var keys = Object.keys(savedInitialState);
 
       var dispatch = function dispatch(action) {
         devState = reducer(devState, action);
-        keys.forEach(function (key) {
-          var value = devState.computedStates[devState.currentStateIndex].state[key];
-          var stateItem = store.stateItemMap[key];
-
-          if (stateItem.getValue() !== value) {
-            stateItem.updater(value);
-          }
-        });
+        store.setState(devState.computedStates[devState.currentStateIndex].state);
         listeners.forEach(function (f) {
           return f();
         });
