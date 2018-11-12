@@ -1,6 +1,6 @@
 import { createGlobalState } from '../../src/index';
 
-const { setGlobalState, useGlobalState } = createGlobalState({
+const { GlobalStateProvider, setGlobalState, useGlobalState } = createGlobalState({
   counter: 0,
   person: {
     age: 0,
@@ -29,4 +29,4 @@ export const setPersonAge = (age: number) => {
   setGlobalState('person', v => ({ ...v, age }));
 };
 
-export { useGlobalState };
+export { GlobalStateProvider, useGlobalState };

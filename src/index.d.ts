@@ -1,3 +1,9 @@
+import * as React from 'react';
+
+export type GlobalStateProviderProps = {
+  children?: React.ReactNode,
+};
+
 export type Update<T> = ((v: T) => T) | T;
 
 export type SetGlobalState<S> = <N extends keyof S>(
@@ -14,6 +20,7 @@ export type Dispatch<A> = (action: A) => A;
 export type UseGlobalState<S> = <N extends keyof S>(name: N) => HookResult<S[N]>;
 
 export type Store<S, A> = {
+  GlobalStateProvider: React.ComponentType<GlobalStateProviderProps>,
   useGlobalState: UseGlobalState<S>,
   getState: () => S,
   dispatch: Dispatch<A>,
@@ -24,6 +31,7 @@ export type StoreCreator<S, A> = (reducer: Reducer<S, A>, initialState: S) => St
 export type Enhancer<S, A> = (creator: StoreCreator<S, A>) => StoreCreator<S, A>;
 
 export type CreateGlobalState = <S extends {}, A extends {}>(initialState: S) => {
+  GlobalStateProvider: React.ComponentType<GlobalStateProviderProps>,
   useGlobalState: UseGlobalState<S>,
   setGlobalState: SetGlobalState<S>,
 };

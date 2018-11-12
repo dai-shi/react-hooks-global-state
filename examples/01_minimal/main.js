@@ -9,7 +9,7 @@ const initialState = {
   counter: 0,
   text: 'hello',
 };
-const { useGlobalState } = createGlobalState(initialState);
+const { GlobalStateProvider, useGlobalState } = createGlobalState(initialState);
 
 const Counter = () => {
   const [value, update] = useGlobalState('counter');
@@ -39,14 +39,14 @@ const TextBox = () => {
 };
 
 const App = () => (
-  <div>
+  <GlobalStateProvider>
     <h1>Counter</h1>
     <Counter />
     <Counter />
     <h1>TextBox</h1>
     <TextBox />
     <TextBox />
-  </div>
+  </GlobalStateProvider>
 );
 
 ReactDOM.render(<App />, document.getElementById('app'));

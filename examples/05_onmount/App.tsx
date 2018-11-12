@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-import { setPageTitle } from './state';
+import { GlobalStateProvider, setPageTitle } from './state';
 
 import ErrorMessage from './ErrorMessage';
 import PageInfo from './PageInfo';
 import RandomButton from './RandomButton';
 
-const useEffect = React.useEffect;
+const { useEffect } = React;
 
 const initPageInfo = async () => {
   const url = 'https://jsonplaceholder.typicode.com/posts/1';
@@ -24,11 +24,11 @@ const App = () => {
   );
 
   return (
-    <div>
+    <GlobalStateProvider>
       <PageInfo />
       <RandomButton />
       <ErrorMessage />
-    </div>
+    </GlobalStateProvider>
   );
 };
 

@@ -54,7 +54,7 @@ const reducer = combineReducers({
   person: personReducer,
 });
 
-export const { dispatch, useGlobalState } = createStore<State, Action>(
+export const { GlobalStateProvider, dispatch, useGlobalState } = createStore<State, Action>(
   reducer,
   initialState,
   compose(

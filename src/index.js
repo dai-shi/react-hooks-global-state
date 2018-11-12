@@ -1,96 +1,117 @@
-import { useState, useEffect } from 'react';
+import {
+  createContext,
+  createElement,
+  useCallback,
+  useContext,
+  useState,
+  useEffect,
+} from 'react';
 
 // utility functions
 
-const map = (obj, func) => {
-  const newObj = {};
-  Object.keys(obj).forEach((key) => { newObj[key] = func(obj[key]); });
-  return newObj;
-};
 const isFunction = fn => (typeof fn === 'function');
+const updateValue = (oldValue, newValue) => {
+  if (isFunction(newValue)) {
+    return newValue(oldValue);
+  }
+  return newValue;
+};
 
 // core functions
 
-const createStateItem = (initialValue) => {
-  let value = initialValue;
-  const getValue = () => value;
+const createGlobalStateCommon = (initialState) => {
+  const keys = Object.keys(initialState);
+  let globalState = initialState;
   const listeners = [];
-  const updater = (funcOrVal) => {
-    if (isFunction(funcOrVal)) {
-      value = funcOrVal(value);
-    } else {
-      value = funcOrVal;
-    }
-    listeners.forEach(f => f(value));
+
+  const calculateChangedBits = (a, b) => {
+    let bits = 0;
+    keys.forEach((k, i) => {
+      if (a[k] !== b[k]) bits |= 1 << i;
+    });
+    return bits;
   };
-  const hook = () => {
-    const [val, setVal] = useState(value);
+
+  const context = createContext(initialState, calculateChangedBits);
+
+  const GlobalStateProvider = ({ children }) => {
+    const [state, setState] = useState(initialState);
     useEffect(() => {
-      listeners.push(setVal);
+      listeners.push(setState);
       const cleanup = () => {
-        const index = listeners.indexOf(setVal);
+        const index = listeners.indexOf(setState);
         listeners.splice(index, 1);
       };
       return cleanup;
     }, []);
-    return [val, updater];
+    return createElement(context.Provider, { value: state }, children);
   };
-  return { getValue, updater, hook };
-};
 
-const createGetState = (stateItemMap, initialState) => {
-  const keys = Object.keys(stateItemMap);
-  let globalState = initialState;
-  const getState = () => {
-    let changed = false;
-    const currentState = {};
-    // XXX an extra overhead here
-    keys.forEach((key) => {
-      currentState[key] = stateItemMap[key].getValue();
-      if (currentState[key] !== globalState[key]) changed = true;
-    });
-    if (changed) globalState = currentState;
-    return globalState;
+  const setGlobalState = (name, update) => {
+    globalState = {
+      ...globalState,
+      [name]: updateValue(globalState[name], update),
+    };
+    listeners.forEach(f => f(globalState));
   };
-  return getState;
-};
 
-const createDispatch = (stateItemMap, getState, reducer) => {
-  const keys = Object.keys(stateItemMap);
-  const dispatch = (action) => {
-    const oldState = getState();
-    const newState = reducer(oldState, action);
-    if (oldState !== newState) {
-      keys.forEach((key) => {
-        if (oldState[key] !== newState[key]) {
-          stateItemMap[key].updater(newState[key]);
-        }
-      });
-    }
-    return action;
+  const useGlobalState = (name) => {
+    const index = keys.indexOf(name);
+    const state = useContext(context, 1 << index);
+    const updater = useCallback(u => setGlobalState(name, u), [name]);
+    return [state[name], updater];
   };
-  return dispatch;
+
+  const getState = () => globalState;
+
+  const setState = (state) => {
+    globalState = state;
+    listeners.forEach(f => f(globalState));
+  };
+
+  return {
+    GlobalStateProvider,
+    setGlobalState,
+    useGlobalState,
+    getState,
+    setState,
+  };
 };
 
 // export functions
 
 export const createGlobalState = (initialState) => {
-  const stateItemMap = map(initialState, createStateItem);
+  const {
+    GlobalStateProvider,
+    useGlobalState,
+    setGlobalState,
+  } = createGlobalStateCommon(initialState);
   return {
-    useGlobalState: name => stateItemMap[name].hook(),
-    setGlobalState: (name, update) => stateItemMap[name].updater(update),
+    GlobalStateProvider,
+    useGlobalState,
+    setGlobalState,
   };
 };
 
 export const createStore = (reducer, initialState, enhancer) => {
   if (enhancer) return enhancer(createStore)(reducer, initialState);
-  const stateItemMap = map(initialState, createStateItem);
-  const getState = createGetState(stateItemMap, initialState);
-  const dispatch = createDispatch(stateItemMap, getState, reducer);
-  return {
-    useGlobalState: name => stateItemMap[name].hook(),
+  const {
+    GlobalStateProvider,
+    useGlobalState,
     getState,
+    setState,
+  } = createGlobalStateCommon(initialState);
+  const dispatch = (action) => {
+    const oldState = getState();
+    const newState = reducer(oldState, action);
+    setState(newState);
+    return action;
+  };
+  return {
+    GlobalStateProvider,
+    useGlobalState,
+    getState,
+    setState, // for devtools.js
     dispatch,
-    ...(reducer === null ? { stateItemMap } : {}), // for devtools.js
   };
 };

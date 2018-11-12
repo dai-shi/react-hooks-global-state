@@ -29,7 +29,7 @@ import React from 'react';
 import { createGlobalState } from 'react-hooks-global-state';
 
 const initialState = { counter: 0 };
-const { useGlobalState } = createGlobalState(initialState);
+const { GlobalStateProvider, useGlobalState } = createGlobalState(initialState);
 
 const Counter = () => {
   const [value, update] = useGlobalState('counter');
@@ -43,10 +43,10 @@ const Counter = () => {
 };
 
 const App = () => (
-  <div>
+  <GlobalStateProvider>
     <Counter />
     <Counter />
-  </div>
+  </GlobalStateProvider>
 );
 ```
 
@@ -64,7 +64,7 @@ const reducer = (state, action) => {
   }
 };
 const initialState = { counter: 0 }; // initialState is not optional.
-const { dispatch, useGlobalState } = createStore(reducer, initialState);
+const { GlobalStateProvider, dispatch, useGlobalState } = createStore(reducer, initialState);
 
 const Counter = () => {
   const [value] = useGlobalState('counter');
@@ -78,10 +78,10 @@ const Counter = () => {
 };
 
 const App = () => (
-  <div>
+  <GlobalStateProvider>
     <Counter />
     <Counter />
-  </div>
+  </GlobalStateProvider>
 );
 ```
 

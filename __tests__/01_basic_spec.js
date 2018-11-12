@@ -18,10 +18,9 @@ describe('basic spec', () => {
     const initialState = {
       counter1: 0,
     };
-    const { stateItemHooks } = createGlobalState(initialState);
-    const useCounter1 = stateItemHooks.counter1;
+    const { GlobalStateProvider, useGlobalState } = createGlobalState(initialState);
     const Counter = () => {
-      const [value, update] = useCounter1();
+      const [value, update] = useGlobalState('counter1');
       return (
         <div>
           <span>{value}</span>
@@ -30,14 +29,16 @@ describe('basic spec', () => {
       );
     };
     const App = () => (
-      <div>
-        <div className="first">
-          <Counter />
+      <GlobalStateProvider>
+        <div>
+          <div className="first">
+            <Counter />
+          </div>
+          <div className="second">
+            <Counter />
+          </div>
         </div>
-        <div className="second">
-          <Counter />
-        </div>
-      </div>
+      </GlobalStateProvider>
     );
     const wrapper = mount(<App />);
     expect(toJson(wrapper)).toMatchSnapshot();

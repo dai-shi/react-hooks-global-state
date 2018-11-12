@@ -1,6 +1,6 @@
 import { createGlobalState } from '../../src/index';
 
-const { setGlobalState, useGlobalState } = createGlobalState({
+const { GlobalStateProvider, setGlobalState, useGlobalState } = createGlobalState({
   errorMessage: '',
   pageTitle: '',
 });
@@ -13,4 +13,4 @@ export const setPageTitle = (s: string) => {
   setGlobalState('pageTitle', s);
 };
 
-export { useGlobalState };
+export { GlobalStateProvider, useGlobalState };

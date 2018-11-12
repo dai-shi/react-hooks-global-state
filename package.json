@@ -99,7 +99,8 @@
         }
       ],
       "react/prop-types": 0,
-      "no-underscore-dangle": 0
+      "no-underscore-dangle": 0,
+      "no-bitwise": 0
     }
   },
   "babel": {

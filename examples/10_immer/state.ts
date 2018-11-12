@@ -9,7 +9,7 @@ type Action =
   | { type: 'setLastName', lastName: string }
   | { type: 'setAge', age: number };
 
-export const { dispatch, useGlobalState } = createStore(
+export const { GlobalStateProvider, dispatch, useGlobalState } = createStore(
   (state, action: Action) => produce(state, (draft) => {
     switch (action.type) {
       case 'increment': draft.counter += 1; break;

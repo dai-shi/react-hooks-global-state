@@ -5,8 +5,10 @@ const compose = (...fns) => fns.reduce((p, c) => (...args) => p(c(...args)));
 const initAction = () => ({ type: '@@redux/INIT' });
 
 const createEnhancers = () => {
+  let savedReducer;
   let savedInitialState;
   const before = createStore => (reducer, initialState, enhancer) => {
+    savedReducer = reducer;
     savedInitialState = initialState;
     if (enhancer) return enhancer(createStore)(reducer, initialState);
     const store = createStore(reducer, initialState);
@@ -21,23 +23,16 @@ const createEnhancers = () => {
   };
   const after = createStore => (reducer, initialState, enhancer) => {
     if (enhancer) return enhancer(createStore)(reducer, initialState);
-    const store = createStore(null, savedInitialState);
+    const store = createStore(savedReducer, savedInitialState);
     let devState = {
       ...reducer(initialState, initAction()),
       ...savedInitialState,
     };
     const getState = () => devState;
     const listeners = [];
-    const keys = Object.keys(savedInitialState);
     const dispatch = (action) => {
       devState = reducer(devState, action);
-      keys.forEach((key) => {
-        const value = devState.computedStates[devState.currentStateIndex].state[key];
-        const stateItem = store.stateItemMap[key];
-        if (stateItem.getValue() !== value) {
-          stateItem.updater(value);
-        }
-      });
+      store.setState(devState.computedStates[devState.currentStateIndex].state);
       listeners.forEach(f => f());
       return action;
     };

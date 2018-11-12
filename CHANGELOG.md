@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+### Changed
+- New API using Context and observedBits
 
 ## [0.2.0] - 2018-11-09
 ### Changed
