@@ -97,6 +97,13 @@ PORT=8080 npm run examples:minimal
 
 and open <http://localhost:8080> in your web browser.
 
+Limitations
+-----------
+
+- Due to the implementation relying on `observedBits` in the Context API,
+  the performance may drop down if a state holds more than 31 items.
+  Reference: #1
+
 Blogs
 -----
 
