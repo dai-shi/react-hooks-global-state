@@ -4,6 +4,11 @@
     "lib": ["es2015", "dom"],
     "jsx": "react",
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "baseUrl": ".",
+    "paths": {
+      "react-hooks-global-state": ["."],
+      "react-hooks-global-state/src/devtools": ["./src/devtools"]
+    }
   }
 }

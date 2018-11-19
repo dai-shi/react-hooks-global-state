@@ -44,7 +44,7 @@
     "@babel/core": "^7.1.5",
     "@babel/preset-env": "^7.1.5",
     "@babel/preset-react": "^7.0.0",
-    "@types/react": "^16.7.1",
+    "@types/react": "^16.7.6",
     "@types/react-dom": "^16.0.9",
     "@types/redux-logger": "^3.0.6",
     "babel-core": "^7.0.0-bridge.0",
@@ -58,10 +58,11 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
+    "html-webpack-plugin": "^3.2.0",
     "immer": "^1.7.4",
     "jest": "^23.6.0",
-    "react": "^16.7.0-alpha.0",
-    "react-dom": "^16.7.0-alpha.0",
+    "react": "^16.7.0-alpha.2",
+    "react-dom": "^16.7.0-alpha.2",
     "react-use": "3.1.0",
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
@@ -97,6 +98,14 @@
         2,
         {
           "devDependencies": true
+        }
+      ],
+      "import/no-unresolved": [
+        2,
+        {
+          "ignore": [
+            "react-hooks-global-state"
+          ]
         }
       ],
       "react/prop-types": 0,

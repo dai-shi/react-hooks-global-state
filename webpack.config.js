@@ -1,11 +1,15 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 const { DIR, EXT = 'ts' } = process.env;
 
 module.exports = {
   mode: 'development',
-  entry: `./examples/${DIR}/main.${EXT}`,
-  output: {
-    filename: 'bundle.js',
-  },
+  entry: `./examples/${DIR}/src/index.${EXT}`,
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: `./examples/${DIR}/public/index.html`,
+    }),
+  ],
   module: {
     rules: [{
       test: /\.jsx?/,
@@ -25,9 +29,11 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    alias: {
+      'react-hooks-global-state': __dirname,
+    },
   },
   devServer: {
     port: process.env.PORT || '8080',
-    contentBase: `./examples/${DIR}`,
   },
 };
