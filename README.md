@@ -97,6 +97,19 @@ PORT=8080 npm run examples:minimal
 
 and open <http://localhost:8080> in your web browser.
 
+You can also try it in codesandbox.io:
+[01](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/01_minimal)
+[02](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/02_typescript)
+[03](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/03_actions)
+[04](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/04_fetch)
+[05](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/05_onmount)
+[06](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/06_reducer)
+[07](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/07_middleware)
+[08](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/08_thunk)
+[09](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/09_comparison)
+[10](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/10_immer)
+[11](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/11_deep)
+
 Limitations
 -----------
 
