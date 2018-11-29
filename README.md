@@ -3,7 +3,7 @@ react-hooks-global-state
 
 [![Build Status](https://travis-ci.com/dai-shi/react-hooks-global-state.svg?branch=master)](https://travis-ci.com/dai-shi/react-hooks-global-state)
 [![npm version](https://badge.fury.io/js/react-hooks-global-state.svg)](https://badge.fury.io/js/react-hooks-global-state)
-![bundle size](https://badgen.net/bundlephobia/minzip/react-hooks-global-state)
+[![bundle size](https://badgen.net/bundlephobia/minzip/react-hooks-global-state)](https://bundlephobia.com/result?p=react-hooks-global-state)
 
 Simple global state for React by Hooks API
 
