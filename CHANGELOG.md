@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+### Changed
+- Fix Initialization bug (#2)
 
 ## [0.3.0] - 2018-11-12
 ### Changed
