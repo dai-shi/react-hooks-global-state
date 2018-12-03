@@ -59,6 +59,12 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
     (0, _react.useEffect)(function () {
       listeners.push(setState);
 
+      if (globalState !== initialState) {
+        // globalState is updated during the initialization
+        // Note: there could be a better way for this
+        setState(globalState);
+      }
+
       var cleanup = function cleanup() {
         var index = listeners.indexOf(setState);
         listeners.splice(index, 1);
