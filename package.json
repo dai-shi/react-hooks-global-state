@@ -31,7 +31,8 @@
     "examples:thunk": "DIR=08_thunk webpack-dev-server",
     "examples:comparison": "DIR=09_comparison webpack-dev-server",
     "examples:immer": "DIR=10_immer webpack-dev-server",
-    "examples:deep": "DIR=11_deep webpack-dev-server"
+    "examples:deep": "DIR=11_deep webpack-dev-server",
+    "examples:effect": "DIR=12_effect webpack-dev-server"
   },
   "keywords": [
     "react",
