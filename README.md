@@ -110,6 +110,7 @@ You can also try it in codesandbox.io:
 [09](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/09_comparison)
 [10](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/10_immer)
 [11](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/11_deep)
+[12](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/12_effect)
 
 Limitations
 -----------
