@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { useBoolean } from 'react-use';
 
 import { setErrorMessage, setPageTitle } from './state';
 
-type SetLoading = (x: boolean) => void;
+const { useState } = React;
 
-const fetchPageTitle = async (setLoading: SetLoading) => {
+const fetchPageTitle = async (setLoading: (x: boolean) => void) => {
   setLoading(true);
   try {
     const id = Math.floor(100 * Math.random());
@@ -20,7 +19,7 @@ const fetchPageTitle = async (setLoading: SetLoading) => {
 };
 
 const RandomButton = () => {
-  const [loading, setLoading] = useBoolean(false);
+  const [loading, setLoading] = useState<boolean>(false);
   return (
     <div>
       {loading ? 'Loading...' : (
