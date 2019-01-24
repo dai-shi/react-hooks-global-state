@@ -33,10 +33,7 @@ const PersonFirstName = () => {
       <div>
         First Name:
         <TextBox text={firstName} />
-        <input
-          value={firstName}
-          onChange={setFirstName}
-        />
+        <input value={firstName} onChange={setFirstName} />
       </div>
     ),
     [firstName],
@@ -51,10 +48,7 @@ const PersonLastName = () => {
       <div>
         Last Name:
         <TextBox text={lastName} />
-        <input
-          value={lastName}
-          onChange={setLastName}
-        />
+        <input value={lastName} onChange={setLastName} />
       </div>
     ),
     [lastName],
@@ -70,10 +64,7 @@ const PersonAge = () => {
       <div>
         <div>
           Age:
-          <input
-            value={age}
-            onChange={setAge}
-          />
+          <input value={age} onChange={setAge} />
         </div>
         <div>
           Age Doubled:

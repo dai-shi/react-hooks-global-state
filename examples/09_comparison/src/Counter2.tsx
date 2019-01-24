@@ -11,10 +11,7 @@ const Counter = () => {
   const decrement = useCallback(() => dispatch({ type: 'decrement' }), [dispatch]);
   return (
     <div>
-      <span>
-        Count:
-        {value}
-      </span>
+      <span>Count:{value}</span>
       <button type="button" onClick={increment}>+1</button>
       <button type="button" onClick={decrement}>-1</button>
     </div>

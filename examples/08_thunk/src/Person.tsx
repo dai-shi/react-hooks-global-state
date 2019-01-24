@@ -51,24 +51,15 @@ const Person = () => {
       <button type="button" onClick={setRandomFirstName}>Random First Name</button>
       <div>
         First Name:
-        <input
-          value={value.firstName}
-          onChange={setFirstName}
-        />
+        <input value={value.firstName} onChange={setFirstName} />
       </div>
       <div>
         Last Name:
-        <input
-          value={value.lastName}
-          onChange={setLastName}
-        />
+        <input value={value.lastName} onChange={setLastName} />
       </div>
       <div>
         Age:
-        <input
-          value={value.age}
-          onChange={setAge}
-        />
+        <input value={value.age} onChange={setAge} />
       </div>
     </div>
   );

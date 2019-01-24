@@ -15,10 +15,7 @@ const Counter = () => {
   const [value, update] = useGlobalState('counter');
   return (
     <div>
-      <span>
-        Count:
-        {value}
-      </span>
+      <span>Count:{value}</span>
       <button type="button" onClick={() => update(value + 1)}>+1</button>
       <button type="button" onClick={() => update(value - 1)}>-1</button>
     </div>
@@ -29,10 +26,7 @@ const TextBox = () => {
   const [value, update] = useGlobalState('text');
   return (
     <div>
-      <span>
-        Text:
-        {value}
-      </span>
+      <span>Text:{value}</span>
       <input value={value} onChange={event => update(event.target.value)} />
     </div>
   );
