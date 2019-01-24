@@ -12,19 +12,22 @@ const Person = () => {
       firstName: event.currentTarget.value,
       type: 'setFirstName',
     }),
-    [dispatch]);
+    [dispatch],
+  );
   const setLastName = useCallback(
     (event: React.FormEvent<HTMLInputElement>) => dispatch({
       lastName: event.currentTarget.value,
       type: 'setLastName',
     }),
-    [dispatch]);
+    [dispatch],
+  );
   const setAge = useCallback(
     (event: React.FormEvent<HTMLInputElement>) => dispatch({
       age: Number(event.currentTarget.value) || 0,
       type: 'setAge',
     }),
-    [dispatch]);
+    [dispatch],
+  );
   return (
     <div>
       <div>

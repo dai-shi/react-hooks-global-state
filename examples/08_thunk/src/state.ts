@@ -19,9 +19,9 @@ type State = typeof initialState;
 export type Action =
   | { type: 'increment' }
   | { type: 'decrement' }
-  | { type: 'setFirstName', firstName: string }
-  | { type: 'setLastName', lastName: string }
-  | { type: 'setAge', age: number };
+  | { type: 'setFirstName'; firstName: string }
+  | { type: 'setLastName'; lastName: string }
+  | { type: 'setAge'; age: number };
 
 const counterReducer = (state = initialState.counter, action: Action) => {
   switch (action.type) {

@@ -16,9 +16,9 @@ type State = typeof initialState;
 type Action =
   | { type: 'increment' }
   | { type: 'decrement' }
-  | { type: 'setFirstName', firstName: string }
-  | { type: 'setLastName', lastName: string }
-  | { type: 'setAge', age: number };
+  | { type: 'setFirstName'; firstName: string }
+  | { type: 'setLastName'; lastName: string }
+  | { type: 'setAge'; age: number };
 
 const counterReducer = (state = initialState.counter, action: Action) => {
   switch (action.type) {
@@ -51,15 +51,16 @@ const reducer = combineReducers({
   person: personReducer,
 });
 
-const logger = ({ getState }: { getState: () => State }) =>
-  (next: Dispatch<Action>) => (action: Action) => {
-    // tslint:disable no-console
-    console.log('will dispatch', action);
-    const returnValue = next(action);
-    console.log('state after dispatch', getState());
-    // tslint:enable no-console
-    return returnValue;
-  };
+const logger = (
+  { getState }: { getState: () => State },
+) => (next: Dispatch<Action>) => (action: Action) => {
+  /* eslint-disable no-console */
+  console.log('will dispatch', action);
+  const returnValue = next(action);
+  console.log('state after dispatch', getState());
+  /* eslint-enable no-console */
+  return returnValue;
+};
 
 export const { GlobalStateProvider, dispatch, useGlobalState } = createStore(
   reducer,

@@ -3,7 +3,7 @@ import { createStore } from 'react-hooks-global-state';
 type Action =
   | { type: 'increment' }
   | { type: 'decrement' }
-  | { type: 'addBonus', value: number };
+  | { type: 'addBonus'; value: number };
 
 export const { GlobalStateProvider, dispatch, useGlobalState } = createStore(
   (state, action: Action) => {

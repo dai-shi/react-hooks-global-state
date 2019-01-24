@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export type GlobalStateProviderProps = {
-  children?: React.ReactNode,
+  children?: React.ReactNode;
 };
 
 export type Update<T> = ((v: T) => T) | T;
@@ -20,10 +20,10 @@ export type Dispatch<A> = (action: A) => A;
 export type UseGlobalState<S> = <N extends keyof S>(name: N) => HookResult<S[N]>;
 
 export type Store<S, A> = {
-  GlobalStateProvider: React.ComponentType<GlobalStateProviderProps>,
-  useGlobalState: UseGlobalState<S>,
-  getState: () => S,
-  dispatch: Dispatch<A>,
+  GlobalStateProvider: React.ComponentType<GlobalStateProviderProps>;
+  useGlobalState: UseGlobalState<S>;
+  getState: () => S;
+  dispatch: Dispatch<A>;
 };
 
 export type StoreCreator<S, A> = (reducer: Reducer<S, A>, initialState: S) => Store<S, A>;
@@ -31,9 +31,9 @@ export type StoreCreator<S, A> = (reducer: Reducer<S, A>, initialState: S) => St
 export type Enhancer<S, A> = (creator: StoreCreator<S, A>) => StoreCreator<S, A>;
 
 export type CreateGlobalState = <S extends {}, A extends {}>(initialState: S) => {
-  GlobalStateProvider: React.ComponentType<GlobalStateProviderProps>,
-  useGlobalState: UseGlobalState<S>,
-  setGlobalState: SetGlobalState<S>,
+  GlobalStateProvider: React.ComponentType<GlobalStateProviderProps>;
+  useGlobalState: UseGlobalState<S>;
+  setGlobalState: SetGlobalState<S>;
 };
 
 export type CreateStore = <S extends {}, A extends {}>(
@@ -48,11 +48,11 @@ export const createStore: CreateStore;
 // for patch redux
 
 export type MiddlewareAPI<S, A> = {
-  getState: () => S,
-  dispatch: Dispatch<A>,
+  getState: () => S;
+  dispatch: Dispatch<A>;
 };
 
 export type Middleware<S, A> =
   (store: MiddlewareAPI<S, A>) => (next: Dispatch<A>) => (action: A) => A;
 
-export type ApplyMiddleware<S, A> = (...args: Array<Middleware<S, A>>) => Enhancer<S, A>;
+export type ApplyMiddleware<S, A> = (...args: Middleware<S, A>[]) => Enhancer<S, A>;

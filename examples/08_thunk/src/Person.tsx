@@ -40,7 +40,6 @@ const setRandomFirstName = () => {
         firstName: 'ERROR: fetching',
         type: 'setFirstName',
       });
-
     }
   });
 };
@@ -49,7 +48,7 @@ const Person = () => {
   const [value] = useGlobalState('person');
   return (
     <div>
-      <button onClick={setRandomFirstName}>Random First Name</button>
+      <button type="button" onClick={setRandomFirstName}>Random First Name</button>
       <div>
         First Name:
         <input

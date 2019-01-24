@@ -3,9 +3,9 @@ import { createStore } from 'react-hooks-global-state';
 type Action =
   | { type: 'increment' }
   | { type: 'decrement' }
-  | { type: 'setFirstName', firstName: string }
-  | { type: 'setLastName', lastName: string }
-  | { type: 'setAge', age: number };
+  | { type: 'setFirstName'; firstName: string }
+  | { type: 'setLastName'; lastName: string }
+  | { type: 'setAge'; age: number };
 
 export const { GlobalStateProvider, dispatch, useGlobalState } = createStore(
   (state, action: Action) => {

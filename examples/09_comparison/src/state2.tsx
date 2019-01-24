@@ -1,6 +1,11 @@
 import * as React from 'react';
 
-import { Action, initialState, reducer, State } from './common';
+import {
+  Action,
+  initialState,
+  reducer,
+  State,
+} from './common';
 
 const { createContext, useContext, useReducer } = React;
 
@@ -19,9 +24,11 @@ export const Provider: React.ComponentType = ({ children }) => {
 };
 
 export const useDispatch = () => {
-  return useContext(dispatchCtx);
+  const dispatch = useContext(dispatchCtx);
+  return dispatch;
 };
 
+// eslint-disable-next-line arrow-parens
 export const useGlobalState = <K extends keyof State>(property: K) => {
   const state = useContext(stateCtx);
   return state[property]; // only one depth selector for comparison

@@ -20,7 +20,7 @@ const setAge = (event: React.FormEvent<HTMLInputElement>) => dispatch({
 });
 
 const TextBox: React.SFC<{ text: string }> = ({ text }) => {
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.log('rendering text:', text);
   return <span>{text}</span>;
 };
@@ -39,7 +39,8 @@ const PersonFirstName = () => {
         />
       </div>
     ),
-    [firstName]);
+    [firstName],
+  );
 };
 
 const PersonLastName = () => {
@@ -56,7 +57,8 @@ const PersonLastName = () => {
         />
       </div>
     ),
-    [lastName]);
+    [lastName],
+  );
 };
 
 const PersonAge = () => {
@@ -79,7 +81,8 @@ const PersonAge = () => {
         </div>
       </div>
     ),
-    [age, ageDoubled]); // only `age` is actually fine.
+    [age, ageDoubled], // only `age` is actually fine.
+  );
 };
 
 const Person = () => (
