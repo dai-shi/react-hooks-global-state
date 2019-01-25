@@ -2,7 +2,7 @@ import { applyMiddleware, combineReducers, compose } from 'redux';
 import reduxLogger from 'redux-logger';
 import reduxThunk from 'redux-thunk';
 
-import { ApplyMiddleware, createStore, Middleware } from 'react-hooks-global-state';
+import { createStore } from 'react-hooks-global-state';
 import { reduxDevToolsExt } from 'react-hooks-global-state/src/devtools';
 
 const initialState = {
@@ -58,10 +58,7 @@ export const { GlobalStateProvider, dispatch, useGlobalState } = createStore<Sta
   reducer,
   initialState,
   compose(
-    (applyMiddleware as unknown as ApplyMiddleware<State, Action>)(
-      reduxThunk as unknown as Middleware<State, Action>,
-      reduxLogger as Middleware<State, Action>,
-    ),
+    applyMiddleware(reduxThunk, reduxLogger),
     reduxDevToolsExt(),
   ),
 );

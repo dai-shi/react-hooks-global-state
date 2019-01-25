@@ -1,6 +1,6 @@
 import { applyMiddleware, combineReducers } from 'redux';
 
-import { ApplyMiddleware, createStore, Dispatch } from 'react-hooks-global-state';
+import { createStore, Dispatch } from 'react-hooks-global-state';
 
 const initialState = {
   counter: 0,
@@ -65,5 +65,5 @@ const logger = (
 export const { GlobalStateProvider, dispatch, useGlobalState } = createStore(
   reducer,
   initialState,
-  (applyMiddleware as unknown as ApplyMiddleware<State, Action>)(logger),
+  applyMiddleware(logger),
 );
