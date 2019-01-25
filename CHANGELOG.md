@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+
+## [0.5.0] - 2019-01-26
 ### Changed
 - AnyEnhancer type hack for Redux
 
