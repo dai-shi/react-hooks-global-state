@@ -14,8 +14,6 @@ const initialState = {
   },
 };
 
-type State = typeof initialState;
-
 export type Action =
   | { type: 'increment' }
   | { type: 'decrement' }
@@ -54,7 +52,7 @@ const reducer = combineReducers({
   person: personReducer,
 });
 
-export const { GlobalStateProvider, dispatch, useGlobalState } = createStore<State, Action>(
+export const { GlobalStateProvider, dispatch, useGlobalState } = createStore(
   reducer,
   initialState,
   compose(

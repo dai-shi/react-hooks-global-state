@@ -103,7 +103,7 @@ const saveStateToStorage = (
   return returnValue;
 };
 
-export const { GlobalStateProvider, dispatch, useGlobalState } = createStore<State, Action>(
+export const { GlobalStateProvider, dispatch, useGlobalState } = createStore(
   reducer,
   initialState,
   applyMiddleware(saveStateToStorage),
