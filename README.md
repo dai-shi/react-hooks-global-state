@@ -111,6 +111,7 @@ You can also try them in codesandbox.io:
 [10](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/10_immer)
 [11](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/11_deep)
 [12](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/12_effect)
+[13](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/13_persistence)
 
 Limitations
 -----------
