@@ -1,5 +1,3 @@
-/* eslint-env browser */
-
 const compose = (...fns) => fns.reduce((p, c) => (...args) => p(c(...args)));
 
 const initAction = () => ({ type: '@@redux/INIT' });

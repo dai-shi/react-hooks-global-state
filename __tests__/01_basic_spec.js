@@ -1,5 +1,3 @@
-/* eslint-env jest */
-
 import React from 'react';
 import { configure, mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
