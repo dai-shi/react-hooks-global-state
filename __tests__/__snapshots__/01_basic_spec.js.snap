@@ -1,83 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`basic spec should create a component with a global state 1`] = `
-<App>
+<div>
   <div>
-    <div
-      className="first"
+    <span>
+      0
+    </span>
+    <button
+      type="button"
     >
-      <Counter>
-        <div>
-          <span>
-            0
-          </span>
-          <button
-            onClick={[Function]}
-            type="button"
-          >
-            +1
-          </button>
-        </div>
-      </Counter>
-    </div>
-    <div
-      className="second"
-    >
-      <Counter>
-        <div>
-          <span>
-            0
-          </span>
-          <button
-            onClick={[Function]}
-            type="button"
-          >
-            +1
-          </button>
-        </div>
-      </Counter>
-    </div>
+      +1
+    </button>
   </div>
-</App>
+  <div>
+    <span>
+      0
+    </span>
+    <button
+      type="button"
+    >
+      +1
+    </button>
+  </div>
+</div>
 `;
 
 exports[`basic spec should create a component with a global state 2`] = `
-<App>
+<div>
   <div>
-    <div
-      className="first"
+    <span>
+      1
+    </span>
+    <button
+      type="button"
     >
-      <Counter>
-        <div>
-          <span>
-            1
-          </span>
-          <button
-            onClick={[Function]}
-            type="button"
-          >
-            +1
-          </button>
-        </div>
-      </Counter>
-    </div>
-    <div
-      className="second"
-    >
-      <Counter>
-        <div>
-          <span>
-            1
-          </span>
-          <button
-            onClick={[Function]}
-            type="button"
-          >
-            +1
-          </button>
-        </div>
-      </Counter>
-    </div>
+      +1
+    </button>
   </div>
-</App>
+  <div>
+    <span>
+      1
+    </span>
+    <button
+      type="button"
+    >
+      +1
+    </button>
+  </div>
+</div>
 `;

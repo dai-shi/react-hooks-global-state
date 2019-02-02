@@ -1,18 +1,21 @@
 import React from 'react';
-import { configure, mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
-import Adapter from 'enzyme-adapter-react-16';
+import {
+  render,
+  fireEvent,
+  flushEffects,
+  cleanup,
+} from 'react-testing-library';
 
 import { createGlobalState } from '../src/index';
 
-configure({ adapter: new Adapter() });
-
 describe('basic spec', () => {
+  afterEach(cleanup);
+
   it('should have a function', () => {
     expect(createGlobalState).toBeDefined();
   });
 
-  it.skip('should create a component with a global state', () => {
+  it('should create a component with a global state', () => {
     const initialState = {
       counter1: 0,
     };
@@ -28,19 +31,14 @@ describe('basic spec', () => {
     };
     const App = () => (
       <GlobalStateProvider>
-        <div>
-          <div className="first">
-            <Counter />
-          </div>
-          <div className="second">
-            <Counter />
-          </div>
-        </div>
+        <Counter />
+        <Counter />
       </GlobalStateProvider>
     );
-    const wrapper = mount(<App />);
-    expect(toJson(wrapper)).toMatchSnapshot();
-    wrapper.find('.first button').simulate('click');
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { getByText, container } = render(<App />);
+    expect(container).toMatchSnapshot();
+    fireEvent.click(getByText('+1'));
+    flushEffects();
+    expect(container).toMatchSnapshot();
   });
 });

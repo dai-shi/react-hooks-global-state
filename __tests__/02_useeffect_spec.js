@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
-import { configure, mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
-import Adapter from 'enzyme-adapter-react-16';
+import {
+  render,
+  flushEffects,
+  cleanup,
+} from 'react-testing-library';
 
 import { createGlobalState } from '../src/index';
 
-configure({ adapter: new Adapter() });
-
 describe('useeffect spec', () => {
-  it.skip('should update a global state with useEffect', () => {
+  afterEach(cleanup);
+
+  it('should update a global state with useEffect', () => {
     const initialState = {
       counter1: 0,
     };
@@ -29,7 +31,8 @@ describe('useeffect spec', () => {
         <Counter />
       </GlobalStateProvider>
     );
-    const wrapper = mount(<App />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<App />);
+    flushEffects();
+    expect(container).toMatchSnapshot();
   });
 });

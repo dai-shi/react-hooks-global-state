@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`useeffect spec should update a global state with useEffect 1`] = `
+<div>
+  <div>
+    <span>
+      9
+    </span>
+  </div>
+</div>
+`;
