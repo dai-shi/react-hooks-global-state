@@ -7,11 +7,24 @@ react-hooks-global-state
 
 Simple global state for React with Hooks API
 
-Background
-----------
+Introduction
+------------
 
-React Hooks API looks promising.
-This is an experimental library to use React Hooks API for global state.
+If you ever try to implement a global state with Context and Hooks,
+you probably find it straightforward.
+This library provide more or less the same functionality
+with some following bonuses.
+
+- Optimization for shallow state getter and setter.
+  - The library only cares the one-level-deep object.
+- TypeScript type definitions
+  - A creator function create hooks with types inferred.
+- Redux middleware support to some extent
+  - Some of libraries in Redux ecosystem can be used.
+  - Redux DevTools Extension can be used in a simple scenario.
+
+Due to the fact that this library utilizes `unstable_observedBits`
+for optimization, this library is still in alpha.
 
 Install
 -------
