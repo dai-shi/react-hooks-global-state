@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "react": "next",
-    "react-dom": "next",
+    "react": "latest",
+    "react-dom": "latest",
     "react-hooks-global-state": "latest",
     "react-scripts": "^2.1.1"
   },

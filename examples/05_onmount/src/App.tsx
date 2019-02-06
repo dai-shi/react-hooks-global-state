@@ -24,11 +24,13 @@ const App = () => {
   );
 
   return (
-    <GlobalStateProvider>
-      <PageInfo />
-      <RandomButton />
-      <ErrorMessage />
-    </GlobalStateProvider>
+    <React.StrictMode>
+      <GlobalStateProvider>
+        <PageInfo />
+        <RandomButton />
+        <ErrorMessage />
+      </GlobalStateProvider>
+    </React.StrictMode>
   );
 };
 

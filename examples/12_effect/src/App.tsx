@@ -5,11 +5,13 @@ import { GlobalStateProvider } from './state';
 import Counter from './Counter';
 
 const App = () => (
-  <GlobalStateProvider>
-    <h1>Counter</h1>
-    <Counter />
-    <Counter />
-  </GlobalStateProvider>
+  <React.StrictMode>
+    <GlobalStateProvider>
+      <h1>Counter</h1>
+      <Counter />
+      <Counter />
+    </GlobalStateProvider>
+  </React.StrictMode>
 );
 
 export default App;

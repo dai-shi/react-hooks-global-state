@@ -5,8 +5,8 @@
   "dependencies": {
     "@types/react": "^16.7.6",
     "@types/react-dom": "^16.0.9",
-    "react": "next",
-    "react-dom": "next",
+    "react": "latest",
+    "react-dom": "latest",
     "react-hooks-global-state": "latest",
     "react-scripts": "^2.1.1",
     "redux": "^4.0.1",

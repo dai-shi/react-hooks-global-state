@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 
 import { createGlobalState } from 'react-hooks-global-state';
@@ -31,14 +31,16 @@ const TextBox = () => {
 };
 
 const App = () => (
-  <GlobalStateProvider>
-    <h1>Counter</h1>
-    <Counter />
-    <Counter />
-    <h1>TextBox</h1>
-    <TextBox />
-    <TextBox />
-  </GlobalStateProvider>
+  <StrictMode>
+    <GlobalStateProvider>
+      <h1>Counter</h1>
+      <Counter />
+      <Counter />
+      <h1>TextBox</h1>
+      <TextBox />
+      <TextBox />
+    </GlobalStateProvider>
+  </StrictMode>
 );
 
 ReactDOM.render(<App />, document.getElementById('app'));
