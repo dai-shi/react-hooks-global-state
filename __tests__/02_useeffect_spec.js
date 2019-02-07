@@ -1,9 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-  render,
-  flushEffects,
-  cleanup,
-} from 'react-testing-library';
+import { render, cleanup } from 'react-testing-library';
 
 import { createGlobalState } from '../src/index';
 
@@ -32,7 +28,6 @@ describe('useeffect spec', () => {
       </GlobalStateProvider>
     );
     const { container } = render(<App />);
-    flushEffects();
     expect(container).toMatchSnapshot();
   });
 });

@@ -2,7 +2,7 @@
 
 ## [Unreleased]
 ### Changed
-- Updated Dependencies (React 16.8.0)
+- Updated Dependencies (react 16.8)
 
 ## [0.5.0] - 2019-01-26
 ### Changed

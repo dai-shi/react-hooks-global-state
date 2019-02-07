@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  render,
-  fireEvent,
-  flushEffects,
-  cleanup,
-} from 'react-testing-library';
+import { render, fireEvent, cleanup } from 'react-testing-library';
 
 import { createGlobalState } from '../src/index';
 
@@ -38,7 +33,6 @@ describe('basic spec', () => {
     const { getByText, container } = render(<App />);
     expect(container).toMatchSnapshot();
     fireEvent.click(getByText('+1'));
-    flushEffects();
     expect(container).toMatchSnapshot();
   });
 });
