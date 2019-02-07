@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+
+## [0.6.0] - 2019-02-07
 ### Changed
 - Updated Dependencies (react 16.8)
 

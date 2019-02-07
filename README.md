@@ -16,7 +16,7 @@ This library provide more or less the same functionality
 with some following bonuses.
 
 - Optimization for shallow state getter and setter.
-  - The library only cares the one-level-deep object.
+  - The library cares the state object only one-level deep.
 - TypeScript type definitions
   - A creator function creates hooks with types inferred.
 - Redux middleware support to some extent
