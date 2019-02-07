@@ -86,7 +86,8 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
 
   var useGlobalState = function useGlobalState(name) {
     var index = keys.indexOf(name);
-    var state = (0, _react.useContext)(context, 1 << index);
+    var observedBits = 1 << index;
+    var state = (0, _react.useContext)(context, observedBits);
     var updater = (0, _react.useCallback)(function (u) {
       return setGlobalState(name, u);
     }, [name]);

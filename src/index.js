@@ -62,7 +62,8 @@ const createGlobalStateCommon = (initialState) => {
 
   const useGlobalState = (name) => {
     const index = keys.indexOf(name);
-    const state = useContext(context, 1 << index);
+    const observedBits = 1 << index;
+    const state = useContext(context, observedBits);
     const updater = useCallback(u => setGlobalState(name, u), [name]);
     return [state[name], updater];
   };
