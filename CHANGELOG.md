@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+### Changed
+- Fixed type definition of CreateGlobalState
 
 ## [0.6.0] - 2019-02-07
 ### Changed

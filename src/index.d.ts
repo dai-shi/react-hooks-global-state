@@ -32,7 +32,7 @@ export type Enhancer<S, A> = (creator: StoreCreator<S, A>) => StoreCreator<S, A>
 
 type AnyEnhancer = unknown;
 
-export type CreateGlobalState = <S extends {}, A extends {}>(initialState: S) => {
+export type CreateGlobalState = <S extends {}>(initialState: S) => {
   GlobalStateProvider: React.ComponentType<GlobalStateProviderProps>;
   useGlobalState: UseGlobalState<S>;
   setGlobalState: SetGlobalState<S>;
