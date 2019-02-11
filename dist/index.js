@@ -30,6 +30,18 @@ var updateValue = function updateValue(oldValue, newValue) {
   }
 
   return newValue;
+}; // ref: https://github.com/dai-shi/react-hooks-global-state/issues/5
+
+
+var useUnstableContextWithoutWarning = function useUnstableContextWithoutWarning(Context, observedBits) {
+  var ReactCurrentDispatcher = _react.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentDispatcher;
+  var dispatcher = ReactCurrentDispatcher.current;
+
+  if (!dispatcher) {
+    throw new Error('Hooks can only be called inside the body of a function component. (https://fb.me/react-invalid-hook-call)');
+  }
+
+  return dispatcher.useContext(Context, observedBits);
 }; // core functions
 
 
@@ -46,7 +58,7 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
     return bits;
   };
 
-  var context = (0, _react.createContext)(initialState, calculateChangedBits);
+  var Context = (0, _react.createContext)(initialState, calculateChangedBits);
 
   var GlobalStateProvider = function GlobalStateProvider(_ref) {
     var children = _ref.children;
@@ -72,7 +84,7 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
 
       return cleanup;
     }, []);
-    return (0, _react.createElement)(context.Provider, {
+    return (0, _react.createElement)(Context.Provider, {
       value: state
     }, children);
   };
@@ -87,7 +99,7 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
   var useGlobalState = function useGlobalState(name) {
     var index = keys.indexOf(name);
     var observedBits = 1 << index;
-    var state = (0, _react.useContext)(context, observedBits);
+    var state = useUnstableContextWithoutWarning(Context, observedBits);
     var updater = (0, _react.useCallback)(function (u) {
       return setGlobalState(name, u);
     }, [name]);
