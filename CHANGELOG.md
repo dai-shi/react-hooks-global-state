@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+
+## [0.7.0] - 2019-02-11
 ### Changed
 - Fixed type definition of CreateGlobalState
 - Eliminated React warning for using unstable_observedBits
