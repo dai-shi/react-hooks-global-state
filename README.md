@@ -1,5 +1,4 @@
-react-hooks-global-state
-========================
+# react-hooks-global-state
 
 [![Build Status](https://travis-ci.com/dai-shi/react-hooks-global-state.svg?branch=master)](https://travis-ci.com/dai-shi/react-hooks-global-state)
 [![npm version](https://badge.fury.io/js/react-hooks-global-state.svg)](https://badge.fury.io/js/react-hooks-global-state)
@@ -7,8 +6,7 @@ react-hooks-global-state
 
 Simple global state for React with Hooks API
 
-Introduction
-------------
+## Introduction
 
 If you ever try to implement a global state with Context and Hooks,
 you probably find it straightforward.
@@ -26,15 +24,13 @@ with some following bonuses.
 Due to the fact that this library utilizes `unstable_observedBits`
 for optimization, this library is still in alpha.
 
-Install
--------
+## Install
 
 ```bash
 npm install react-hooks-global-state
 ```
 
-Usage
------
+## Usage
 
 ### setState style
 
@@ -99,8 +95,7 @@ const App = () => (
 );
 ```
 
-Examples
---------
+## Examples
 
 The [examples](examples) folder contains working examples.
 You can run one of them with
@@ -126,22 +121,19 @@ You can also try them in codesandbox.io:
 [12](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/12_effect)
 [13](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/13_persistence)
 
-Limitations
------------
+## Limitations
 
 - Due to the implementation relying on `observedBits` in the Context API,
   the performance may drop down if a state holds more than 31 items.
   Reference: [#1](https://github.com/dai-shi/react-hooks-global-state/issues/1)
 
-Blogs
------
+## Blogs
 
 - [TypeScript-aware React hooks for global state](https://medium.com/@dai_shi/typescript-aware-react-hooks-for-global-state-b6e2dfc0e9a7)
 - [An alternative to React Redux by React Hooks API (For both JavaScript and TypeScript)](https://medium.com/@dai_shi/an-alternative-to-react-redux-by-react-hooks-api-for-both-javascript-and-typescript-c5e9a351ba0b)
 - [Redux middleware compatible React Hooks library for easy global state management](https://medium.com/@dai_shi/redux-middleware-compatible-react-hooks-library-for-easy-global-state-management-4fe73623e69e)
 - [React Hooks Tutorial on pure useReducer + useContext for global state like Redux and comparison with react-hooks-global-state](https://medium.com/@dai_shi/react-hooks-tutorial-for-pure-usereducer-usecontext-for-global-state-like-redux-and-comparison-dd3da5053624)
 
-Community Wiki
---------------
+## Community Wiki
 
 - [Ideas](https://github.com/dai-shi/react-hooks-global-state/wiki/Ideas)
