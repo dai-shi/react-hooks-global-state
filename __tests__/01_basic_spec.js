@@ -1,13 +1,39 @@
 import React from 'react';
 import { render, fireEvent, cleanup } from 'react-testing-library';
 
-import { createGlobalState } from '../src/index';
+import { createGlobalState, createStore } from '../src/index';
 
 describe('basic spec', () => {
   afterEach(cleanup);
 
   it('should have a function', () => {
     expect(createGlobalState).toBeDefined();
+  });
+
+  it('should be possible to not specify initial state', () => {
+    const { GlobalStateProvider, useGlobalState } = createStore(
+      () => ({
+        counter: 0,
+      }),
+    );
+    const Counter = () => {
+      const [value, update] = useGlobalState('counter');
+      return (
+        <div>
+          <span>{value}</span>
+          <button type="button" onClick={() => update(value + 1)}>+1</button>
+        </div>
+      );
+    };
+    const App = () => (
+      <GlobalStateProvider>
+        <Counter />
+      </GlobalStateProvider>
+    );
+    const { getByText } = render(<App />);
+    expect(getByText('0')).toBeDefined();
+    fireEvent.click(getByText('+1'));
+    expect(getByText('1')).toBeDefined();
   });
 
   it('should create a component with a global state', () => {
