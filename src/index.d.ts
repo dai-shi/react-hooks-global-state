@@ -40,7 +40,7 @@ export type CreateGlobalState = <S extends {}>(initialState: S) => {
 
 export type CreateStore = <S extends {}, A extends {}>(
   reducer: Reducer<S, A>,
-  initialState: S,
+  initialState?: S,
   enhancer?: Enhancer<S, A> | AnyEnhancer,
 ) => Store<S, A>;
 

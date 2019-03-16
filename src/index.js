@@ -111,6 +111,9 @@ export const createGlobalState = (initialState) => {
 };
 
 export const createStore = (reducer, initialState, enhancer) => {
+  if (!initialState) {
+    initialState = reducer(undefined, { type: undefined });
+  }
   if (enhancer) return enhancer(createStore)(reducer, initialState);
   const {
     GlobalStateProvider,
