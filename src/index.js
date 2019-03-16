@@ -133,3 +133,7 @@ export const createStore = (reducer, initialState, enhancer) => {
     dispatch,
   };
 };
+
+export const createReduxLikeStore = (reducer, enhancer) => createStore(
+  reducer, undefined, enhancer,
+);

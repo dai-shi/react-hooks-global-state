@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, cleanup } from 'react-testing-library';
 
-import { createGlobalState, createStore } from '../src/index';
+import { createGlobalState, createReduxLikeStore } from '../src/index';
 
 describe('basic spec', () => {
   afterEach(cleanup);
@@ -12,7 +12,7 @@ describe('basic spec', () => {
 
   it('should be possible to not specify initial state', () => {
     const reducer = () => ({ counter: 0 });
-    const { GlobalStateProvider, useGlobalState } = createStore(reducer);
+    const { GlobalStateProvider, useGlobalState } = createReduxLikeStore(reducer);
     const Counter = () => {
       const [value, update] = useGlobalState('counter');
       return (

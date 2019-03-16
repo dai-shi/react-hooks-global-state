@@ -44,11 +44,12 @@ export type CreateStore = <S, A>(
   initialState: S,
   enhancer?: Enhancer<S, A> | AnyEnhancer,
 ) => Store<S, A>;
+
 export type CreateReduxLikeStore = <S, A>(
   reducer: ReduxLikeReducer<S, A>,
-  initialState: S | undefined,
   enhancer?: Enhancer<S, A> | AnyEnhancer,
 ) => Store<S, A>;
 
 export const createGlobalState: CreateGlobalState;
-export const createStore: CreateStore | CreateReduxLikeStore;
+export const createStore: CreateStore;
+export const createReduxLikeStore: CreateReduxLikeStore;
