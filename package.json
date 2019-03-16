@@ -15,7 +15,7 @@
     "dist"
   ],
   "scripts": {
-    "compile": "babel src -d dist",
+    "compile": "babel src -d dist && cp src/devtools.d.ts dist/",
     "test": "npm run eslint && npm run tsc-test && npm run jest",
     "eslint": "eslint --ext .js,.ts,.tsx --ignore-pattern dist .",
     "jest": "jest",
