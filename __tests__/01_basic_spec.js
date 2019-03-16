@@ -11,11 +11,8 @@ describe('basic spec', () => {
   });
 
   it('should be possible to not specify initial state', () => {
-    const { GlobalStateProvider, useGlobalState } = createStore(
-      () => ({
-        counter: 0,
-      }),
-    );
+    const reducer = () => ({ counter: 0 });
+    const { GlobalStateProvider, useGlobalState } = createStore(reducer);
     const Counter = () => {
       const [value, update] = useGlobalState('counter');
       return (
