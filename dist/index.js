@@ -143,6 +143,9 @@ var createGlobalState = function createGlobalState(initialState) {
 exports.createGlobalState = createGlobalState;
 
 var createStore = function createStore(reducer, initialState, enhancer) {
+  if (!initialState) initialState = reducer(undefined, {
+    type: undefined
+  });
   if (enhancer) return enhancer(createStore)(reducer, initialState);
 
   var _createGlobalStateCom2 = createGlobalStateCommon(initialState),
