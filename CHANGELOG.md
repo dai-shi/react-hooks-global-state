@@ -1,6 +1,9 @@
 # Change Log
 
 ## [Unreleased]
+### Changed
+- Experimental support for eliminating initialState
+- Copied devtools.d.ts into the dist folder
 
 ## [0.7.0] - 2019-02-11
 ### Changed
