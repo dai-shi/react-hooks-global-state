@@ -14,7 +14,7 @@ export type SetGlobalState<S> = <N extends keyof S>(
 export type HookResult<T> = [T, (u: Update<T>) => void];
 
 export type Reducer<S, A> = (state: S, action: A) => S;
-export type ReduxLikeReducer<S, A> = (state: S | undefined, action: A) => S;
+export type ReduxLikeReducer<S, A> = (state: S | undefined, action: A | { type: undefined }) => S;
 
 export type Dispatch<A> = (action: A) => A;
 
