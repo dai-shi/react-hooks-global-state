@@ -73,7 +73,7 @@ const reducer = (state, action) => {
     default: return state;
   }
 };
-const initialState = { counter: 0 }; // initialState is not optional.
+const initialState = { counter: 0 };
 const { GlobalStateProvider, dispatch, useGlobalState } = createStore(reducer, initialState);
 
 const Counter = () => {
@@ -136,4 +136,5 @@ You can also try them in codesandbox.io:
 
 ## Community Wiki
 
-- [Ideas](https://github.com/dai-shi/react-hooks-global-state/wiki/Ideas)
+- [Persistence](https://github.com/dai-shi/react-hooks-global-state/wiki/Persistence)
+- [Optional initialState](https://github.com/dai-shi/react-hooks-global-state/wiki/Optional initialState)
