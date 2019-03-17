@@ -137,4 +137,4 @@ You can also try them in codesandbox.io:
 ## Community Wiki
 
 - [Persistence](https://github.com/dai-shi/react-hooks-global-state/wiki/Persistence)
-- [Optional initialState](https://github.com/dai-shi/react-hooks-global-state/wiki/Optional initialState)
+- [Optional initialState](https://github.com/dai-shi/react-hooks-global-state/wiki/Optional-initialState)
