@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+
+## [0.9.0] - 2019-03-18
 ### Changed
 - Better typings for optional initialState
 
