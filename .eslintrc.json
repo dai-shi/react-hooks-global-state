@@ -1,7 +1,8 @@
 {
   "parser": "@typescript-eslint/parser",
   "plugins": [
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "react-hooks"
   ],
   "extends": [
     "plugin:@typescript-eslint/recommended",
@@ -18,6 +19,8 @@
     }
   },
   "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "error",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/indent": ["error", 2],
     "@typescript-eslint/prefer-interface": "off",

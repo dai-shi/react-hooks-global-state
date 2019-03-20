@@ -15,7 +15,7 @@ describe('useeffect spec', () => {
       const [value, update] = useGlobalState('counter1');
       useEffect(() => {
         update(9);
-      }, []);
+      }, [update]);
       return (
         <div>
           <span>{value}</span>
