@@ -75,6 +75,10 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
         // globalState is updated during the initialization
         // Note: there could be a better way for this
         setState(globalState);
+      } else if (globalState !== state) {
+        // probably state is saved by react-hot-loader, so restore it
+        // Note: not 100% sure if this is correct
+        globalState = state;
       }
 
       var cleanup = function cleanup() {
@@ -82,8 +86,9 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
         listeners.splice(index, 1);
       };
 
-      return cleanup;
-    }, []);
+      return cleanup; // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [initialState]); // trick for react-hot-loader
+
     return (0, _react.createElement)(Context.Provider, {
       value: state
     }, children);
