@@ -73,16 +73,17 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
       if (listener) throw new Error('You cannot use <GlobalStateProvider> more than once.');
       listener = setState;
 
-      if (globalState !== state) {
-        // probably state is saved by react-hot-loader, so restore it
-        // Note: not 100% sure if this is correct
-        globalState = state;
-      } else {
+      if (globalState === state) {
+        // flush pending which is added by initialization
         pending.forEach(function (f) {
           return f();
         });
-        pending = [];
+      } else {
+        // probably state was saved by react-hot-loader, so restore it
+        globalState = state;
       }
+
+      pending.splice(0, pending.length); // clear pending
 
       var cleanup = function cleanup() {
         listener = null;
