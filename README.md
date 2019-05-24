@@ -129,10 +129,10 @@ You can also try them in codesandbox.io:
 
 ## Blogs
 
-- [TypeScript-aware React hooks for global state](https://medium.com/@dai_shi/typescript-aware-react-hooks-for-global-state-b6e2dfc0e9a7)
-- [An alternative to React Redux by React Hooks API (For both JavaScript and TypeScript)](https://medium.com/@dai_shi/an-alternative-to-react-redux-by-react-hooks-api-for-both-javascript-and-typescript-c5e9a351ba0b)
-- [Redux middleware compatible React Hooks library for easy global state management](https://medium.com/@dai_shi/redux-middleware-compatible-react-hooks-library-for-easy-global-state-management-4fe73623e69e)
-- [React Hooks Tutorial on pure useReducer + useContext for global state like Redux and comparison with react-hooks-global-state](https://medium.com/@dai_shi/react-hooks-tutorial-for-pure-usereducer-usecontext-for-global-state-like-redux-and-comparison-dd3da5053624)
+- [TypeScript-aware React hooks for global state](https://blog.axlight.com/posts/typescript-aware-react-hooks-for-global-state/)
+- [An alternative to React Redux by React Hooks API (For both JavaScript and TypeScript)](https://blog.axlight.com/posts/an-alternative-to-react-redux-by-react-hooks-api-for-both-javascript-and-typescript/)
+- [Redux middleware compatible React Hooks library for easy global state management](https://blog.axlight.com/posts/redux-middleware-compatible-react-hooks-library-for-easy-global-state-management/)
+- [React Hooks Tutorial on pure useReducer + useContext for global state like Redux and comparison with react-hooks-global-state](https://blog.axlight.com/posts/react-hooks-tutorial-for-pure-usereducer-usecontext-for-global-state-like-redux-and-comparison/)
 
 ## Community Wiki
 
