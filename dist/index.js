@@ -49,7 +49,6 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
   var keys = Object.keys(initialState);
   var globalState = initialState;
   var listener = null;
-  var pending = [];
 
   var calculateChangedBits = function calculateChangedBits(a, b) {
     var bits = 0;
@@ -73,17 +72,13 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
       if (listener) throw new Error('You cannot use <GlobalStateProvider> more than once.');
       listener = setState;
 
-      if (globalState === state) {
-        // flush pending which is added by initialization
-        pending.forEach(function (f) {
-          return f();
-        });
-      } else {
+      if (state !== initialState) {
         // probably state was saved by react-hot-loader, so restore it
         globalState = state;
+      } else if (state !== globalState) {
+        // globalState was updated during initialization
+        setState(globalState);
       }
-
-      pending.splice(0, pending.length); // clear pending
 
       var cleanup = function cleanup() {
         listener = null;
@@ -98,15 +93,10 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
   };
 
   var setGlobalState = function setGlobalState(name, update) {
-    var f = function f() {
-      globalState = _objectSpread({}, globalState, _defineProperty({}, name, updateValue(globalState[name], update)));
-      listener(globalState);
-    };
+    globalState = _objectSpread({}, globalState, _defineProperty({}, name, updateValue(globalState[name], update)));
 
     if (listener) {
-      f();
-    } else {
-      pending.push(f);
+      listener(globalState);
     }
   };
 
@@ -125,14 +115,10 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
   };
 
   var setState = function setState(state) {
+    globalState = state;
+
     if (listener) {
-      globalState = state;
       listener(globalState);
-    } else {
-      pending.push(function () {
-        globalState = state;
-        listener(globalState);
-      });
     }
   };
 

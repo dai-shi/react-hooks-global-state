@@ -1,6 +1,7 @@
 # Change Log
 
 ## [Unreleased]
+- Fix failing to update state during initialization
 
 ## [0.10.0] - 2019-05-25
 ### Changed

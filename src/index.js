@@ -34,7 +34,6 @@ const createGlobalStateCommon = (initialState) => {
   const keys = Object.keys(initialState);
   let globalState = initialState;
   let listener = null;
-  const pending = [];
 
   const calculateChangedBits = (a, b) => {
     let bits = 0;
@@ -51,14 +50,13 @@ const createGlobalStateCommon = (initialState) => {
     useEffect(() => {
       if (listener) throw new Error('You cannot use <GlobalStateProvider> more than once.');
       listener = setState;
-      if (globalState === state) {
-        // flush pending which is added by initialization
-        pending.forEach(f => f());
-      } else {
+      if (state !== initialState) {
         // probably state was saved by react-hot-loader, so restore it
         globalState = state;
+      } else if (state !== globalState) {
+        // globalState was updated during initialization
+        setState(globalState);
       }
-      pending.splice(0, pending.length); // clear pending
       const cleanup = () => {
         listener = null;
       };
@@ -69,17 +67,12 @@ const createGlobalStateCommon = (initialState) => {
   };
 
   const setGlobalState = (name, update) => {
-    const f = () => {
-      globalState = {
-        ...globalState,
-        [name]: updateValue(globalState[name], update),
-      };
-      listener(globalState);
+    globalState = {
+      ...globalState,
+      [name]: updateValue(globalState[name], update),
     };
     if (listener) {
-      f();
-    } else {
-      pending.push(f);
+      listener(globalState);
     }
   };
 
@@ -94,14 +87,9 @@ const createGlobalStateCommon = (initialState) => {
   const getState = () => globalState;
 
   const setState = (state) => {
+    globalState = state;
     if (listener) {
-      globalState = state;
       listener(globalState);
-    } else {
-      pending.push(() => {
-        globalState = state;
-        listener(globalState);
-      });
     }
   };
 
