@@ -53,9 +53,9 @@ describe('basic spec', () => {
         <Counter />
       </GlobalStateProvider>
     );
-    const { getByText, container } = render(<App />);
+    const { getAllByText, container } = render(<App />);
     expect(container).toMatchSnapshot();
-    fireEvent.click(getByText('+1'));
+    fireEvent.click(getAllByText('+1')[0]);
     expect(container).toMatchSnapshot();
   });
 });
