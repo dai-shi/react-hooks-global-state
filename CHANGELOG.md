@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+
+## [0.10.0] - 2019-05-25
 ### Changed
 - Trick to support react-hot-loader
 
