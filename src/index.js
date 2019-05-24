@@ -33,7 +33,8 @@ const useUnstableContextWithoutWarning = (Context, observedBits) => {
 const createGlobalStateCommon = (initialState) => {
   const keys = Object.keys(initialState);
   let globalState = initialState;
-  const listeners = [];
+  let listener = null;
+  const pending = [];
 
   const calculateChangedBits = (a, b) => {
     let bits = 0;
@@ -48,27 +49,38 @@ const createGlobalStateCommon = (initialState) => {
   const GlobalStateProvider = ({ children }) => {
     const [state, setState] = useState(initialState);
     useEffect(() => {
-      listeners.push(setState);
-      if (globalState !== initialState) {
-        // globalState is updated during the initialization
-        // Note: there could be a better way for this
-        setState(globalState);
+      if (listener) throw new Error('You cannot use <GlobalStateProvider> more than once.');
+      listener = setState;
+      if (globalState === state) {
+        // flush pending which is added by initialization
+        pending.forEach(f => f());
+      } else {
+        // probably state was saved by react-hot-loader, so restore it
+        globalState = state;
       }
+      pending.splice(0, pending.length); // clear pending
       const cleanup = () => {
-        const index = listeners.indexOf(setState);
-        listeners.splice(index, 1);
+        listener = null;
       };
       return cleanup;
-    }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [initialState]); // trick for react-hot-loader
     return createElement(Context.Provider, { value: state }, children);
   };
 
   const setGlobalState = (name, update) => {
-    globalState = {
-      ...globalState,
-      [name]: updateValue(globalState[name], update),
+    const f = () => {
+      globalState = {
+        ...globalState,
+        [name]: updateValue(globalState[name], update),
+      };
+      listener(globalState);
     };
-    listeners.forEach(f => f(globalState));
+    if (listener) {
+      f();
+    } else {
+      pending.push(f);
+    }
   };
 
   const useGlobalState = (name) => {
@@ -82,8 +94,15 @@ const createGlobalStateCommon = (initialState) => {
   const getState = () => globalState;
 
   const setState = (state) => {
-    globalState = state;
-    listeners.forEach(f => f(globalState));
+    if (listener) {
+      globalState = state;
+      listener(globalState);
+    } else {
+      pending.push(() => {
+        globalState = state;
+        listener(globalState);
+      });
+    }
   };
 
   return {

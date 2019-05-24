@@ -48,7 +48,8 @@ var useUnstableContextWithoutWarning = function useUnstableContextWithoutWarning
 var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
   var keys = Object.keys(initialState);
   var globalState = initialState;
-  var listeners = [];
+  var listener = null;
+  var pending = [];
 
   var calculateChangedBits = function calculateChangedBits(a, b) {
     var bits = 0;
@@ -69,31 +70,44 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
         setState = _useState2[1];
 
     (0, _react.useEffect)(function () {
-      listeners.push(setState);
+      if (listener) throw new Error('You cannot use <GlobalStateProvider> more than once.');
+      listener = setState;
 
-      if (globalState !== initialState) {
-        // globalState is updated during the initialization
-        // Note: there could be a better way for this
-        setState(globalState);
+      if (globalState === state) {
+        // flush pending which is added by initialization
+        pending.forEach(function (f) {
+          return f();
+        });
+      } else {
+        // probably state was saved by react-hot-loader, so restore it
+        globalState = state;
       }
 
+      pending.splice(0, pending.length); // clear pending
+
       var cleanup = function cleanup() {
-        var index = listeners.indexOf(setState);
-        listeners.splice(index, 1);
+        listener = null;
       };
 
-      return cleanup;
-    }, []);
+      return cleanup; // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [initialState]); // trick for react-hot-loader
+
     return (0, _react.createElement)(Context.Provider, {
       value: state
     }, children);
   };
 
   var setGlobalState = function setGlobalState(name, update) {
-    globalState = _objectSpread({}, globalState, _defineProperty({}, name, updateValue(globalState[name], update)));
-    listeners.forEach(function (f) {
-      return f(globalState);
-    });
+    var f = function f() {
+      globalState = _objectSpread({}, globalState, _defineProperty({}, name, updateValue(globalState[name], update)));
+      listener(globalState);
+    };
+
+    if (listener) {
+      f();
+    } else {
+      pending.push(f);
+    }
   };
 
   var useGlobalState = function useGlobalState(name) {
@@ -111,10 +125,15 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
   };
 
   var setState = function setState(state) {
-    globalState = state;
-    listeners.forEach(function (f) {
-      return f(globalState);
-    });
+    if (listener) {
+      globalState = state;
+      listener(globalState);
+    } else {
+      pending.push(function () {
+        globalState = state;
+        listener(globalState);
+      });
+    }
   };
 
   return {
