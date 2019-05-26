@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+### Changed
+- Proper GlobalStateProvider type
 
 ## [0.11.0] - 2019-05-25
 ### Changed
