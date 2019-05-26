@@ -110,11 +110,22 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
     return [state[name], updater];
   };
 
-  var getState = function getState() {
+  var getGlobalState = function getGlobalState(name) {
+    var ReactCurrentDispatcher = _react.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentDispatcher;
+    var dispatcher = ReactCurrentDispatcher.current;
+
+    if (dispatcher) {
+      throw new Error('getWholeGlobalState should not be used in render. Consider useGlobalState.');
+    }
+
+    return globalState[name];
+  };
+
+  var getWholeGlobalState = function getWholeGlobalState() {
     return globalState;
   };
 
-  var setState = function setState(state) {
+  var setWholeGlobalState = function setWholeGlobalState(state) {
     globalState = state;
 
     if (listener) {
@@ -126,8 +137,9 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
     GlobalStateProvider: GlobalStateProvider,
     setGlobalState: setGlobalState,
     useGlobalState: useGlobalState,
-    getState: getState,
-    setState: setState
+    getGlobalState: getGlobalState,
+    getWholeGlobalState: getWholeGlobalState,
+    setWholeGlobalState: setWholeGlobalState
   };
 }; // export functions
 
@@ -136,12 +148,14 @@ var createGlobalState = function createGlobalState(initialState) {
   var _createGlobalStateCom = createGlobalStateCommon(initialState),
       GlobalStateProvider = _createGlobalStateCom.GlobalStateProvider,
       useGlobalState = _createGlobalStateCom.useGlobalState,
-      setGlobalState = _createGlobalStateCom.setGlobalState;
+      setGlobalState = _createGlobalStateCom.setGlobalState,
+      getGlobalState = _createGlobalStateCom.getGlobalState;
 
   return {
     GlobalStateProvider: GlobalStateProvider,
     useGlobalState: useGlobalState,
-    setGlobalState: setGlobalState
+    setGlobalState: setGlobalState,
+    getGlobalState: getGlobalState
   };
 };
 
@@ -156,21 +170,21 @@ var createStore = function createStore(reducer, initialState, enhancer) {
   var _createGlobalStateCom2 = createGlobalStateCommon(initialState),
       GlobalStateProvider = _createGlobalStateCom2.GlobalStateProvider,
       useGlobalState = _createGlobalStateCom2.useGlobalState,
-      getState = _createGlobalStateCom2.getState,
-      setState = _createGlobalStateCom2.setState;
+      getWholeGlobalState = _createGlobalStateCom2.getWholeGlobalState,
+      setWholeGlobalState = _createGlobalStateCom2.setWholeGlobalState;
 
   var dispatch = function dispatch(action) {
-    var oldState = getState();
+    var oldState = getWholeGlobalState();
     var newState = reducer(oldState, action);
-    setState(newState);
+    setWholeGlobalState(newState);
     return action;
   };
 
   return {
     GlobalStateProvider: GlobalStateProvider,
     useGlobalState: useGlobalState,
-    getState: getState,
-    setState: setState,
+    getState: getWholeGlobalState,
+    setState: setWholeGlobalState,
     // for devtools.js
     dispatch: dispatch
   };
