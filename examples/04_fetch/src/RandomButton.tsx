@@ -1,8 +1,7 @@
 import * as React from 'react';
+import { useState } from 'react';
 
 import { setErrorMessage, setPageTitle } from './state';
-
-const { useState } = React;
 
 const fetchPageTitle = async (setLoading: (x: boolean) => void) => {
   setLoading(true);

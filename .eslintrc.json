@@ -32,7 +32,8 @@
     "no-underscore-dangle": "off",
     "no-bitwise": "off",
     "default-case": "off",
-    "no-param-reassign": "off"
+    "no-param-reassign": "off",
+    "import/no-duplicates": "off"
   },
   "overrides": [{
     "files": ["__tests__/**/*"],

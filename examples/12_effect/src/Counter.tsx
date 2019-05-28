@@ -1,8 +1,7 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 
 import { dispatch, useGlobalState } from './state';
-
-const { useEffect } = React;
 
 const increment = () => dispatch({ type: 'increment' });
 const decrement = () => dispatch({ type: 'decrement' });
