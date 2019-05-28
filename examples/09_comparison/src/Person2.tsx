@@ -1,8 +1,7 @@
 import * as React from 'react';
+import { useCallback } from 'react';
 
 import { useDispatch, useGlobalState } from './state2';
-
-const { useCallback } = React;
 
 const Person = () => {
   const value = useGlobalState('person');

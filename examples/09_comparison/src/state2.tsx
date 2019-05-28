@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { createContext, useContext, useReducer } from 'react';
 
 import {
   Action,
@@ -6,8 +7,6 @@ import {
   reducer,
   State,
 } from './common';
-
-const { createContext, useContext, useReducer } = React;
 
 const stateCtx = createContext(initialState);
 const dispatchCtx = createContext((() => 0) as React.Dispatch<Action>);

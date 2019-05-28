@@ -1,8 +1,7 @@
 import * as React from 'react';
+import { useMemo } from 'react';
 
 import { dispatch, useGlobalState } from './state';
-
-const { useMemo } = React;
 
 const setFirstName = (event: React.FormEvent<HTMLInputElement>) => dispatch({
   firstName: event.currentTarget.value,
