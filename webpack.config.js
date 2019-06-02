@@ -1,5 +1,7 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+/* eslint-disable @typescript-eslint/no-var-requires */
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+/* eslint-enable @typescript-eslint/no-var-requires */
 
 const { DIR, EXT = 'ts' } = process.env;
 
@@ -7,6 +9,10 @@ module.exports = {
   mode: 'development',
   entry: `./examples/${DIR}/src/index.${EXT}`,
   plugins: [
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'development',
+    }),
+    new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       template: `./examples/${DIR}/public/index.html`,
     }),
@@ -36,5 +42,6 @@ module.exports = {
   },
   devServer: {
     port: process.env.PORT || '8080',
+    hot: true,
   },
 };

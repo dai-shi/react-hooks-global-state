@@ -27,12 +27,12 @@
     "examples:onmount": "DIR=05_onmount webpack-dev-server",
     "examples:reducer": "DIR=06_reducer webpack-dev-server",
     "examples:middleware": "DIR=07_middleware webpack-dev-server",
-    "examples:thunk": "DIR=08_thunk webpack-dev-server",
     "examples:comparison": "DIR=09_comparison webpack-dev-server",
     "examples:immer": "DIR=10_immer webpack-dev-server",
     "examples:deep": "DIR=11_deep webpack-dev-server",
     "examples:effect": "DIR=12_effect webpack-dev-server",
-    "examples:persistence": "DIR=13_persistence webpack-dev-server"
+    "examples:persistence": "DIR=13_persistence webpack-dev-server",
+    "examples:hotloader": "DIR=14_hotloader webpack-dev-server"
   },
   "keywords": [
     "react",
@@ -67,6 +67,7 @@
     "jest": "^24.8.0",
     "react": "^16.8.1",
     "react-dom": "^16.8.6",
+    "react-hot-loader": "^4.9.0",
     "react-testing-library": "^7.0.1",
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
