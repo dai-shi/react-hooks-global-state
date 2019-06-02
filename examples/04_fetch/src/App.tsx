@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { StrictMode } from 'react';
 
 import { GlobalStateProvider } from './state';
 
@@ -7,13 +8,13 @@ import PageInfo from './PageInfo';
 import RandomButton from './RandomButton';
 
 const App = () => (
-  <React.StrictMode>
+  <StrictMode>
     <GlobalStateProvider>
       <PageInfo />
       <RandomButton />
       <ErrorMessage />
     </GlobalStateProvider>
-  </React.StrictMode>
+  </StrictMode>
 );
 
 export default App;

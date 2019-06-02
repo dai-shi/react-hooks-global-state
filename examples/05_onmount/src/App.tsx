@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useEffect, StrictMode } from 'react';
 
 import { GlobalStateProvider, setPageTitle } from './state';
 
@@ -23,13 +23,13 @@ const App = () => {
   );
 
   return (
-    <React.StrictMode>
+    <StrictMode>
       <GlobalStateProvider>
         <PageInfo />
         <RandomButton />
         <ErrorMessage />
       </GlobalStateProvider>
-    </React.StrictMode>
+    </StrictMode>
   );
 };
 

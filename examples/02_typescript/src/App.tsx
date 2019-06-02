@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { StrictMode } from 'react';
 
 import { GlobalStateProvider } from './state';
 
@@ -6,7 +7,7 @@ import Counter from './Counter';
 import Person from './Person';
 
 const App = () => (
-  <React.StrictMode>
+  <StrictMode>
     <GlobalStateProvider>
       <h1>Counter</h1>
       <Counter />
@@ -15,7 +16,7 @@ const App = () => (
       <Person />
       <Person />
     </GlobalStateProvider>
-  </React.StrictMode>
+  </StrictMode>
 );
 
 export default App;
