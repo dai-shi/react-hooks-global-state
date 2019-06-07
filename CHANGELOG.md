@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+
+## [0.12.0] - 2019-06-07
 ### Changed
 - Proper GlobalStateProvider type
 - add getGlobalState hook
