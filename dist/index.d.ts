@@ -34,6 +34,7 @@ export type CreateGlobalState = <S>(initialState: S) => {
   GlobalStateProvider: React.ComponentType;
   useGlobalState: UseGlobalState<S>;
   setGlobalState: SetGlobalState<S>;
+  getGlobalState: <N extends keyof S>(name: N) => S[N];
 };
 
 export type CreateStore = <S, A>(

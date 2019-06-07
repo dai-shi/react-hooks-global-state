@@ -32,7 +32,7 @@ const useUnstableContextWithoutWarning = (Context, observedBits) => {
 
 const createGlobalStateCommon = (initialState) => {
   const keys = Object.keys(initialState);
-  let globalState = initialState;
+  let wholeGlobalState = initialState;
   let listener = null;
 
   const calculateChangedBits = (a, b) => {
@@ -52,10 +52,10 @@ const createGlobalStateCommon = (initialState) => {
       listener = setState;
       if (state !== initialState) {
         // probably state was saved by react-hot-loader, so restore it
-        globalState = state;
-      } else if (state !== globalState) {
-        // globalState was updated during initialization
-        setState(globalState);
+        wholeGlobalState = state;
+      } else if (state !== wholeGlobalState) {
+        // wholeGlobalState was updated during initialization
+        setState(wholeGlobalState);
       }
       const cleanup = () => {
         listener = null;
@@ -67,12 +67,12 @@ const createGlobalStateCommon = (initialState) => {
   };
 
   const setGlobalState = (name, update) => {
-    globalState = {
-      ...globalState,
-      [name]: updateValue(globalState[name], update),
+    wholeGlobalState = {
+      ...wholeGlobalState,
+      [name]: updateValue(wholeGlobalState[name], update),
     };
     if (listener) {
-      listener(globalState);
+      listener(wholeGlobalState);
     }
   };
 
@@ -84,12 +84,21 @@ const createGlobalStateCommon = (initialState) => {
     return [state[name], updater];
   };
 
-  const getState = () => globalState;
+  const getGlobalState = (name) => {
+    const { ReactCurrentDispatcher } = __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+    const dispatcher = ReactCurrentDispatcher.current;
+    if (dispatcher) {
+      throw new Error('getGlobalState should not be used in render. Consider useGlobalState.');
+    }
+    return wholeGlobalState[name];
+  };
 
-  const setState = (state) => {
-    globalState = state;
+  const getWholeGlobalState = () => wholeGlobalState;
+
+  const setWholeGlobalState = (state) => {
+    wholeGlobalState = state;
     if (listener) {
-      listener(globalState);
+      listener(wholeGlobalState);
     }
   };
 
@@ -97,8 +106,9 @@ const createGlobalStateCommon = (initialState) => {
     GlobalStateProvider,
     setGlobalState,
     useGlobalState,
-    getState,
-    setState,
+    getGlobalState,
+    getWholeGlobalState,
+    setWholeGlobalState,
   };
 };
 
@@ -109,11 +119,13 @@ export const createGlobalState = (initialState) => {
     GlobalStateProvider,
     useGlobalState,
     setGlobalState,
+    getGlobalState,
   } = createGlobalStateCommon(initialState);
   return {
     GlobalStateProvider,
     useGlobalState,
     setGlobalState,
+    getGlobalState,
   };
 };
 
@@ -123,20 +135,20 @@ export const createStore = (reducer, initialState, enhancer) => {
   const {
     GlobalStateProvider,
     useGlobalState,
-    getState,
-    setState,
+    getWholeGlobalState,
+    setWholeGlobalState,
   } = createGlobalStateCommon(initialState);
   const dispatch = (action) => {
-    const oldState = getState();
+    const oldState = getWholeGlobalState();
     const newState = reducer(oldState, action);
-    setState(newState);
+    setWholeGlobalState(newState);
     return action;
   };
   return {
     GlobalStateProvider,
     useGlobalState,
-    getState,
-    setState, // for devtools.js
+    getState: getWholeGlobalState,
+    setState: setWholeGlobalState, // for devtools.js
     dispatch,
   };
 };
