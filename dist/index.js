@@ -92,7 +92,17 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
     }, children);
   };
 
+  var validateName = function validateName(name) {
+    if (!keys.includes(name)) {
+      throw new Error("Name not Found: '".concat(name, "'. It must be provided in initialState as a property key."));
+    }
+  };
+
   var setGlobalState = function setGlobalState(name, update) {
+    if (process.env.NODE_ENV !== 'production') {
+      validateName(name);
+    }
+
     wholeGlobalState = _objectSpread({}, wholeGlobalState, _defineProperty({}, name, updateValue(wholeGlobalState[name], update)));
 
     if (listener) {
@@ -101,6 +111,10 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
   };
 
   var useGlobalState = function useGlobalState(name) {
+    if (process.env.NODE_ENV !== 'production') {
+      validateName(name);
+    }
+
     var index = keys.indexOf(name);
     var observedBits = 1 << index;
     var state = useUnstableContextWithoutWarning(Context, observedBits);
@@ -111,6 +125,10 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
   };
 
   var getGlobalState = function getGlobalState(name) {
+    if (process.env.NODE_ENV !== 'production') {
+      validateName(name);
+    }
+
     var ReactCurrentDispatcher = _react.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentDispatcher;
     var dispatcher = ReactCurrentDispatcher.current;
 
