@@ -10,7 +10,7 @@ const initialState = {
 const { GlobalStateProvider, useGlobalState } = createGlobalState(initialState);
 
 const Counter = () => {
-  const [value, update] = useGlobalState('counter2');
+  const [value, update] = useGlobalState('counter');
   return (
     <div>
       <span>Count:{value}</span>
