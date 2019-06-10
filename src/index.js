@@ -66,7 +66,16 @@ const createGlobalStateCommon = (initialState) => {
     return createElement(Context.Provider, { value: state }, children);
   };
 
+  const validateName = (name) => {
+    if (!keys.includes(name)) {
+      throw new Error(`Name not Found: '${name}'. It must be provided in initialState as a property key.`);
+    }
+  };
+
   const setGlobalState = (name, update) => {
+    if (process.env.NODE_ENV !== 'production') {
+      validateName(name);
+    }
     wholeGlobalState = {
       ...wholeGlobalState,
       [name]: updateValue(wholeGlobalState[name], update),
@@ -77,6 +86,9 @@ const createGlobalStateCommon = (initialState) => {
   };
 
   const useGlobalState = (name) => {
+    if (process.env.NODE_ENV !== 'production') {
+      validateName(name);
+    }
     const index = keys.indexOf(name);
     const observedBits = 1 << index;
     const state = useUnstableContextWithoutWarning(Context, observedBits);
@@ -85,6 +97,9 @@ const createGlobalStateCommon = (initialState) => {
   };
 
   const getGlobalState = (name) => {
+    if (process.env.NODE_ENV !== 'production') {
+      validateName(name);
+    }
     const { ReactCurrentDispatcher } = __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
     const dispatcher = ReactCurrentDispatcher.current;
     if (dispatcher) {
