@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+
+## [0.13.0] - 2019-06-11
 ### Added
 - Check name availability in runtime (DEV only)
 ### Changed
