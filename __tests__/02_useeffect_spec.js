@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { render, cleanup } from 'react-testing-library';
+import { render, cleanup } from '@testing-library/react';
 
 import { createGlobalState } from '../src/index';
 
