@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+### Changed
+- Better error message for missing GlobalStateProvider
 
 ## [0.13.0] - 2019-06-11
 ### Added

@@ -30,6 +30,8 @@ const useUnstableContextWithoutWarning = (Context, observedBits) => {
 
 // core functions
 
+const EMPTY_OBJECT = {};
+
 const createGlobalStateCommon = (initialState) => {
   const keys = Object.keys(initialState);
   let wholeGlobalState = initialState;
@@ -43,7 +45,7 @@ const createGlobalStateCommon = (initialState) => {
     return bits;
   };
 
-  const Context = createContext(initialState, calculateChangedBits);
+  const Context = createContext(EMPTY_OBJECT, calculateChangedBits);
 
   const GlobalStateProvider = ({ children }) => {
     const [state, setState] = useState(initialState);
@@ -68,7 +70,7 @@ const createGlobalStateCommon = (initialState) => {
 
   const validateName = (name) => {
     if (!keys.includes(name)) {
-      throw new Error(`Name not Found: '${name}'. It must be provided in initialState as a property key.`);
+      throw new Error(`'${name}' not found. It must be provided in initialState as a property key.`);
     }
   };
 
@@ -92,6 +94,7 @@ const createGlobalStateCommon = (initialState) => {
     const index = keys.indexOf(name);
     const observedBits = 1 << index;
     const state = useUnstableContextWithoutWarning(Context, observedBits);
+    if (state === EMPTY_OBJECT) throw new Error('Please use <GlobalStateProvider>');
     const updater = useCallback(u => setGlobalState(name, u), [name]);
     return [state[name], updater];
   };

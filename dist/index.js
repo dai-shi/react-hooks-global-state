@@ -45,6 +45,8 @@ var useUnstableContextWithoutWarning = function useUnstableContextWithoutWarning
 }; // core functions
 
 
+var EMPTY_OBJECT = {};
+
 var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
   var keys = Object.keys(initialState);
   var wholeGlobalState = initialState;
@@ -58,7 +60,7 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
     return bits;
   };
 
-  var Context = (0, _react.createContext)(initialState, calculateChangedBits);
+  var Context = (0, _react.createContext)(EMPTY_OBJECT, calculateChangedBits);
 
   var GlobalStateProvider = function GlobalStateProvider(_ref) {
     var children = _ref.children;
@@ -94,7 +96,7 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
 
   var validateName = function validateName(name) {
     if (!keys.includes(name)) {
-      throw new Error("Name not Found: '".concat(name, "'. It must be provided in initialState as a property key."));
+      throw new Error("'".concat(name, "' not found. It must be provided in initialState as a property key."));
     }
   };
 
@@ -118,6 +120,7 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
     var index = keys.indexOf(name);
     var observedBits = 1 << index;
     var state = useUnstableContextWithoutWarning(Context, observedBits);
+    if (state === EMPTY_OBJECT) throw new Error('Please use <GlobalStateProvider>');
     var updater = (0, _react.useCallback)(function (u) {
       return setGlobalState(name, u);
     }, [name]);
