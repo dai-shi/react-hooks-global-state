@@ -124,7 +124,7 @@ You can also try them in codesandbox.io:
 ## Limitations
 
 - Due to the implementation relying on `observedBits` in the Context API,
-  the performance may drop down if a state holds more than 31 items.
+  the performance may drop down if a state holds more than 30 items.
   Reference: [#1](https://github.com/dai-shi/react-hooks-global-state/issues/1)
 
 ## Blogs
