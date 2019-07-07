@@ -8,8 +8,8 @@ describe('startup spec', () => {
 
   it('should setSetGlobalState at start up', () => {
     const initialState = {
-      counter1: 0,
-      counter2: 0,
+      count1: 0,
+      count2: 0,
     };
     const { GlobalStateProvider, setGlobalState, useGlobalState } = createGlobalState(initialState);
     const Counter = ({ name }) => {
@@ -24,19 +24,19 @@ describe('startup spec', () => {
     };
     const App = () => (
       <GlobalStateProvider>
-        <Counter name="counter1" />
-        <Counter name="counter2" />
+        <Counter name="count1" />
+        <Counter name="count2" />
       </GlobalStateProvider>
     );
     const { getByTestId } = render(<App />);
-    expect(getByTestId('counter1').innerHTML).toBe('9');
-    expect(getByTestId('counter2').innerHTML).toBe('9');
+    expect(getByTestId('count1').innerHTML).toBe('9');
+    expect(getByTestId('count2').innerHTML).toBe('9');
   });
 
   it('should dispatch at start up', () => {
     const initialState = {
-      counter1: 0,
-      counter2: 0,
+      count1: 0,
+      count2: 0,
     };
     const reducer = (state, action) => {
       if (action.type === 'setCounter') {
@@ -64,12 +64,12 @@ describe('startup spec', () => {
     };
     const App = () => (
       <GlobalStateProvider>
-        <Counter name="counter1" />
-        <Counter name="counter2" />
+        <Counter name="count1" />
+        <Counter name="count2" />
       </GlobalStateProvider>
     );
     const { getByTestId } = render(<App />);
-    expect(getByTestId('counter1').innerHTML).toBe('9');
-    expect(getByTestId('counter2').innerHTML).toBe('9');
+    expect(getByTestId('count1').innerHTML).toBe('9');
+    expect(getByTestId('count2').innerHTML).toBe('9');
   });
 });

@@ -3,10 +3,10 @@ import * as React from 'react';
 import { countDown, countUp, useGlobalState } from './state';
 
 const Counter = () => {
-  const [value] = useGlobalState('counter');
+  const [value] = useGlobalState('count');
   return (
     <div>
-      <span>Count:{value}</span>
+      <span>Count: {value}</span>
       <button type="button" onClick={countUp}>+1</button>
       <button type="button" onClick={countDown}>-1</button>
     </div>

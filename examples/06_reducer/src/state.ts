@@ -12,11 +12,11 @@ export const { GlobalStateProvider, dispatch, useGlobalState } = createStore(
     switch (action.type) {
       case 'increment': return {
         ...state,
-        counter: state.counter + 1,
+        count: state.count + 1,
       };
       case 'decrement': return {
         ...state,
-        counter: state.counter - 1,
+        count: state.count - 1,
       };
       case 'setFirstName': return {
         ...state,
@@ -43,7 +43,7 @@ export const { GlobalStateProvider, dispatch, useGlobalState } = createStore(
     }
   },
   {
-    counter: 0,
+    count: 0,
     person: {
       age: 0,
       firstName: '',

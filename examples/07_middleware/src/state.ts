@@ -3,7 +3,7 @@ import { applyMiddleware, combineReducers } from 'redux';
 import { createStore, Dispatch } from 'react-hooks-global-state';
 
 const initialState = {
-  counter: 0,
+  count: 0,
   person: {
     age: 0,
     firstName: '',
@@ -20,7 +20,7 @@ type Action =
   | { type: 'setLastName'; lastName: string }
   | { type: 'setAge'; age: number };
 
-const counterReducer = (state = initialState.counter, action: Action) => {
+const countReducer = (state = initialState.count, action: Action) => {
   switch (action.type) {
     case 'increment': return state + 1;
     case 'decrement': return state - 1;
@@ -47,7 +47,7 @@ const personReducer = (state = initialState.person, action: Action) => {
 };
 
 const reducer = combineReducers({
-  counter: counterReducer,
+  count: countReducer,
   person: personReducer,
 });
 

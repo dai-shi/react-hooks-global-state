@@ -38,11 +38,11 @@ npm install react-hooks-global-state
 import React from 'react';
 import { createGlobalState } from 'react-hooks-global-state';
 
-const initialState = { counter: 0 };
+const initialState = { count: 0 };
 const { GlobalStateProvider, useGlobalState } = createGlobalState(initialState);
 
 const Counter = () => {
-  const [value, update] = useGlobalState('counter');
+  const [value, update] = useGlobalState('count');
   return (
     <div>
       <span>Counter: {value}</span>
@@ -68,16 +68,16 @@ import { createStore } from 'react-hooks-global-state';
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'increment': return { ...state, counter: state.counter + 1 };
-    case 'decrement': return { ...state, counter: state.counter - 1 };
+    case 'increment': return { ...state, count: state.count + 1 };
+    case 'decrement': return { ...state, count: state.count - 1 };
     default: return state;
   }
 };
-const initialState = { counter: 0 };
+const initialState = { count: 0 };
 const { GlobalStateProvider, dispatch, useGlobalState } = createStore(reducer, initialState);
 
 const Counter = () => {
-  const [value] = useGlobalState('counter');
+  const [value] = useGlobalState('count');
   return (
     <div>
       <span>Counter: {value}</span>

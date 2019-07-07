@@ -6,7 +6,7 @@ import {
 } from 'react-hooks-global-state';
 
 type State = {
-  counter: number;
+  count: number;
   person: {
     age: number;
     firstName: string;
@@ -36,7 +36,7 @@ const applyMiddleware: ApplyMiddleware = (...args) => (creator) => {
 };
 
 const defaultState: State = {
-  counter: 0,
+  count: 0,
   person: {
     age: 0,
     firstName: '',
@@ -48,7 +48,7 @@ const LOCAL_STORAGE_KEY = 'my_local_storage_key';
 const parseState = (str: string | null): State | null => {
   try {
     const state = JSON.parse(str || '');
-    if (typeof state.counter !== 'number') throw new Error();
+    if (typeof state.count !== 'number') throw new Error();
     if (typeof state.person.age !== 'number') throw new Error();
     if (typeof state.person.firstName !== 'string') throw new Error();
     if (typeof state.person.lastName !== 'string') throw new Error();
@@ -64,11 +64,11 @@ const reducer = (state = initialState, action: Action) => {
   switch (action.type) {
     case 'increment': return {
       ...state,
-      counter: state.counter + 1,
+      count: state.count + 1,
     };
     case 'decrement': return {
       ...state,
-      counter: state.counter - 1,
+      count: state.count - 1,
     };
     case 'setFirstName': return {
       ...state,

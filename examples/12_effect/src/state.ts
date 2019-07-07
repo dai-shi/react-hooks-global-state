@@ -10,11 +10,11 @@ export const { GlobalStateProvider, dispatch, useGlobalState } = createStore(
     switch (action.type) {
       case 'increment': return {
         ...state,
-        counter: state.counter + 1,
+        count: state.count + 1,
       };
       case 'decrement': return {
         ...state,
-        counter: state.counter - 1,
+        count: state.count - 1,
       };
       case 'addBonus': return {
         ...state,
@@ -25,6 +25,6 @@ export const { GlobalStateProvider, dispatch, useGlobalState } = createStore(
   },
   {
     bonus: 0,
-    counter: 0,
+    count: 0,
   },
 );

@@ -8,11 +8,11 @@ describe('useeffect spec', () => {
 
   it('should update a global state with useEffect', () => {
     const initialState = {
-      counter1: 0,
+      count1: 0,
     };
     const { GlobalStateProvider, useGlobalState } = createGlobalState(initialState);
     const Counter = () => {
-      const [value, update] = useGlobalState('counter1');
+      const [value, update] = useGlobalState('count1');
       useEffect(() => {
         update(9);
       }, [update]);

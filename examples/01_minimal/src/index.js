@@ -4,16 +4,16 @@ import ReactDOM from 'react-dom';
 import { createGlobalState } from 'react-hooks-global-state';
 
 const initialState = {
-  counter: 0,
+  count: 0,
   text: 'hello',
 };
 const { GlobalStateProvider, useGlobalState } = createGlobalState(initialState);
 
 const Counter = () => {
-  const [value, update] = useGlobalState('counter');
+  const [value, update] = useGlobalState('count');
   return (
     <div>
-      <span>Count:{value}</span>
+      <span>Count: {value}</span>
       <button type="button" onClick={() => update(value + 1)}>+1</button>
       <button type="button" onClick={() => update(value - 1)}>-1</button>
     </div>
@@ -24,7 +24,7 @@ const TextBox = () => {
   const [value, update] = useGlobalState('text');
   return (
     <div>
-      <span>Text:{value}</span>
+      <span>Text: {value}</span>
       <input value={value} onChange={event => update(event.target.value)} />
     </div>
   );

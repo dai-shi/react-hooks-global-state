@@ -8,7 +8,7 @@ const decrement = () => dispatch({ type: 'decrement' });
 const addBonus = (value: number) => dispatch({ value, type: 'addBonus' });
 
 const Counter = () => {
-  const [value] = useGlobalState('counter');
+  const [value] = useGlobalState('count');
   const [bonus] = useGlobalState('bonus');
   useEffect(
     () => {
@@ -18,10 +18,10 @@ const Counter = () => {
   );
   return (
     <div>
-      <span>Count:{value}</span>
+      <span>Count: {value}</span>
       <button type="button" onClick={increment}>+1</button>
       <button type="button" onClick={decrement}>-1</button>
-      <span>Bonus:{bonus}</span>
+      <span>Bonus: {bonus}</span>
     </div>
   );
 };

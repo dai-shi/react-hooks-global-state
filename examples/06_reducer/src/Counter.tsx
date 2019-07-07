@@ -6,10 +6,10 @@ const increment = () => dispatch({ type: 'increment' });
 const decrement = () => dispatch({ type: 'decrement' });
 
 const Counter = () => {
-  const [value] = useGlobalState('counter');
+  const [value] = useGlobalState('count');
   return (
     <div>
-      <span>Count:{value}</span>
+      <span>Count: {value}</span>
       <button type="button" onClick={increment}>+1</button>
       <button type="button" onClick={decrement}>-1</button>
     </div>
