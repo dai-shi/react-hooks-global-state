@@ -49,7 +49,7 @@ const Counter = () => {
       {/* update state by passing callback function */}
       <button onClick={() => setCount(v => v + 1)}>+1</button>
       {/* update state by passing new value */}
-      <button onClick={() => setCount(v - 1)}>-1</button>
+      <button onClick={() => setCount(count - 1)}>-1</button>
     </div>
   );
 };
