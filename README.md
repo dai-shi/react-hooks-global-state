@@ -42,12 +42,14 @@ const initialState = { count: 0 };
 const { GlobalStateProvider, useGlobalState } = createGlobalState(initialState);
 
 const Counter = () => {
-  const [value, update] = useGlobalState('count');
+  const [count, setCount] = useGlobalState('count');
   return (
     <div>
-      <span>Counter: {value}</span>
-      <button onClick={() => update(v => v + 1)}>+1</button>
-      <button onClick={() => update(v => v - 1)}>-1</button>
+      <span>Counter: {count}</span>
+      {/* update state by passing callback function */}
+      <button onClick={() => setCount(v => v + 1)}>+1</button>
+      {/* update state by passing new value */}
+      <button onClick={() => setCount(count - 1)}>-1</button>
     </div>
   );
 };
