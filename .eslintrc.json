@@ -22,17 +22,16 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "error",
     "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/indent": ["error", 2],
-    "@typescript-eslint/prefer-interface": "off",
     "react/jsx-filename-extension": ["error", { "extensions": [".js", ".tsx"] }],
     "react/prop-types": "off",
     "react/jsx-one-expression-per-line": "off",
     "import/prefer-default-export": "off",
     "import/no-unresolved": ["error", { "ignore": ["react-hooks-global-state"] }],
-    "no-underscore-dangle": "off",
+    "no-underscore-dangle": ["error", { "allow": ["__REDUX_DEVTOOLS_EXTENSION__"] }],
     "no-bitwise": "off",
     "default-case": "off",
-    "no-param-reassign": "off"
+    "no-param-reassign": "off",
+    "arrow-parens": ["error", "as-needed", { "requireForBlockBody": true }]
   },
   "overrides": [{
     "files": ["__tests__/**/*"],
