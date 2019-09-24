@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+
+## [0.15.0] - 2019-09-25
 ### Changed
 - Remove not-in-render warning in getGlobalState (#26)
 
