@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+### Changed
+- Remove not-in-render warning in getGlobalState (#26)
 
 ## [0.14.0] - 2019-06-15
 ### Changed
@@ -15,7 +17,8 @@
 ## [0.12.0] - 2019-06-07
 ### Changed
 - Proper GlobalStateProvider type
-- add getGlobalState hook
+### Added
+- Add getGlobalState function
 
 ## [0.11.0] - 2019-05-25
 ### Changed
