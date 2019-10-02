@@ -9,6 +9,7 @@
   },
   "main": "./dist/index.js",
   "module": "./src/index.js",
+  "browser": "./dist/index.js",
   "types": "./src/index.d.ts",
   "files": [
     "src",
