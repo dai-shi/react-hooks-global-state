@@ -11,6 +11,7 @@
   "module": "./src/index.js",
   "browser": "./dist/index.js",
   "types": "./src/index.d.ts",
+  "sideEffects": false,
   "files": [
     "src",
     "dist"
