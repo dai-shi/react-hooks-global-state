@@ -44,7 +44,6 @@
   }, {
     "files": ["examples/**/*"],
     "rules": {
-      "import/no-duplicates": "off",
       "import/no-extraneous-dependencies": "off"
     }
   }]

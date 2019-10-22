@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useEffect, StrictMode } from 'react';
+import React, { useEffect, StrictMode } from 'react';
 
 import { GlobalStateProvider, setPageTitle } from './state';
 

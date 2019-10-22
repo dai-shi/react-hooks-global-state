@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer } from 'react';
 
 import {
   Action,
