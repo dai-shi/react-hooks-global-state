@@ -1,20 +1,16 @@
-import { ComponentType, SetStateAction } from 'react';
+import { ComponentType, SetStateAction, Reducer } from 'react';
 
-export type SetGlobalState<S> = <N extends keyof S>(
+type SetGlobalState<S> = <N extends keyof S>(
   name: N,
   setStateAction: SetStateAction<S[N]>,
 ) => void;
 
-export type Reducer<S, A> = (state: S, action: A) => S;
-
-export type ReduxLikeReducer<S, A> = (state: S | undefined, action: A | { type: undefined }) => S;
-
-export type Dispatch<A> = (action: A) => A;
-
-export type UseGlobalState<S> = <N extends keyof S>(name: N) => [
+type UseGlobalState<S> = <N extends keyof S>(name: N) => [
   S[N],
   (setStateAction: SetStateAction<S[N]>) => void,
 ];
+
+export type Dispatch<A> = (action: A) => A;
 
 export type Store<S, A> = {
   GlobalStateProvider: ComponentType;
@@ -41,6 +37,8 @@ export type CreateStore = <S, A>(
   initialState: S,
   enhancer?: Enhancer<S, A> | AnyEnhancer,
 ) => Store<S, A>;
+
+type ReduxLikeReducer<S, A> = (state: S | undefined, action: A | { type: undefined }) => S;
 
 export type CreateReduxLikeStore = <S, A>(
   reducer: ReduxLikeReducer<S, A>,
