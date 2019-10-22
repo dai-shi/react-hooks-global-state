@@ -1,8 +1,10 @@
 # Change Log
 
 ## [Unreleased]
+
+## [0.16.0] - 2019-10-22
 ### Changed
-- Better typings with React types
+- Improve typings with React types
 
 ## [0.15.0] - 2019-09-25
 ### Changed
