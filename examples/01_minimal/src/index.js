@@ -25,7 +25,7 @@ const TextBox = () => {
   return (
     <div>
       <span>Text: {value}</span>
-      <input value={value} onChange={event => update(event.target.value)} />
+      <input value={value} onChange={(event) => update(event.target.value)} />
     </div>
   );
 };

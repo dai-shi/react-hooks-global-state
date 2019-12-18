@@ -15,21 +15,21 @@ const Person = () => {
         First Name:
         <input
           value={firstName}
-          onChange={event => setPersonFirstName(event.target.value)}
+          onChange={(event) => setPersonFirstName(event.target.value)}
         />
       </div>
       <div>
         Last Name:
         <input
           value={lastName}
-          onChange={event => setPersonLastName(event.target.value)}
+          onChange={(event) => setPersonLastName(event.target.value)}
         />
       </div>
       <div>
         Age:
         <input
           value={age}
-          onChange={event => setPersonAge(Number(event.target.value) || 0)}
+          onChange={(event) => setPersonAge(Number(event.target.value) || 0)}
         />
       </div>
     </div>

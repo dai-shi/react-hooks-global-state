@@ -9,7 +9,7 @@ import {
 
 // utility functions
 
-const isFunction = fn => (typeof fn === 'function');
+const isFunction = (fn) => (typeof fn === 'function');
 
 const updateValue = (oldValue, newValue) => {
   if (isFunction(newValue)) {
@@ -95,7 +95,7 @@ const createGlobalStateCommon = (initialState) => {
     const observedBits = 1 << index;
     const state = useUnstableContextWithoutWarning(Context, observedBits);
     if (state === EMPTY_OBJECT) throw new Error('Please use <GlobalStateProvider>');
-    const updater = useCallback(u => setGlobalState(name, u), [name]);
+    const updater = useCallback((u) => setGlobalState(name, u), [name]);
     return [state[name], updater];
   };
 

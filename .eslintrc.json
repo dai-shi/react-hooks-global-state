@@ -30,8 +30,7 @@
     "no-underscore-dangle": ["error", { "allow": ["__REDUX_DEVTOOLS_EXTENSION__"] }],
     "no-bitwise": "off",
     "default-case": "off",
-    "no-param-reassign": "off",
-    "arrow-parens": ["error", "as-needed", { "requireForBlockBody": true }]
+    "no-param-reassign": "off"
   },
   "overrides": [{
     "files": ["__tests__/**/*"],

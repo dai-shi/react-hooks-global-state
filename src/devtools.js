@@ -5,7 +5,7 @@ const initAction = () => ({ type: '@@redux/INIT' });
 const createEnhancers = () => {
   let savedReducer;
   let savedInitialState;
-  const before = createStore => (reducer, initialState, enhancer) => {
+  const before = (createStore) => (reducer, initialState, enhancer) => {
     savedReducer = reducer;
     savedInitialState = initialState;
     if (enhancer) return enhancer(createStore)(reducer, initialState);
@@ -19,7 +19,7 @@ const createEnhancers = () => {
       },
     };
   };
-  const after = createStore => (reducer, initialState, enhancer) => {
+  const after = (createStore) => (reducer, initialState, enhancer) => {
     if (enhancer) return enhancer(createStore)(reducer, initialState);
     const store = createStore(savedReducer, savedInitialState);
     let devState = {
@@ -31,7 +31,7 @@ const createEnhancers = () => {
     const dispatch = (action) => {
       devState = reducer(devState, action);
       store.setState(devState.computedStates[devState.currentStateIndex].state);
-      listeners.forEach(f => f());
+      listeners.forEach((f) => f());
       return action;
     };
     const subscribe = (listener) => {
@@ -53,7 +53,7 @@ const createEnhancers = () => {
 };
 
 export const reduxDevToolsExt = () => {
-  if (!window.__REDUX_DEVTOOLS_EXTENSION__) return f => f;
+  if (!window.__REDUX_DEVTOOLS_EXTENSION__) return (f) => f;
   const { before, after } = createEnhancers();
   return compose(
     before,

@@ -10,23 +10,23 @@ const { GlobalStateProvider, setGlobalState, useGlobalState } = createGlobalStat
 });
 
 export const countUp = () => {
-  setGlobalState('count', v => v + 1);
+  setGlobalState('count', (v) => v + 1);
 };
 
 export const countDown = () => {
-  setGlobalState('count', v => v - 1);
+  setGlobalState('count', (v) => v - 1);
 };
 
 export const setPersonFirstName = (firstName: string) => {
-  setGlobalState('person', v => ({ ...v, firstName }));
+  setGlobalState('person', (v) => ({ ...v, firstName }));
 };
 
 export const setPersonLastName = (lastName: string) => {
-  setGlobalState('person', v => ({ ...v, lastName }));
+  setGlobalState('person', (v) => ({ ...v, lastName }));
 };
 
 export const setPersonAge = (age: number) => {
-  setGlobalState('person', v => ({ ...v, age }));
+  setGlobalState('person', (v) => ({ ...v, age }));
 };
 
 export { GlobalStateProvider, useGlobalState };
