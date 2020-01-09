@@ -20,7 +20,7 @@ module.exports = {
   ],
   module: {
     rules: [{
-      test: /\.jsx?/,
+      test: /\.jsx?$/,
       use: [{
         loader: 'babel-loader',
         options: {
@@ -31,7 +31,7 @@ module.exports = {
         },
       }],
     }, {
-      test: /\.tsx?/,
+      test: /\.tsx?$/,
       loader: 'ts-loader',
     }],
   },
