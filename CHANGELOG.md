@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [0.17.0] - 2020-01-09
+### Changed
+- Support state branching
+
 ## [0.16.0] - 2019-10-22
 ### Changed
 - Improve typings with React types

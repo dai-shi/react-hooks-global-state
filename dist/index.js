@@ -48,11 +48,29 @@ var useUnstableContextWithoutWarning = function useUnstableContextWithoutWarning
 
 
 var EMPTY_OBJECT = {};
+var UPDATE_STATE = Symbol('UPDATE_STATE');
+var PROP_GLOBAL_STATE_PROVIDER = 'p';
+var PROP_SET_GLOBAL_STATE = 's';
+var PROP_USE_GLOBAL_STATE = 'u';
+var PROP_GET_GLOBAL_STATE = 'g';
+var PROP_GET_WHOLE_STATE = 'h';
+var PROP_SET_WHOLE_STATE = 'i';
+var PROP_DISPATCH_ACTION = 'd';
 
-var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
+var createGlobalStateCommon = function createGlobalStateCommon(reducer, initialState) {
+  var _ref2;
+
   var keys = Object.keys(initialState);
-  var wholeGlobalState = initialState;
+  var wholeState = initialState;
   var listener = null;
+
+  var patchedReducer = function patchedReducer(state, action) {
+    if (action.type === UPDATE_STATE) {
+      return action.updater(state);
+    }
+
+    return reducer(state, action);
+  };
 
   var calculateChangedBits = function calculateChangedBits(a, b) {
     var bits = 0;
@@ -67,21 +85,26 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
   var GlobalStateProvider = function GlobalStateProvider(_ref) {
     var children = _ref.children;
 
-    var _useState = (0, _react.useState)(initialState),
-        _useState2 = _slicedToArray(_useState, 2),
-        state = _useState2[0],
-        setState = _useState2[1];
+    var _useReducer = (0, _react.useReducer)(patchedReducer, initialState),
+        _useReducer2 = _slicedToArray(_useReducer, 2),
+        state = _useReducer2[0],
+        dispatch = _useReducer2[1];
 
     (0, _react.useEffect)(function () {
       if (listener) throw new Error('You cannot use <GlobalStateProvider> more than once.');
-      listener = setState;
+      listener = dispatch;
 
       if (state !== initialState) {
         // probably state was saved by react-hot-loader, so restore it
-        wholeGlobalState = state;
-      } else if (state !== wholeGlobalState) {
-        // wholeGlobalState was updated during initialization
-        setState(wholeGlobalState);
+        wholeState = state;
+      } else if (state !== wholeState) {
+        // wholeState was updated during initialization
+        dispatch({
+          type: UPDATE_STATE,
+          updater: function updater() {
+            return wholeState;
+          }
+        });
       }
 
       var cleanup = function cleanup() {
@@ -91,6 +114,10 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
       return cleanup; // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [initialState]); // trick for react-hot-loader
 
+    (0, _react.useEffect)(function () {
+      // store the latest state
+      wholeState = state;
+    });
     return (0, _react.createElement)(Context.Provider, {
       value: state
     }, children);
@@ -107,10 +134,17 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
       validateName(name);
     }
 
-    wholeGlobalState = _objectSpread({}, wholeGlobalState, _defineProperty({}, name, updateValue(wholeGlobalState[name], update)));
+    var updater = function updater(previousState) {
+      return _objectSpread({}, previousState, _defineProperty({}, name, updateValue(previousState[name], update)));
+    };
 
     if (listener) {
-      listener(wholeGlobalState);
+      listener({
+        type: UPDATE_STATE,
+        updater: updater
+      });
+    } else {
+      wholeState = updater(wholeState);
     }
   };
 
@@ -134,38 +168,48 @@ var createGlobalStateCommon = function createGlobalStateCommon(initialState) {
       validateName(name);
     }
 
-    return wholeGlobalState[name];
+    return wholeState[name];
   };
 
-  var getWholeGlobalState = function getWholeGlobalState() {
-    return wholeGlobalState;
+  var getWholeState = function getWholeState() {
+    return wholeState;
   };
 
-  var setWholeGlobalState = function setWholeGlobalState(state) {
-    wholeGlobalState = state;
-
+  var setWholeState = function setWholeState(state) {
     if (listener) {
-      listener(wholeGlobalState);
+      listener({
+        type: UPDATE_STATE,
+        updater: function updater() {
+          return state;
+        }
+      });
+    } else {
+      wholeState = state;
     }
   };
 
-  return {
-    GlobalStateProvider: GlobalStateProvider,
-    setGlobalState: setGlobalState,
-    useGlobalState: useGlobalState,
-    getGlobalState: getGlobalState,
-    getWholeGlobalState: getWholeGlobalState,
-    setWholeGlobalState: setWholeGlobalState
+  var dispatchAction = function dispatchAction(action) {
+    if (listener) {
+      listener(action);
+    } else {
+      wholeState = reducer(wholeState, action);
+    }
+
+    return action;
   };
+
+  return _ref2 = {}, _defineProperty(_ref2, PROP_GLOBAL_STATE_PROVIDER, GlobalStateProvider), _defineProperty(_ref2, PROP_SET_GLOBAL_STATE, setGlobalState), _defineProperty(_ref2, PROP_USE_GLOBAL_STATE, useGlobalState), _defineProperty(_ref2, PROP_GET_GLOBAL_STATE, getGlobalState), _defineProperty(_ref2, PROP_GET_WHOLE_STATE, getWholeState), _defineProperty(_ref2, PROP_SET_WHOLE_STATE, setWholeState), _defineProperty(_ref2, PROP_DISPATCH_ACTION, dispatchAction), _ref2;
 }; // export functions
 
 
 var createGlobalState = function createGlobalState(initialState) {
-  var _createGlobalStateCom = createGlobalStateCommon(initialState),
-      GlobalStateProvider = _createGlobalStateCom.GlobalStateProvider,
-      useGlobalState = _createGlobalStateCom.useGlobalState,
-      setGlobalState = _createGlobalStateCom.setGlobalState,
-      getGlobalState = _createGlobalStateCom.getGlobalState;
+  var _createGlobalStateCom = createGlobalStateCommon(function (state) {
+    return state;
+  }, initialState),
+      GlobalStateProvider = _createGlobalStateCom[PROP_GLOBAL_STATE_PROVIDER],
+      useGlobalState = _createGlobalStateCom[PROP_USE_GLOBAL_STATE],
+      setGlobalState = _createGlobalStateCom[PROP_SET_GLOBAL_STATE],
+      getGlobalState = _createGlobalStateCom[PROP_GET_GLOBAL_STATE];
 
   return {
     GlobalStateProvider: GlobalStateProvider,
@@ -183,26 +227,20 @@ var createStore = function createStore(reducer, initialState, enhancer) {
   });
   if (enhancer) return enhancer(createStore)(reducer, initialState);
 
-  var _createGlobalStateCom2 = createGlobalStateCommon(initialState),
-      GlobalStateProvider = _createGlobalStateCom2.GlobalStateProvider,
-      useGlobalState = _createGlobalStateCom2.useGlobalState,
-      getWholeGlobalState = _createGlobalStateCom2.getWholeGlobalState,
-      setWholeGlobalState = _createGlobalStateCom2.setWholeGlobalState;
-
-  var dispatch = function dispatch(action) {
-    var oldState = getWholeGlobalState();
-    var newState = reducer(oldState, action);
-    setWholeGlobalState(newState);
-    return action;
-  };
+  var _createGlobalStateCom2 = createGlobalStateCommon(reducer, initialState),
+      GlobalStateProvider = _createGlobalStateCom2[PROP_GLOBAL_STATE_PROVIDER],
+      useGlobalState = _createGlobalStateCom2[PROP_USE_GLOBAL_STATE],
+      getWholeState = _createGlobalStateCom2[PROP_GET_WHOLE_STATE],
+      setWholeState = _createGlobalStateCom2[PROP_SET_WHOLE_STATE],
+      dispatchAction = _createGlobalStateCom2[PROP_DISPATCH_ACTION];
 
   return {
     GlobalStateProvider: GlobalStateProvider,
     useGlobalState: useGlobalState,
-    getState: getWholeGlobalState,
-    setState: setWholeGlobalState,
+    getState: getWholeState,
+    setState: setWholeState,
     // for devtools.js
-    dispatch: dispatch
+    dispatch: dispatchAction
   };
 };
 
