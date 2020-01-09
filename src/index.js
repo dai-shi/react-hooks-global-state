@@ -2,8 +2,8 @@ import {
   createContext,
   createElement,
   useCallback,
-  useState,
   useEffect,
+  useReducer,
   __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED,
 } from 'react';
 
@@ -32,10 +32,27 @@ const useUnstableContextWithoutWarning = (Context, observedBits) => {
 
 const EMPTY_OBJECT = {};
 
-const createGlobalStateCommon = (initialState) => {
+const UPDATE_STATE = Symbol('UPDATE_STATE');
+
+const PROP_GLOBAL_STATE_PROVIDER = 'p';
+const PROP_SET_GLOBAL_STATE = 's';
+const PROP_USE_GLOBAL_STATE = 'u';
+const PROP_GET_GLOBAL_STATE = 'g';
+const PROP_GET_WHOLE_STATE = 'h';
+const PROP_SET_WHOLE_STATE = 'i';
+const PROP_DISPATCH_ACTION = 'd';
+
+const createGlobalStateCommon = (reducer, initialState) => {
   const keys = Object.keys(initialState);
-  let wholeGlobalState = initialState;
+  let wholeState = initialState;
   let listener = null;
+
+  const patchedReducer = (state, action) => {
+    if (action.type === UPDATE_STATE) {
+      return action.updater(state);
+    }
+    return reducer(state, action);
+  };
 
   const calculateChangedBits = (a, b) => {
     let bits = 0;
@@ -48,16 +65,16 @@ const createGlobalStateCommon = (initialState) => {
   const Context = createContext(EMPTY_OBJECT, calculateChangedBits);
 
   const GlobalStateProvider = ({ children }) => {
-    const [state, setState] = useState(initialState);
+    const [state, dispatch] = useReducer(patchedReducer, initialState);
     useEffect(() => {
       if (listener) throw new Error('You cannot use <GlobalStateProvider> more than once.');
-      listener = setState;
+      listener = dispatch;
       if (state !== initialState) {
         // probably state was saved by react-hot-loader, so restore it
-        wholeGlobalState = state;
-      } else if (state !== wholeGlobalState) {
-        // wholeGlobalState was updated during initialization
-        setState(wholeGlobalState);
+        wholeState = state;
+      } else if (state !== wholeState) {
+        // wholeState was updated during initialization
+        dispatch({ type: UPDATE_STATE, updater: () => wholeState });
       }
       const cleanup = () => {
         listener = null;
@@ -65,6 +82,10 @@ const createGlobalStateCommon = (initialState) => {
       return cleanup;
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [initialState]); // trick for react-hot-loader
+    useEffect(() => {
+      // store the latest state
+      wholeState = state;
+    });
     return createElement(Context.Provider, { value: state }, children);
   };
 
@@ -78,12 +99,14 @@ const createGlobalStateCommon = (initialState) => {
     if (process.env.NODE_ENV !== 'production') {
       validateName(name);
     }
-    wholeGlobalState = {
-      ...wholeGlobalState,
-      [name]: updateValue(wholeGlobalState[name], update),
-    };
+    const updater = (previousState) => ({
+      ...previousState,
+      [name]: updateValue(previousState[name], update),
+    });
     if (listener) {
-      listener(wholeGlobalState);
+      listener({ type: UPDATE_STATE, updater });
+    } else {
+      wholeState = updater(wholeState);
     }
   };
 
@@ -103,25 +126,36 @@ const createGlobalStateCommon = (initialState) => {
     if (process.env.NODE_ENV !== 'production') {
       validateName(name);
     }
-    return wholeGlobalState[name];
+    return wholeState[name];
   };
 
-  const getWholeGlobalState = () => wholeGlobalState;
+  const getWholeState = () => wholeState;
 
-  const setWholeGlobalState = (state) => {
-    wholeGlobalState = state;
+  const setWholeState = (state) => {
     if (listener) {
-      listener(wholeGlobalState);
+      listener({ type: UPDATE_STATE, updater: () => state });
+    } else {
+      wholeState = state;
     }
   };
 
+  const dispatchAction = (action) => {
+    if (listener) {
+      listener(action);
+    } else {
+      wholeState = reducer(wholeState, action);
+    }
+    return action;
+  };
+
   return {
-    GlobalStateProvider,
-    setGlobalState,
-    useGlobalState,
-    getGlobalState,
-    getWholeGlobalState,
-    setWholeGlobalState,
+    [PROP_GLOBAL_STATE_PROVIDER]: GlobalStateProvider,
+    [PROP_SET_GLOBAL_STATE]: setGlobalState,
+    [PROP_USE_GLOBAL_STATE]: useGlobalState,
+    [PROP_GET_GLOBAL_STATE]: getGlobalState,
+    [PROP_GET_WHOLE_STATE]: getWholeState,
+    [PROP_SET_WHOLE_STATE]: setWholeState,
+    [PROP_DISPATCH_ACTION]: dispatchAction,
   };
 };
 
@@ -129,11 +163,11 @@ const createGlobalStateCommon = (initialState) => {
 
 export const createGlobalState = (initialState) => {
   const {
-    GlobalStateProvider,
-    useGlobalState,
-    setGlobalState,
-    getGlobalState,
-  } = createGlobalStateCommon(initialState);
+    [PROP_GLOBAL_STATE_PROVIDER]: GlobalStateProvider,
+    [PROP_USE_GLOBAL_STATE]: useGlobalState,
+    [PROP_SET_GLOBAL_STATE]: setGlobalState,
+    [PROP_GET_GLOBAL_STATE]: getGlobalState,
+  } = createGlobalStateCommon((state) => state, initialState);
   return {
     GlobalStateProvider,
     useGlobalState,
@@ -146,22 +180,17 @@ export const createStore = (reducer, initialState, enhancer) => {
   if (!initialState) initialState = reducer(undefined, { type: undefined });
   if (enhancer) return enhancer(createStore)(reducer, initialState);
   const {
-    GlobalStateProvider,
-    useGlobalState,
-    getWholeGlobalState,
-    setWholeGlobalState,
-  } = createGlobalStateCommon(initialState);
-  const dispatch = (action) => {
-    const oldState = getWholeGlobalState();
-    const newState = reducer(oldState, action);
-    setWholeGlobalState(newState);
-    return action;
-  };
+    [PROP_GLOBAL_STATE_PROVIDER]: GlobalStateProvider,
+    [PROP_USE_GLOBAL_STATE]: useGlobalState,
+    [PROP_GET_WHOLE_STATE]: getWholeState,
+    [PROP_SET_WHOLE_STATE]: setWholeState,
+    [PROP_DISPATCH_ACTION]: dispatchAction,
+  } = createGlobalStateCommon(reducer, initialState);
   return {
     GlobalStateProvider,
     useGlobalState,
-    getState: getWholeGlobalState,
-    setState: setWholeGlobalState, // for devtools.js
-    dispatch,
+    getState: getWholeState,
+    setState: setWholeState, // for devtools.js
+    dispatch: dispatchAction,
   };
 };
