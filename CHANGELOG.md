@@ -4,7 +4,7 @@
 
 ## [0.17.0] - 2020-01-09
 ### Changed
-- Support state branching
+- Support state branching (#31)
 
 ## [0.16.0] - 2019-10-22
 ### Changed
