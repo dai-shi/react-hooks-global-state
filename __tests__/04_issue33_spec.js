@@ -10,18 +10,18 @@ describe('issue #33 spec', () => {
     const initialState = {
       count1: 0,
     };
-    let valueInCallback;
     const { GlobalStateProvider, useGlobalState, getGlobalState } = createGlobalState(initialState);
+    const Positive = ({ count }) => {
+      if (count !== getGlobalState('count1')) throw Error('count mismatch');
+      return <div>{count} is positive</div>;
+    };
     const Counter = () => {
       const [value, update] = useGlobalState('count1');
-      const onClick = () => {
-        update(value + 1);
-        valueInCallback = getGlobalState('count1');
-      };
       return (
         <div>
           <span>{value}</span>
-          <button type="button" onClick={onClick}>+1</button>
+          <button type="button" onClick={() => update(value + 1)}>+1</button>
+          {value > 0 && <Positive count={value} />}
         </div>
       );
     };
@@ -36,6 +36,5 @@ describe('issue #33 spec', () => {
     fireEvent.click(getAllByText('+1')[0]);
     expect(container.querySelector('span').textContent).toBe('1');
     expect(getGlobalState('count1')).toBe(1);
-    expect(valueInCallback).toBe(1);
   });
 });
