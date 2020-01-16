@@ -32,7 +32,13 @@ const useUnstableContextWithoutWarning = (Context, observedBits) => {
 
 const EMPTY_OBJECT = {};
 
-const UPDATE_STATE = Symbol('UPDATE_STATE');
+const UPDATE_STATE = (
+  process.env.NODE_ENV !== 'production' ? Symbol('UPDATE_STATE')
+  /* for production */ : Symbol()
+);
+
+const PROP_UPDATER = 'r';
+const PROP_STATE = 'e';
 
 const PROP_GLOBAL_STATE_PROVIDER = 'p';
 const PROP_SET_GLOBAL_STATE = 's';
@@ -49,7 +55,7 @@ const createGlobalStateCommon = (reducer, initialState) => {
 
   const patchedReducer = (state, action) => {
     if (action.type === UPDATE_STATE) {
-      return action.updater(state);
+      return action[PROP_UPDATER] ? action[PROP_UPDATER](state) : action[PROP_STATE];
     }
     return reducer(state, action);
   };
@@ -74,7 +80,7 @@ const createGlobalStateCommon = (reducer, initialState) => {
         wholeState = state;
       } else if (state !== wholeState) {
         // wholeState was updated during initialization
-        dispatch({ type: UPDATE_STATE, updater: () => wholeState });
+        dispatch({ type: UPDATE_STATE, [PROP_STATE]: wholeState });
       }
       const cleanup = () => {
         listener = null;
@@ -104,7 +110,7 @@ const createGlobalStateCommon = (reducer, initialState) => {
       [name]: updateValue(previousState[name], update),
     });
     if (listener) {
-      listener({ type: UPDATE_STATE, updater });
+      listener({ type: UPDATE_STATE, [PROP_UPDATER]: updater });
     } else {
       wholeState = updater(wholeState);
     }
@@ -133,7 +139,7 @@ const createGlobalStateCommon = (reducer, initialState) => {
 
   const setWholeState = (state) => {
     if (listener) {
-      listener({ type: UPDATE_STATE, updater: () => state });
+      listener({ type: UPDATE_STATE, [PROP_STATE]: state });
     } else {
       wholeState = state;
     }

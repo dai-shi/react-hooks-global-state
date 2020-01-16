@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+### Changed
+- Reduce bundle size a little
 
 ## [0.17.0] - 2020-01-09
 ### Changed

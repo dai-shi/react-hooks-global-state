@@ -31,7 +31,8 @@
     "no-underscore-dangle": ["error", { "allow": ["__REDUX_DEVTOOLS_EXTENSION__"] }],
     "no-bitwise": "off",
     "default-case": "off",
-    "no-param-reassign": "off"
+    "no-param-reassign": "off",
+    "symbol-description": "off"
   },
   "overrides": [{
     "files": ["__tests__/**/*"],
