@@ -2,7 +2,6 @@ import React, { StrictMode } from 'react';
 
 import Counter from './Counter';
 import Person from './Person';
-import { GlobalStateProvider } from './state';
 
 import Counter2 from './Counter2';
 import Person2 from './Person2';
@@ -24,14 +23,12 @@ const App = () => (
       </div>
       <div>
         <h1>react-hooks-global-state</h1>
-        <GlobalStateProvider>
-          <h2>Counter</h2>
-          <Counter />
-          <Counter />
-          <h2>Person</h2>
-          <Person />
-          <Person />
-        </GlobalStateProvider>
+        <h2>Counter</h2>
+        <Counter />
+        <Counter />
+        <h2>Person</h2>
+        <Person />
+        <Person />
       </div>
     </div>
   </StrictMode>

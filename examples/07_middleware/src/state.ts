@@ -62,7 +62,7 @@ const logger = (
   return returnValue;
 };
 
-export const { GlobalStateProvider, dispatch, useGlobalState } = createStore<State, Action>(
+export const { dispatch, useGlobalState } = createStore<State, Action>(
   reducer,
   initialState,
   applyMiddleware(logger),

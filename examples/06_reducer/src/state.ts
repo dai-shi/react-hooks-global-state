@@ -7,7 +7,7 @@ type Action =
   | { type: 'setLastName'; lastName: string }
   | { type: 'setAge'; age: number };
 
-export const { GlobalStateProvider, dispatch, useGlobalState } = createStore(
+export const { dispatch, useGlobalState } = createStore(
   (state, action: Action) => {
     switch (action.type) {
       case 'increment': return {

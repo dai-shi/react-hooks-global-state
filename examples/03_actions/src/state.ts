@@ -1,6 +1,6 @@
 import { createGlobalState } from 'react-hooks-global-state';
 
-const { GlobalStateProvider, setGlobalState, useGlobalState } = createGlobalState({
+const { setGlobalState, useGlobalState } = createGlobalState({
   count: 0,
   person: {
     age: 0,
@@ -29,4 +29,4 @@ export const setPersonAge = (age: number) => {
   setGlobalState('person', (v) => ({ ...v, age }));
 };
 
-export { GlobalStateProvider, useGlobalState };
+export { useGlobalState };

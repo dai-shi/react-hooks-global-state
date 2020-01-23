@@ -52,7 +52,7 @@ const reducer = combineReducers({
   person: personReducer,
 });
 
-export const { GlobalStateProvider, dispatch, useGlobalState } = createStore<
+export const { dispatch, useGlobalState } = createStore<
   typeof initialState,
   Action
 >(
