@@ -2,7 +2,7 @@
 
 ## [Unreleased]
 ### Changed
-- Reduce bundle size a little
+- New API without context
 
 ## [0.17.0] - 2020-01-09
 ### Changed

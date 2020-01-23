@@ -5,7 +5,7 @@ type Action =
   | { type: 'decrement' }
   | { type: 'addBonus'; value: number };
 
-export const { GlobalStateProvider, dispatch, useGlobalState } = createStore(
+export const { dispatch, useGlobalState } = createStore(
   (state, action: Action) => {
     switch (action.type) {
       case 'increment': return {

@@ -7,7 +7,7 @@ const initialState = {
   count: 0,
   text: 'hello',
 };
-const { GlobalStateProvider, useGlobalState } = createGlobalState(initialState);
+const { useGlobalState } = createGlobalState(initialState);
 
 const Counter = () => {
   const [value, update] = useGlobalState('count');
@@ -32,14 +32,12 @@ const TextBox = () => {
 
 const App = () => (
   <StrictMode>
-    <GlobalStateProvider>
-      <h1>Counter</h1>
-      <Counter />
-      <Counter />
-      <h1>TextBox</h1>
-      <TextBox />
-      <TextBox />
-    </GlobalStateProvider>
+    <h1>Counter</h1>
+    <Counter />
+    <Counter />
+    <h1>TextBox</h1>
+    <TextBox />
+    <TextBox />
   </StrictMode>
 );
 

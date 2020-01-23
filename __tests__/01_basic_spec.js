@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { StrictMode } from 'react';
 import { render, fireEvent, cleanup } from '@testing-library/react';
 
 import { createGlobalState, createStore } from '../src/index';
@@ -12,7 +12,7 @@ describe('basic spec', () => {
 
   it('should be possible to not specify initial state', () => {
     const reducer = () => ({ count: 0 });
-    const { GlobalStateProvider, useGlobalState } = createStore(reducer);
+    const { useGlobalState } = createStore(reducer);
     const Counter = () => {
       const [value, update] = useGlobalState('count');
       return (
@@ -23,9 +23,9 @@ describe('basic spec', () => {
       );
     };
     const App = () => (
-      <GlobalStateProvider>
+      <StrictMode>
         <Counter />
-      </GlobalStateProvider>
+      </StrictMode>
     );
     const { getByText } = render(<App />);
     expect(getByText('0')).toBeDefined();
@@ -37,7 +37,7 @@ describe('basic spec', () => {
     const initialState = {
       count1: 0,
     };
-    const { GlobalStateProvider, useGlobalState } = createGlobalState(initialState);
+    const { useGlobalState } = createGlobalState(initialState);
     const Counter = () => {
       const [value, update] = useGlobalState('count1');
       return (
@@ -48,10 +48,10 @@ describe('basic spec', () => {
       );
     };
     const App = () => (
-      <GlobalStateProvider>
+      <StrictMode>
         <Counter />
         <Counter />
-      </GlobalStateProvider>
+      </StrictMode>
     );
     const { getAllByText, container } = render(<App />);
     expect(container).toMatchSnapshot();

@@ -1,9 +1,11 @@
-import { ComponentType, SetStateAction, Reducer } from 'react';
+import { SetStateAction, Reducer } from 'react';
 
 type SetGlobalState<S> = <N extends keyof S>(
   name: N,
   setStateAction: SetStateAction<S[N]>,
 ) => void;
+
+type UseGlobalStateProvider = () => void;
 
 type UseGlobalState<S> = <N extends keyof S>(name: N) => [
   S[N],
@@ -13,7 +15,7 @@ type UseGlobalState<S> = <N extends keyof S>(name: N) => [
 export type Dispatch<A> = (action: A) => A;
 
 export type Store<S, A> = {
-  GlobalStateProvider: ComponentType;
+  useGlobalStateProvider: UseGlobalStateProvider;
   useGlobalState: UseGlobalState<S>;
   getState: () => S;
   dispatch: Dispatch<A>;
@@ -26,7 +28,7 @@ export type Enhancer<S, A> = (creator: StoreCreator<S, A>) => StoreCreator<S, A>
 type AnyEnhancer = unknown;
 
 export type CreateGlobalState = <S>(initialState: S) => {
-  GlobalStateProvider: ComponentType;
+  useGlobalStateProvider: UseGlobalStateProvider;
   useGlobalState: UseGlobalState<S>;
   setGlobalState: SetGlobalState<S>;
   getGlobalState: <N extends keyof S>(name: N) => S[N];
