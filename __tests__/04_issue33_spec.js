@@ -10,7 +10,7 @@ describe('issue #33 spec', () => {
     const initialState = {
       count1: 0,
     };
-    const { GlobalStateProvider, useGlobalState, getGlobalState } = createGlobalState(initialState);
+    const { useGlobalState, getGlobalState } = createGlobalState(initialState);
     const Positive = ({ count }) => {
       if (count !== getGlobalState('count1')) throw Error('count mismatch');
       return <div>{count} is positive</div>;
@@ -26,9 +26,9 @@ describe('issue #33 spec', () => {
       );
     };
     const App = () => (
-      <GlobalStateProvider>
+      <>
         <Counter />
-      </GlobalStateProvider>
+      </>
     );
     const { getAllByText, container } = render(<App />);
     expect(container.querySelector('span').textContent).toBe('0');
