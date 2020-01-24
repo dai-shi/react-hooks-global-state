@@ -8,10 +8,8 @@ Simple global state for React with Hooks API
 
 ## Introduction
 
-If you ever try to implement a global state with Context and Hooks,
-you probably find it straightforward.
-This library provide more or less the same functionality
-with some following bonuses.
+This is a library to provide a global state with React Hooks.
+It has following characteristics.
 
 - Optimization for shallow state getter and setter.
   - The library cares the state object only one-level deep.
@@ -20,9 +18,8 @@ with some following bonuses.
 - Redux middleware support to some extent
   - Some of libraries in Redux ecosystem can be used.
   - Redux DevTools Extension could be used in a simple scenario.
-
-Due to the fact that this library utilizes `unstable_observedBits`
-for optimization, this library is still in alpha.
+- Concurrent Mode support (Experimental)
+  - Undocumented `useGlobalStateProvider` supports CM without React Context.
 
 ## Install
 
@@ -39,7 +36,7 @@ import React from 'react';
 import { createGlobalState } from 'react-hooks-global-state';
 
 const initialState = { count: 0 };
-const { GlobalStateProvider, useGlobalState } = createGlobalState(initialState);
+const { useGlobalState } = createGlobalState(initialState);
 
 const Counter = () => {
   const [count, setCount] = useGlobalState('count');
@@ -55,10 +52,10 @@ const Counter = () => {
 };
 
 const App = () => (
-  <GlobalStateProvider>
+  <>
     <Counter />
     <Counter />
-  </GlobalStateProvider>
+  </>
 );
 ```
 
@@ -76,7 +73,7 @@ const reducer = (state, action) => {
   }
 };
 const initialState = { count: 0 };
-const { GlobalStateProvider, dispatch, useGlobalState } = createStore(reducer, initialState);
+const { dispatch, useGlobalState } = createStore(reducer, initialState);
 
 const Counter = () => {
   const [value] = useGlobalState('count');
@@ -90,10 +87,10 @@ const Counter = () => {
 };
 
 const App = () => (
-  <GlobalStateProvider>
+  <>
     <Counter />
     <Counter />
-  </GlobalStateProvider>
+  </>
 );
 ```
 
@@ -122,12 +119,6 @@ You can also try them in codesandbox.io:
 [11](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/11_deep)
 [12](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/12_effect)
 [13](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/13_persistence)
-
-## Limitations
-
-- Due to the implementation relying on `observedBits` in the Context API,
-  the performance may drop down if a state holds more than 30 items.
-  Reference: [#1](https://github.com/dai-shi/react-hooks-global-state/issues/1)
 
 ## Blogs
 

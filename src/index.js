@@ -1,10 +1,9 @@
 import {
-  createContext,
-  createElement,
   useCallback,
   useEffect,
+  useRef,
   useReducer,
-  __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED,
+  useState,
 } from 'react';
 
 // utility functions
@@ -18,23 +17,17 @@ const updateValue = (oldValue, newValue) => {
   return newValue;
 };
 
-// ref: https://github.com/dai-shi/react-hooks-global-state/issues/5
-const useUnstableContextWithoutWarning = (Context, observedBits) => {
-  const { ReactCurrentDispatcher } = __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
-  const dispatcher = ReactCurrentDispatcher.current;
-  if (!dispatcher) {
-    throw new Error('Hooks can only be called inside the body of a function component. (https://fb.me/react-invalid-hook-call)');
-  }
-  return dispatcher.useContext(Context, observedBits);
-};
-
 // core functions
 
-const EMPTY_OBJECT = {};
+const UPDATE_STATE = (
+  process.env.NODE_ENV !== 'production' ? Symbol('UPDATE_STATE')
+  /* for production */ : Symbol()
+);
 
-const UPDATE_STATE = Symbol('UPDATE_STATE');
+const PROP_UPDATER = 'r';
+const PROP_STATE = 'e';
 
-const PROP_GLOBAL_STATE_PROVIDER = 'p';
+const PROP_USE_GLOBAL_STATE_PROVIDER = 'p';
 const PROP_SET_GLOBAL_STATE = 's';
 const PROP_USE_GLOBAL_STATE = 'u';
 const PROP_GET_GLOBAL_STATE = 'g';
@@ -44,49 +37,18 @@ const PROP_DISPATCH_ACTION = 'd';
 
 const createGlobalStateCommon = (reducer, initialState) => {
   const keys = Object.keys(initialState);
-  let wholeState = initialState;
-  let listener = null;
+  let globalState = initialState;
+  let linkedDispatch = null;
+  const listeners = {};
+  keys.forEach((key) => {
+    listeners[key] = new Set();
+  });
 
   const patchedReducer = (state, action) => {
     if (action.type === UPDATE_STATE) {
-      return action.updater(state);
+      return action[PROP_UPDATER] ? action[PROP_UPDATER](state) : action[PROP_STATE];
     }
     return reducer(state, action);
-  };
-
-  const calculateChangedBits = (a, b) => {
-    let bits = 0;
-    keys.forEach((k, i) => {
-      if (a[k] !== b[k]) bits |= 1 << i;
-    });
-    return bits;
-  };
-
-  const Context = createContext(EMPTY_OBJECT, calculateChangedBits);
-
-  const GlobalStateProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(patchedReducer, initialState);
-    useEffect(() => {
-      if (listener) throw new Error('You cannot use <GlobalStateProvider> more than once.');
-      listener = dispatch;
-      if (state !== initialState) {
-        // probably state was saved by react-hot-loader, so restore it
-        wholeState = state;
-      } else if (state !== wholeState) {
-        // wholeState was updated during initialization
-        dispatch({ type: UPDATE_STATE, updater: () => wholeState });
-      }
-      const cleanup = () => {
-        listener = null;
-      };
-      return cleanup;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [initialState]); // trick for react-hot-loader
-    useEffect(() => {
-      // store the latest state
-      wholeState = state;
-    });
-    return createElement(Context.Provider, { value: state }, children);
   };
 
   const validateName = (name) => {
@@ -103,53 +65,93 @@ const createGlobalStateCommon = (reducer, initialState) => {
       ...previousState,
       [name]: updateValue(previousState[name], update),
     });
-    if (listener) {
-      listener({ type: UPDATE_STATE, updater });
+    if (linkedDispatch) {
+      linkedDispatch({ type: UPDATE_STATE, [PROP_UPDATER]: updater });
     } else {
-      wholeState = updater(wholeState);
+      globalState = updater(globalState);
+      const nextPartialState = globalState[name];
+      listeners[name].forEach((listener) => listener(nextPartialState));
     }
+  };
+
+  const notifyListeners = (prevState, nextState) => {
+    keys.forEach((key) => {
+      const nextPartialState = nextState[key];
+      if (prevState[key] !== nextPartialState) {
+        listeners[key].forEach((listener) => listener(nextPartialState));
+      }
+    });
+  };
+
+  const useGlobalStateProvider = () => {
+    const [state, dispatch] = useReducer(patchedReducer, globalState);
+    useEffect(() => {
+      if (linkedDispatch) throw new Error('Only one global state provider is allowed');
+      linkedDispatch = dispatch;
+      // in case it's changed before this effect is handled
+      dispatch({ type: UPDATE_STATE, [PROP_STATE]: globalState });
+      const cleanup = () => {
+        linkedDispatch = null;
+      };
+      return cleanup;
+    }, []);
+    const prevGlobalState = useRef(state);
+    notifyListeners(prevGlobalState.current, state);
+    prevGlobalState.current = state;
+    useEffect(() => {
+      globalState = state;
+    }, [state]);
   };
 
   const useGlobalState = (name) => {
     if (process.env.NODE_ENV !== 'production') {
       validateName(name);
     }
-    const index = keys.indexOf(name);
-    const observedBits = 1 << index;
-    const state = useUnstableContextWithoutWarning(Context, observedBits);
-    if (state === EMPTY_OBJECT) throw new Error('Please use <GlobalStateProvider>');
+    const [partialState, setPartialState] = useState(globalState[name]);
+    useEffect(() => {
+      listeners[name].add(setPartialState);
+      setPartialState(globalState[name]); // in case it's changed before this effect is handled
+      const cleanup = () => {
+        listeners[name].delete(setPartialState);
+      };
+      return cleanup;
+    }, [name]);
     const updater = useCallback((u) => setGlobalState(name, u), [name]);
-    return [state[name], updater];
+    return [partialState, updater];
   };
 
   const getGlobalState = (name) => {
     if (process.env.NODE_ENV !== 'production') {
       validateName(name);
     }
-    return wholeState[name];
+    return globalState[name];
   };
 
-  const getWholeState = () => wholeState;
+  const getWholeState = () => globalState;
 
-  const setWholeState = (state) => {
-    if (listener) {
-      listener({ type: UPDATE_STATE, updater: () => state });
+  const setWholeState = (nextGlobalState) => {
+    if (linkedDispatch) {
+      linkedDispatch({ type: UPDATE_STATE, [PROP_STATE]: nextGlobalState });
     } else {
-      wholeState = state;
+      const prevGlobalState = globalState;
+      globalState = nextGlobalState;
+      notifyListeners(prevGlobalState, globalState);
     }
   };
 
   const dispatchAction = (action) => {
-    if (listener) {
-      listener(action);
+    if (linkedDispatch) {
+      linkedDispatch(action);
     } else {
-      wholeState = reducer(wholeState, action);
+      const prevGlobalState = globalState;
+      globalState = reducer(globalState, action);
+      notifyListeners(prevGlobalState, globalState);
     }
     return action;
   };
 
   return {
-    [PROP_GLOBAL_STATE_PROVIDER]: GlobalStateProvider,
+    [PROP_USE_GLOBAL_STATE_PROVIDER]: useGlobalStateProvider,
     [PROP_SET_GLOBAL_STATE]: setGlobalState,
     [PROP_USE_GLOBAL_STATE]: useGlobalState,
     [PROP_GET_GLOBAL_STATE]: getGlobalState,
@@ -163,13 +165,13 @@ const createGlobalStateCommon = (reducer, initialState) => {
 
 export const createGlobalState = (initialState) => {
   const {
-    [PROP_GLOBAL_STATE_PROVIDER]: GlobalStateProvider,
+    [PROP_USE_GLOBAL_STATE_PROVIDER]: useGlobalStateProvider,
     [PROP_USE_GLOBAL_STATE]: useGlobalState,
     [PROP_SET_GLOBAL_STATE]: setGlobalState,
     [PROP_GET_GLOBAL_STATE]: getGlobalState,
   } = createGlobalStateCommon((state) => state, initialState);
   return {
-    GlobalStateProvider,
+    useGlobalStateProvider,
     useGlobalState,
     setGlobalState,
     getGlobalState,
@@ -180,14 +182,14 @@ export const createStore = (reducer, initialState, enhancer) => {
   if (!initialState) initialState = reducer(undefined, { type: undefined });
   if (enhancer) return enhancer(createStore)(reducer, initialState);
   const {
-    [PROP_GLOBAL_STATE_PROVIDER]: GlobalStateProvider,
+    [PROP_USE_GLOBAL_STATE_PROVIDER]: useGlobalStateProvider,
     [PROP_USE_GLOBAL_STATE]: useGlobalState,
     [PROP_GET_WHOLE_STATE]: getWholeState,
     [PROP_SET_WHOLE_STATE]: setWholeState,
     [PROP_DISPATCH_ACTION]: dispatchAction,
   } = createGlobalStateCommon(reducer, initialState);
   return {
-    GlobalStateProvider,
+    useGlobalStateProvider,
     useGlobalState,
     getState: getWholeState,
     setState: setWholeState, // for devtools.js

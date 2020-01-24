@@ -1,6 +1,6 @@
 import React, { useEffect, StrictMode } from 'react';
 
-import { GlobalStateProvider, setPageTitle } from './state';
+import { setPageTitle } from './state';
 
 import ErrorMessage from './ErrorMessage';
 import PageInfo from './PageInfo';
@@ -23,11 +23,9 @@ const App = () => {
 
   return (
     <StrictMode>
-      <GlobalStateProvider>
-        <PageInfo />
-        <RandomButton />
-        <ErrorMessage />
-      </GlobalStateProvider>
+      <PageInfo />
+      <RandomButton />
+      <ErrorMessage />
     </StrictMode>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { StrictMode } from 'react';
 import { render, cleanup } from '@testing-library/react';
 
 import { createGlobalState, createStore } from '../src/index';
@@ -11,7 +11,7 @@ describe('startup spec', () => {
       count1: 0,
       count2: 0,
     };
-    const { GlobalStateProvider, setGlobalState, useGlobalState } = createGlobalState(initialState);
+    const { setGlobalState, useGlobalState } = createGlobalState(initialState);
     const Counter = ({ name }) => {
       setGlobalState(name, 9);
       const [value] = useGlobalState(name);
@@ -23,10 +23,10 @@ describe('startup spec', () => {
       );
     };
     const App = () => (
-      <GlobalStateProvider>
+      <StrictMode>
         <Counter name="count1" />
         <Counter name="count2" />
-      </GlobalStateProvider>
+      </StrictMode>
     );
     const { getByTestId } = render(<App />);
     expect(getByTestId('count1').innerHTML).toBe('9');
@@ -47,11 +47,7 @@ describe('startup spec', () => {
       }
       return state;
     };
-    const {
-      GlobalStateProvider,
-      dispatch,
-      useGlobalState,
-    } = createStore(reducer, initialState);
+    const { dispatch, useGlobalState } = createStore(reducer, initialState);
     const Counter = ({ name }) => {
       dispatch({ type: 'setCounter', name, value: 9 });
       const [value] = useGlobalState(name);
@@ -63,10 +59,10 @@ describe('startup spec', () => {
       );
     };
     const App = () => (
-      <GlobalStateProvider>
+      <StrictMode>
         <Counter name="count1" />
         <Counter name="count2" />
-      </GlobalStateProvider>
+      </StrictMode>
     );
     const { getByTestId } = render(<App />);
     expect(getByTestId('count1').innerHTML).toBe('9');

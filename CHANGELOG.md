@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+## [1.0.0-alpha.1] - 2020-01-09
+### Changed
+- New API without context (#35)
+  - BREAKING CHANGE: No longer GlobalStateProvider required
+
 ## [0.17.0] - 2020-01-09
 ### Changed
 - Support state branching (#31)

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { StrictMode, useEffect } from 'react';
 import { render, cleanup } from '@testing-library/react';
 
 import { createGlobalState } from '../src/index';
@@ -10,7 +10,7 @@ describe('useeffect spec', () => {
     const initialState = {
       count1: 0,
     };
-    const { GlobalStateProvider, useGlobalState } = createGlobalState(initialState);
+    const { useGlobalState } = createGlobalState(initialState);
     const Counter = () => {
       const [value, update] = useGlobalState('count1');
       useEffect(() => {
@@ -23,9 +23,9 @@ describe('useeffect spec', () => {
       );
     };
     const App = () => (
-      <GlobalStateProvider>
+      <StrictMode>
         <Counter />
-      </GlobalStateProvider>
+      </StrictMode>
     );
     const { container } = render(<App />);
     expect(container).toMatchSnapshot();

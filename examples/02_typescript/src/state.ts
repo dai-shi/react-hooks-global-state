@@ -1,6 +1,6 @@
 import { createGlobalState } from 'react-hooks-global-state';
 
-export const { GlobalStateProvider, useGlobalState } = createGlobalState({
+export const { useGlobalState } = createGlobalState({
   count: 0,
   person: {
     age: 0,
