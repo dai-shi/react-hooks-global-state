@@ -7,17 +7,18 @@
     "type": "git",
     "url": "https://github.com/dai-shi/react-hooks-global-state.git"
   },
+  "source": "./src/index.ts",
   "main": "./dist/index.js",
-  "module": "./src/index.js",
-  "browser": "./dist/index.js",
-  "types": "./src/index.d.ts",
+  "module": "./dist/index.esm.js",
+  "browser": "./dist/index.umd.js",
+  "types": "./dist/src/index.d.ts",
   "sideEffects": false,
   "files": [
     "src",
     "dist"
   ],
   "scripts": {
-    "compile": "babel src -d dist && cp src/*.d.ts dist",
+    "compile": "microbundle build --format cjs,es,umd",
     "test": "npm run eslint && npm run tsc-test && npm run jest",
     "eslint": "eslint --ext .js,.ts,.tsx --ignore-pattern dist .",
     "jest": "jest",
@@ -73,6 +74,7 @@
     "html-webpack-plugin": "^3.2.0",
     "immer": "^5.3.2",
     "jest": "^25.1.0",
+    "microbundle": "^0.12.0-next.8",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-refresh": "^0.7.2",
