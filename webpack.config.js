@@ -53,7 +53,6 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
     alias: {
-      'react-hooks-global-state/src/devtools': `${__dirname}/src/devtools`,
       'react-hooks-global-state': `${__dirname}/src`,
     },
   },

@@ -2,8 +2,7 @@ import { applyMiddleware, combineReducers, compose } from 'redux';
 import reduxLogger from 'redux-logger';
 import reduxThunk from 'redux-thunk';
 
-import { createStore } from 'react-hooks-global-state';
-import { reduxDevToolsExt } from 'react-hooks-global-state/src/devtools';
+import { createStore, reduxDevToolsExt } from 'react-hooks-global-state';
 
 const initialState = {
   count: 0,

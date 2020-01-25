@@ -1,9 +1,7 @@
-import {
-  createStore,
-  Dispatch,
-  Enhancer,
-  Store,
-} from 'react-hooks-global-state';
+import { Dispatch } from 'react';
+import { applyMiddleware } from 'redux';
+
+import { createStore } from 'react-hooks-global-state';
 
 type State = {
   count: number;
@@ -20,20 +18,6 @@ type Action =
   | { type: 'setFirstName'; firstName: string }
   | { type: 'setLastName'; lastName: string }
   | { type: 'setAge'; age: number };
-
-type Middleware = (store: Store<State, Action>) => (next: Dispatch<Action>) => Dispatch<Action>;
-type ApplyMiddleware = (...args: Middleware[]) => Enhancer<State, Action>;
-
-const applyMiddleware: ApplyMiddleware = (...args) => (creator) => {
-  const [first, ...rest] = args;
-  if (!first) return creator;
-  creator = applyMiddleware(...rest)(creator);
-  return (reducer, initialState) => {
-    const store = creator(reducer, initialState);
-    const dispatch = first(store)(store.dispatch);
-    return { ...store, dispatch };
-  };
-};
 
 const defaultState: State = {
   count: 0,
