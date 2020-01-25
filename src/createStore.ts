@@ -36,9 +36,7 @@ const UPDATE_STATE = (
 const PROP_UPDATER = 'r';
 const PROP_STATE = 'e';
 
-// createStore
-
-type Enhancer<Creator> = (creator: Creator) => Creator;
+// createStoreCommon
 
 export const createStoreCommon = <State, Action>(
   reducer: Reducer<State, Action>,
@@ -59,6 +57,7 @@ export const createStoreCommon = <State, Action>(
   keys.forEach((key) => { listeners[key as keyof State] = new Set(); });
 
   const patchedReducer = (state: State, action: Action | PatchAction) => {
+    // how can it be typed more properly?
     if ((action as { type: unknown }).type === UPDATE_STATE) {
       return (action as { [PROP_UPDATER]: unknown })[PROP_UPDATER]
         ? (action as PA1)[PROP_UPDATER](state)
@@ -177,6 +176,10 @@ export const createStoreCommon = <State, Action>(
   };
 };
 
+// types
+
+type Enhancer<Creator> = (creator: Creator) => Creator;
+
 type ExportFields =
   | 'useGlobalStateProvider'
   | 'useGlobalState'
@@ -184,8 +187,24 @@ type ExportFields =
   | 'dispatch';
 
 /**
- * create store
+ * create a global store
+ * In additon to `useGlobaState` which is the same hook as in createGlobalState,
+ * a store has `getState` and `dispatch`.
+ * A store works somewhat similarly to Redux, but not the same.
  *
+ * @example
+ * import { createStore } from 'react-hooks-global-state';
+ *
+ * const initialState = { count: 0 };
+ * const reducer = ...;
+ *
+ * const store = createStore(reducer, initialState);
+ * const { useGlobalState } = store;
+ *
+ * const Component = () => {
+ *   const [count, setCount] = useGlobalState('count');
+ *   ...
+ * };
  */
 export const createStore = <State, Action>(
   reducer: Reducer<State, Action>,
