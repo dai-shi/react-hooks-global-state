@@ -1,6 +1,8 @@
+import { Dispatch } from 'react';
+
 import { applyMiddleware, combineReducers } from 'redux';
 
-import { createStore, Dispatch } from 'react-hooks-global-state';
+import { createStore } from 'react-hooks-global-state';
 
 const initialState = {
   count: 0,

@@ -11,8 +11,7 @@
     "sourceMap": true,
     "baseUrl": ".",
     "paths": {
-      "react-hooks-global-state": ["./src"],
-      "react-hooks-global-state/src/devtools": ["./src/devtools"]
+      "react-hooks-global-state": ["./src"]
     }
   }
 }

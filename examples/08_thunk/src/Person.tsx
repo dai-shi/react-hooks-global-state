@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { Dispatch } from 'react-hooks-global-state';
+import React, { Dispatch } from 'react';
 
 import { Action, dispatch, useGlobalState } from './state';
 

@@ -1,25 +1,27 @@
-const compose = (...fns) => fns.reduce((p, c) => (...args) => p(c(...args)));
+/* eslint @typescript-eslint/no-explicit-any: off */
+
+const compose = (...fns: any[]) => fns.reduce((p, c) => (...args: any[]) => p(c(...args)));
 
 const initAction = () => ({ type: '@@redux/INIT' });
 
 const createEnhancers = () => {
-  let savedReducer;
-  let savedInitialState;
-  const before = (createStore) => (reducer, initialState, enhancer) => {
+  let savedReducer: any;
+  let savedInitialState: any;
+  const before = (createStore: any) => (reducer: any, initialState: any, enhancer: any) => {
     savedReducer = reducer;
     savedInitialState = initialState;
     if (enhancer) return enhancer(createStore)(reducer, initialState);
     const store = createStore(reducer, initialState);
     return {
       ...store,
-      useGlobalState: (name) => {
+      useGlobalState: (name: any) => {
         const [value] = store.useGlobalState(name);
         const MESG = 'Update is not allowed when using DevTools';
         return [value, () => { throw new Error(MESG); }];
       },
     };
   };
-  const after = (createStore) => (reducer, initialState, enhancer) => {
+  const after = (createStore: any) => (reducer: any, initialState: any, enhancer: any) => {
     if (enhancer) return enhancer(createStore)(reducer, initialState);
     const store = createStore(savedReducer, savedInitialState);
     let devState = {
@@ -27,14 +29,14 @@ const createEnhancers = () => {
       ...savedInitialState,
     };
     const getState = () => devState;
-    const listeners = [];
-    const dispatch = (action) => {
+    const listeners: any = [];
+    const dispatch = (action: any) => {
       devState = reducer(devState, action);
       store.setState(devState.computedStates[devState.currentStateIndex].state);
-      listeners.forEach((f) => f());
+      listeners.forEach((f: any) => f());
       return action;
     };
-    const subscribe = (listener) => {
+    const subscribe = (listener: any) => {
       listeners.push(listener);
       const unsubscribe = () => {
         const index = listeners.indexOf(listener);
@@ -53,11 +55,11 @@ const createEnhancers = () => {
 };
 
 export const reduxDevToolsExt = () => {
-  if (!window.__REDUX_DEVTOOLS_EXTENSION__) return (f) => f;
+  if (!(window as any).__REDUX_DEVTOOLS_EXTENSION__) return (f: any) => f;
   const { before, after } = createEnhancers();
   return compose(
     before,
-    window.__REDUX_DEVTOOLS_EXTENSION__(),
+    (window as any).__REDUX_DEVTOOLS_EXTENSION__(),
     after,
   );
 };
