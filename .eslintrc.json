@@ -29,6 +29,8 @@
     "import/prefer-default-export": "off",
     "import/no-unresolved": ["error", { "ignore": ["react-hooks-global-state"] }],
     "no-underscore-dangle": ["error", { "allow": ["__REDUX_DEVTOOLS_EXTENSION__"] }],
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "no-bitwise": "off",
     "default-case": "off",
     "no-param-reassign": "off",

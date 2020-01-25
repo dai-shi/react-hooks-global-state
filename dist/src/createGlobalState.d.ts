@@ -25,6 +25,6 @@ export declare const createGlobalState: <State>(initialState: State) => Pick<{
     setGlobalState: <Name_2 extends keyof State>(name: Name_2, update: import("react").SetStateAction<State[Name_2]>) => void;
     getState: () => State;
     setState: (nextGlobalState: State) => void;
-    dispatch: (action: unknown) => unknown;
+    dispatch: (action: never) => never;
 }, ExportFields>;
 export {};

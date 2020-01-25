@@ -25,6 +25,6 @@ type ExportFields =
  * };
  */
 export const createGlobalState = <State>(initialState: State) => {
-  const store = createStoreCommon((state: State) => state, initialState);
+  const store = createStoreCommon((state: State, _action: never) => state, initialState);
   return store as Pick<typeof store, ExportFields>;
 };
