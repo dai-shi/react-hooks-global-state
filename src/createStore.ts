@@ -188,6 +188,7 @@ type ExportFields =
 
 /**
  * create a global store
+ *
  * In additon to `useGlobaState` which is the same hook as in createGlobalState,
  * a store has `getState` and `dispatch`.
  * A store works somewhat similarly to Redux, but not the same.

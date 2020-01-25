@@ -101,10 +101,12 @@ const App = () => (
 ### createGlobalState
 
 create a gloal state
-It returns a set of functions:
-`useGlobalState`: a custom hook works like React.useState
-`getGlobalState`: a function to get a global state by name outside React
-`setGlobalState`: a function to set a global state by name outside React
+
+It returns a set of functions
+
+-   `useGlobalState`: a custom hook works like React.useState
+-   `getGlobalState`: a function to get a global state by name outside React
+-   `setGlobalState`: a function to set a global state by name outside React
 
 #### Parameters
 
@@ -126,6 +128,7 @@ const Component = () => {
 ### createStore
 
 create a global store
+
 In additon to `useGlobaState` which is the same hook as in createGlobalState,
 a store has `getState` and `dispatch`.
 A store works somewhat similarly to Redux, but not the same.
