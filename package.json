@@ -34,8 +34,7 @@
     "examples:10_immer": "DIR=10_immer webpack-dev-server",
     "examples:11_deep": "DIR=11_deep webpack-dev-server",
     "examples:12_effect": "DIR=12_effect webpack-dev-server",
-    "examples:13_persistence": "DIR=13_persistence webpack-dev-server",
-    "examples:14_hotloader": "DIR=14_hotloader webpack-dev-server"
+    "examples:13_persistence": "DIR=13_persistence webpack-dev-server"
   },
   "keywords": [
     "react",
