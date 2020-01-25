@@ -1,13 +1,4 @@
-import { Reducer, SetStateAction } from 'react';
-export declare const createStoreCommon: <State, Action>(reducer: Reducer<State, Action>, initialState: State) => {
-    useGlobalStateProvider: () => void;
-    useGlobalState: <Name extends keyof State>(name: Name) => readonly [State[Name], (u: SetStateAction<State[Name]>) => void];
-    getGlobalState: <Name_1 extends keyof State>(name: Name_1) => State[Name_1];
-    setGlobalState: <Name_2 extends keyof State>(name: Name_2, update: SetStateAction<State[Name_2]>) => void;
-    getState: () => State;
-    setState: (nextGlobalState: State) => void;
-    dispatch: (action: Action) => Action;
-};
+import { Reducer } from 'react';
 declare type Enhancer<Creator> = (creator: Creator) => Creator;
 declare type ExportFields = 'useGlobalStateProvider' | 'useGlobalState' | 'getState' | 'dispatch';
 /**
@@ -33,9 +24,9 @@ declare type ExportFields = 'useGlobalStateProvider' | 'useGlobalState' | 'getSt
  */
 export declare const createStore: <State, Action>(reducer: Reducer<State, Action>, initialState?: State, enhancer?: Enhancer<any> | undefined) => Pick<{
     useGlobalStateProvider: () => void;
-    useGlobalState: <Name extends keyof State>(name: Name) => readonly [State[Name], (u: SetStateAction<State[Name]>) => void];
+    useGlobalState: <Name extends keyof State>(name: Name) => readonly [State[Name], (u: import("react").SetStateAction<State[Name]>) => void];
     getGlobalState: <Name_1 extends keyof State>(name: Name_1) => State[Name_1];
-    setGlobalState: <Name_2 extends keyof State>(name: Name_2, update: SetStateAction<State[Name_2]>) => void;
+    setGlobalState: <Name_2 extends keyof State>(name: Name_2, update: import("react").SetStateAction<State[Name_2]>) => void;
     getState: () => State;
     setState: (nextGlobalState: State) => void;
     dispatch: (action: Action) => Action;

@@ -1,4 +1,4 @@
-import { createStoreCommon } from './createStore';
+import { createContainer } from './createContainer';
 
 type ExportFields =
   | 'useGlobalStateProvider'
@@ -25,6 +25,6 @@ type ExportFields =
  * };
  */
 export const createGlobalState = <State>(initialState: State) => {
-  const store = createStoreCommon((state: State, _action: never) => state, initialState);
+  const store = createContainer((state: State, _action: never) => state, initialState);
   return store as Pick<typeof store, ExportFields>;
 };
