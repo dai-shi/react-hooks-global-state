@@ -2,7 +2,12 @@
 
 ## [Unreleased]
 
-## [1.0.0-alpha.1] - 2020-01-09
+## [1.0.0-alpha.2] - 2020-01-25
+### Changed
+- Migration to TypeScript (#36)
+  - BREAKING CHANGE: reduxDevToolsExt is now in index
+
+## [1.0.0-alpha.1] - 2020-01-24
 ### Changed
 - New API without context (#35)
   - BREAKING CHANGE: No longer GlobalStateProvider required
