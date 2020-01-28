@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+### Changed
+- Improve naming: stateKey
 
 ## [1.0.0-alpha.2] - 2020-01-25
 ### Changed

@@ -14,8 +14,8 @@ const createEnhancers = () => {
     const store = createStore(reducer, initialState);
     return {
       ...store,
-      useGlobalState: (name: any) => {
-        const [value] = store.useGlobalState(name);
+      useGlobalState: (stateKey: any) => {
+        const [value] = store.useGlobalState(stateKey);
         const MESG = 'Update is not allowed when using DevTools';
         return [value, () => { throw new Error(MESG); }];
       },

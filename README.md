@@ -105,8 +105,8 @@ create a gloal state
 It returns a set of functions
 
 -   `useGlobalState`: a custom hook works like React.useState
--   `getGlobalState`: a function to get a global state by name outside React
--   `setGlobalState`: a function to set a global state by name outside React
+-   `getGlobalState`: a function to get a global state by key outside React
+-   `setGlobalState`: a function to set a global state by key outside React
 
 #### Parameters
 

@@ -20,9 +20,9 @@ const updateValue = <Value>(oldValue: Value, newValue: SetStateAction<Value>) =>
   return newValue;
 };
 
-const validateName = (keys: string[], name: string) => {
-  if (!keys.includes(name)) {
-    throw new Error(`'${name}' not found. It must be provided in initialState as a property key.`);
+const validateStateKey = (keys: string[], stateKey: string) => {
+  if (!keys.includes(stateKey)) {
+    throw new Error(`'${stateKey}' not found. It must be provided in initialState as a property key.`);
   }
 };
 
@@ -42,6 +42,7 @@ export const createContainer = <State, Action>(
   reducer: Reducer<State, Action>,
   initialState: State,
 ) => {
+  type StateKeys = keyof State;
   const keys = Object.keys(initialState);
 
   let globalState = initialState;
@@ -52,9 +53,9 @@ export const createContainer = <State, Action>(
   let linkedDispatch: Dispatch<Action | PatchAction> | null = null;
 
   const listeners = {} as {
-    [key in keyof State]: Set<Dispatch<SetStateAction<State[key]>>>;
+    [stateKey in StateKeys]: Set<Dispatch<SetStateAction<State[stateKey]>>>;
   };
-  keys.forEach((key) => { listeners[key as keyof State] = new Set(); });
+  keys.forEach((key) => { listeners[key as StateKeys] = new Set(); });
 
   const patchedReducer = (state: State, action: Action | PatchAction) => {
     // how can it be typed more properly?
@@ -66,31 +67,31 @@ export const createContainer = <State, Action>(
     return reducer(state, action as Action);
   };
 
-  const setGlobalState = <Name extends keyof State>(
-    name: Name,
-    update: SetStateAction<State[Name]>,
+  const setGlobalState = <StateKey extends StateKeys>(
+    stateKey: StateKey,
+    update: SetStateAction<State[StateKey]>,
   ) => {
     if (process.env.NODE_ENV !== 'production') {
-      validateName(keys, name as string);
+      validateStateKey(keys, stateKey as string);
     }
     const updater = (previousState: State): State => ({
       ...previousState,
-      [name]: updateValue(previousState[name], update),
+      [stateKey]: updateValue(previousState[stateKey], update),
     });
     if (linkedDispatch) {
       linkedDispatch({ type: UPDATE_STATE, [PROP_UPDATER]: updater });
     } else {
       globalState = updater(globalState);
-      const nextPartialState = globalState[name];
-      listeners[name].forEach((listener) => listener(nextPartialState));
+      const nextPartialState = globalState[stateKey];
+      listeners[stateKey].forEach((listener) => listener(nextPartialState));
     }
   };
 
   const notifyListeners = (prevState: State, nextState: State) => {
     keys.forEach((key) => {
-      const nextPartialState = nextState[key as keyof State];
-      if (prevState[key as keyof State] !== nextPartialState) {
-        listeners[key as keyof State].forEach((listener) => listener(nextPartialState));
+      const nextPartialState = nextState[key as StateKeys];
+      if (prevState[key as StateKeys] !== nextPartialState) {
+        listeners[key as StateKeys].forEach((listener) => listener(nextPartialState));
       }
     });
   };
@@ -115,31 +116,31 @@ export const createContainer = <State, Action>(
     }, [state]);
   };
 
-  const useGlobalState = <Name extends keyof State>(name: Name) => {
+  const useGlobalState = <StateKey extends StateKeys>(stateKey: StateKey) => {
     if (process.env.NODE_ENV !== 'production') {
-      validateName(keys, name as string);
+      validateStateKey(keys, stateKey as string);
     }
-    const [partialState, setPartialState] = useState(globalState[name]);
+    const [partialState, setPartialState] = useState(globalState[stateKey]);
     useEffect(() => {
-      listeners[name].add(setPartialState);
-      setPartialState(globalState[name]); // in case it's changed before this effect is handled
+      listeners[stateKey].add(setPartialState);
+      setPartialState(globalState[stateKey]); // in case it's changed before this effect is handled
       const cleanup = () => {
-        listeners[name].delete(setPartialState);
+        listeners[stateKey].delete(setPartialState);
       };
       return cleanup;
-    }, [name]);
+    }, [stateKey]);
     const updater = useCallback(
-      (u: SetStateAction<State[Name]>) => setGlobalState(name, u),
-      [name],
+      (u: SetStateAction<State[StateKey]>) => setGlobalState(stateKey, u),
+      [stateKey],
     );
     return [partialState, updater] as const;
   };
 
-  const getGlobalState = <Name extends keyof State>(name: Name) => {
+  const getGlobalState = <StateKey extends StateKeys>(stateKey: StateKey) => {
     if (process.env.NODE_ENV !== 'production') {
-      validateName(keys, name as string);
+      validateStateKey(keys, stateKey as string);
     }
-    return globalState[name];
+    return globalState[stateKey];
   };
 
   const getWholeState = () => globalState;
