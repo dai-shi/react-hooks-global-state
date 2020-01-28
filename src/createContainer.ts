@@ -53,7 +53,7 @@ export const createContainer = <State, Action>(
   let linkedDispatch: Dispatch<Action | PatchAction> | null = null;
 
   const listeners = {} as {
-    [stateKey in StateKeys]: Set<Dispatch<SetStateAction<State[stateKey]>>>;
+    [StateKey in StateKeys]: Set<Dispatch<SetStateAction<State[StateKey]>>>;
   };
   keys.forEach((key) => { listeners[key as StateKeys] = new Set(); });
 
