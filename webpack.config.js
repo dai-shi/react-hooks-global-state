@@ -10,6 +10,9 @@ module.exports = {
   mode: 'development',
   devtool: 'cheap-module-eval-source-map',
   entry: `./examples/${DIR}/src/index.${EXT}`,
+  output: {
+    publicPath: '/',
+  },
   plugins: [
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development',
@@ -21,22 +24,7 @@ module.exports = {
   ],
   module: {
     rules: [{
-      test: /\.jsx?$/,
-      exclude: /node_modules/,
-      use: [{
-        loader: 'babel-loader',
-        options: {
-          presets: [
-            '@babel/preset-env',
-            '@babel/preset-react',
-          ],
-          plugins: [
-            'react-refresh/babel',
-          ],
-        },
-      }],
-    }, {
-      test: /\.tsx?$/,
+      test: /\.[jt]sx?$/,
       exclude: /node_modules/,
       use: [{
         loader: 'babel-loader',
@@ -47,6 +35,9 @@ module.exports = {
         },
       }, {
         loader: 'ts-loader',
+        options: {
+          transpileOnly: true,
+        },
       }],
     }],
   },
@@ -59,6 +50,7 @@ module.exports = {
   devServer: {
     port: process.env.PORT || '8080',
     contentBase: `./examples/${DIR}/public`,
+    historyApiFallback: true,
     hot: true,
   },
 };
