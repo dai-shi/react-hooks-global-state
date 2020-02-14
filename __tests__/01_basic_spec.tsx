@@ -6,8 +6,9 @@ import { createGlobalState, createStore } from '../src/index';
 describe('basic spec', () => {
   afterEach(cleanup);
 
-  it('should have a function', () => {
+  it('should exists exported functions', () => {
     expect(createGlobalState).toBeDefined();
+    expect(createStore).toBeDefined();
   });
 
   it('should be possible to not specify initial state', () => {
