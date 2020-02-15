@@ -7,7 +7,7 @@ const PageInfo = () => {
   return (
     <div>
       <h1>PageInfo</h1>
-      {value}
+      {value && <span>{value}</span>}
     </div>
   );
 };

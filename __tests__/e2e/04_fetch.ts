@@ -2,7 +2,7 @@
 
 jest.setTimeout(15 * 1000);
 
-describe('03_actions', () => {
+describe('04_fetch', () => {
   it('should work with events', async () => {
     await page.goto(`http://localhost:${process.env.PORT || '8080'}/`);
 

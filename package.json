@@ -28,6 +28,7 @@
     "e2e-test:02_typescript": "server-test examples:02_typescript 8080 'jest --preset jest-puppeteer __tests__/e2e/02_typescript.ts'",
     "e2e-test:03_actions": "server-test examples:03_actions 8080 'jest --preset jest-puppeteer __tests__/e2e/03_actions.ts'",
     "e2e-test:04_fetch": "server-test examples:04_fetch 8080 'jest --preset jest-puppeteer __tests__/e2e/04_fetch.ts'",
+    "e2e-test:05_onmount": "server-test examples:05_onmount 8080 'jest --preset jest-puppeteer __tests__/e2e/05_onmount.ts'",
     "examples:01_minimal": "DIR=01_minimal EXT=js webpack-dev-server",
     "examples:02_typescript": "DIR=02_typescript webpack-dev-server",
     "examples:03_actions": "DIR=03_actions webpack-dev-server",
