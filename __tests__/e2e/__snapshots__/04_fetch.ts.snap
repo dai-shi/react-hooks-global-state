@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`03_actions should work with events 1`] = `
+"
+    <div id=\\"app\\"><div><h1>PageInfo</h1></div><div><button type=\\"button\\">Random</button></div><div style=\\"color: red;\\"></div></div>
+  <script type=\\"text/javascript\\" src=\\"/main.js\\"></script>
+
+"
+`;
+
+exports[`03_actions should work with events 2`] = `
+"
+    <div id=\\"app\\"><div><h1>PageInfo</h1>sunt aut facere repellat provident occaecati excepturi optio reprehenderit</div><div><button type=\\"button\\">Random</button></div><div style=\\"color: red;\\"></div></div>
+  <script type=\\"text/javascript\\" src=\\"/main.js\\"></script>
+
+"
+`;
+
+exports[`03_actions should work with events 3`] = `
+"
+    <div id=\\"app\\"><div><h1>PageInfo</h1>qui est esse</div><div><button type=\\"button\\">Random</button></div><div style=\\"color: red;\\"></div></div>
+  <script type=\\"text/javascript\\" src=\\"/main.js\\"></script>
+
+"
+`;
