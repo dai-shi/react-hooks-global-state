@@ -23,6 +23,7 @@ const TextBox: React.SFC<{ text: string }> = ({ text }) => {
   return <span>{text}</span>;
 };
 
+let numRendered = 0;
 const PersonFirstName = () => {
   const [value] = useGlobalState('person');
   const { firstName } = value;
@@ -32,6 +33,7 @@ const PersonFirstName = () => {
         First Name:
         <TextBox text={firstName} />
         <input value={firstName} onChange={setFirstName} />
+        <span>(numRendered: {++numRendered})</span>
       </div>
     ),
     [firstName],
@@ -47,6 +49,7 @@ const PersonLastName = () => {
         Last Name:
         <TextBox text={lastName} />
         <input value={lastName} onChange={setLastName} />
+        <span>(numRendered: {++numRendered})</span>
       </div>
     ),
     [lastName],
@@ -63,6 +66,7 @@ const PersonAge = () => {
         <div>
           Age:
           <input value={age} onChange={setAge} />
+          <span>(numRendered: {++numRendered})</span>
         </div>
         <div>
           Age Doubled:
