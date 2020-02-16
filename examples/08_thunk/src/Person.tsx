@@ -17,6 +17,8 @@ const setAge = (event: React.FormEvent<HTMLInputElement>) => dispatch({
   type: 'setAge',
 });
 
+let id = 0;
+
 const setRandomFirstName = () => {
   const dispatchForThunk = dispatch as Dispatch<Action | ((d: Dispatch<Action>) => void)>;
   dispatchForThunk(async (d: Dispatch<Action>) => {
@@ -25,7 +27,11 @@ const setRandomFirstName = () => {
       type: 'setFirstName',
     });
     try {
-      const id = Math.floor(100 * Math.random());
+      if (id < 3) {
+        id += 1; // fixing for e2e test
+      } else {
+        id = Math.floor(100 * Math.random());
+      }
       const url = `https://jsonplaceholder.typicode.com/posts/${id}`;
       const response = await fetch(url);
       const body = await response.json();
@@ -49,7 +55,11 @@ const Person = () => {
       <button type="button" onClick={setRandomFirstName}>Random First Name</button>
       <div>
         First Name:
-        <input value={value.firstName} onChange={setFirstName} />
+        {value.firstName === 'Loading...' ? (
+          <span>Loading...</span>
+        ) : (
+          <input value={value.firstName} onChange={setFirstName} />
+        )}
       </div>
       <div>
         Last Name:

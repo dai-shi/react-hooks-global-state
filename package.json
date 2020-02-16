@@ -31,6 +31,7 @@
     "e2e-test:05_onmount": "server-test examples:05_onmount 8080 'jest --preset jest-puppeteer __tests__/e2e/05_onmount.ts'",
     "e2e-test:06_reducer": "server-test examples:06_reducer 8080 'jest --preset jest-puppeteer __tests__/e2e/06_reducer.ts'",
     "e2e-test:07_middleware": "server-test examples:07_middleware 8080 'jest --preset jest-puppeteer __tests__/e2e/07_middleware.ts'",
+    "e2e-test:08_thunk": "server-test examples:08_thunk 8080 'jest --preset jest-puppeteer __tests__/e2e/08_thunk.ts'",
     "examples:01_minimal": "DIR=01_minimal EXT=js webpack-dev-server",
     "examples:02_typescript": "DIR=02_typescript webpack-dev-server",
     "examples:03_actions": "DIR=03_actions webpack-dev-server",

@@ -8,7 +8,7 @@ const fetchPageTitle = async (setLoading: (x: boolean) => void) => {
   setLoading(true);
   try {
     if (id < 3) {
-      id += 1;
+      id += 1; // fixing for e2e test
     } else {
       id = Math.floor(100 * Math.random());
     }
