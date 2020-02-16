@@ -11,7 +11,7 @@ const Counter = () => {
   const [bonus] = useGlobalState('bonus');
   useEffect(
     () => {
-      addBonus(Math.random());
+      addBonus(value < 3 ? 10 : Math.random());
     },
     [value],
   );

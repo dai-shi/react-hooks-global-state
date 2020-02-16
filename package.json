@@ -35,6 +35,7 @@
     "e2e-test:09_comparison": "server-test examples:09_comparison 8080 'jest --preset jest-puppeteer __tests__/e2e/09_comparison.ts'",
     "e2e-test:10_immer": "server-test examples:10_immer 8080 'jest --preset jest-puppeteer __tests__/e2e/10_immer.ts'",
     "e2e-test:11_deep": "server-test examples:11_deep 8080 'jest --preset jest-puppeteer __tests__/e2e/11_deep.ts'",
+    "e2e-test:12_effect": "server-test examples:12_effect 8080 'jest --preset jest-puppeteer __tests__/e2e/12_effect.ts'",
     "examples:01_minimal": "DIR=01_minimal EXT=js webpack-dev-server",
     "examples:02_typescript": "DIR=02_typescript webpack-dev-server",
     "examples:03_actions": "DIR=03_actions webpack-dev-server",
