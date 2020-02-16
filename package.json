@@ -32,6 +32,7 @@
     "e2e-test:06_reducer": "server-test examples:06_reducer 8080 'jest --preset jest-puppeteer __tests__/e2e/06_reducer.ts'",
     "e2e-test:07_middleware": "server-test examples:07_middleware 8080 'jest --preset jest-puppeteer __tests__/e2e/07_middleware.ts'",
     "e2e-test:08_thunk": "server-test examples:08_thunk 8080 'jest --preset jest-puppeteer __tests__/e2e/08_thunk.ts'",
+    "e2e-test:09_comparison": "server-test examples:09_comparison 8080 'jest --preset jest-puppeteer __tests__/e2e/09_comparison.ts'",
     "e2e-test:10_immer": "server-test examples:10_immer 8080 'jest --preset jest-puppeteer __tests__/e2e/10_immer.ts'",
     "examples:01_minimal": "DIR=01_minimal EXT=js webpack-dev-server",
     "examples:02_typescript": "DIR=02_typescript webpack-dev-server",

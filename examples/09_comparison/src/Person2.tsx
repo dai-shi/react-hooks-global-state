@@ -2,6 +2,8 @@ import React, { useCallback } from 'react';
 
 import { useDispatch, useGlobalState } from './state2';
 
+let numRendered = 0;
+
 const Person = () => {
   const value = useGlobalState('person');
   const dispatch = useDispatch();
@@ -26,6 +28,7 @@ const Person = () => {
     }),
     [dispatch],
   );
+  numRendered += 1;
   return (
     <div>
       <div>
@@ -40,6 +43,7 @@ const Person = () => {
         Age:
         <input value={value.age} onChange={setAge} />
       </div>
+      <div>(numRendered: {numRendered})</div>
     </div>
   );
 };
