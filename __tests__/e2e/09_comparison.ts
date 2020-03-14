@@ -5,6 +5,8 @@ jest.setTimeout(15 * 1000);
 let base = '';
 
 const run = async () => {
+  await page.waitForSelector(`${base}div:nth-of-type(1) > button:nth-of-type(1)`);
+
   await page.click(`${base}div:nth-of-type(1) > button:nth-of-type(1)`);
   expect(await page.evaluate(() => document.body.innerHTML)).toMatchSnapshot();
 
