@@ -1,7 +1,6 @@
 import { createContainer } from './createContainer';
 
 type ExportFields =
-  | 'useGlobalStateProvider'
   | 'useGlobalState'
   | 'getGlobalState'
   | 'setGlobalState';

@@ -1,12 +1,13 @@
+/* eslint @typescript-eslint/ban-ts-ignore: off */
+
 import {
-  Dispatch,
   Reducer,
   SetStateAction,
+  // @ts-ignore
+  createMutableSource,
   useCallback,
-  useEffect,
-  useReducer,
-  useRef,
-  useState,
+  // @ts-ignore
+  useMutableSource,
 } from 'react';
 
 // utility functions
@@ -28,13 +29,8 @@ const validateStateKey = (keys: string[], stateKey: string) => {
 
 // constants
 
-const UPDATE_STATE = (
-  process.env.NODE_ENV !== 'production' ? Symbol('UPDATE_STATE')
-  /* for production */ : Symbol()
-);
-
-const PROP_UPDATER = 'r';
-const PROP_STATE = 'e';
+const GLOBAL_STATE_PROPERTY = 'g';
+const LISTENERS_PROPERTY = 'l';
 
 // createContainer
 
@@ -45,27 +41,21 @@ export const createContainer = <State, Action>(
   type StateKeys = keyof State;
   const keys = Object.keys(initialState);
 
-  let globalState = initialState;
-
-  type PA1 = { type: typeof UPDATE_STATE; [PROP_UPDATER]: (prev: State) => State };
-  type PA2 = { type: typeof UPDATE_STATE; [PROP_STATE]: State };
-  type PatchAction = PA1 | PA2;
-  let linkedDispatch: Dispatch<Action | PatchAction> | null = null;
-
-  const listeners = {} as {
-    [StateKey in StateKeys]: Set<Dispatch<SetStateAction<State[StateKey]>>>;
+  const createListeners = () => {
+    const listeners = {} as { [StateKey in StateKeys]: Set<() => void> };
+    keys.forEach((key) => { listeners[key as StateKeys] = new Set(); });
+    return listeners;
   };
-  keys.forEach((key) => { listeners[key as StateKeys] = new Set(); });
 
-  const patchedReducer = (state: State, action: Action | PatchAction) => {
-    // how can it be typed more properly?
-    if ((action as { type: unknown }).type === UPDATE_STATE) {
-      return (action as { [PROP_UPDATER]: unknown })[PROP_UPDATER]
-        ? (action as PA1)[PROP_UPDATER](state)
-        : (action as PA2)[PROP_STATE];
-    }
-    return reducer(state, action as Action);
+  const source = {
+    [GLOBAL_STATE_PROPERTY]: initialState,
+    [LISTENERS_PROPERTY]: createListeners(),
   };
+
+  const mutableSource = createMutableSource(
+    source,
+    (s: typeof source) => s[GLOBAL_STATE_PROPERTY],
+  );
 
   const setGlobalState = <StateKey extends StateKeys>(
     stateKey: StateKey,
@@ -78,57 +68,39 @@ export const createContainer = <State, Action>(
       ...previousState,
       [stateKey]: updateValue(previousState[stateKey], update),
     });
-    if (linkedDispatch) {
-      linkedDispatch({ type: UPDATE_STATE, [PROP_UPDATER]: updater });
-    } else {
-      globalState = updater(globalState);
-      const nextPartialState = globalState[stateKey];
-      listeners[stateKey].forEach((listener) => listener(nextPartialState));
-    }
+    source[GLOBAL_STATE_PROPERTY] = updater(source[GLOBAL_STATE_PROPERTY]);
+    source[LISTENERS_PROPERTY][stateKey].forEach((listener) => {
+      listener();
+    });
   };
 
   const notifyListeners = (prevState: State, nextState: State) => {
     keys.forEach((key) => {
       const nextPartialState = nextState[key as StateKeys];
       if (prevState[key as StateKeys] !== nextPartialState) {
-        listeners[key as StateKeys].forEach((listener) => listener(nextPartialState));
+        source[LISTENERS_PROPERTY][key as StateKeys].forEach((listener) => {
+          listener();
+        });
       }
     });
-  };
-
-  const useGlobalStateProvider = () => {
-    const [state, dispatch] = useReducer(patchedReducer, globalState);
-    useEffect(() => {
-      if (linkedDispatch) throw new Error('Only one global state provider is allowed');
-      linkedDispatch = dispatch;
-      // in case it's changed before this effect is handled
-      dispatch({ type: UPDATE_STATE, [PROP_STATE]: globalState });
-      const cleanup = () => {
-        linkedDispatch = null;
-      };
-      return cleanup;
-    }, []);
-    const prevGlobalState = useRef(state);
-    notifyListeners(prevGlobalState.current, state);
-    prevGlobalState.current = state;
-    useEffect(() => {
-      globalState = state;
-    }, [state]);
   };
 
   const useGlobalState = <StateKey extends StateKeys>(stateKey: StateKey) => {
     if (process.env.NODE_ENV !== 'production') {
       validateStateKey(keys, stateKey as string);
     }
-    const [partialState, setPartialState] = useState(globalState[stateKey]);
-    useEffect(() => {
-      listeners[stateKey].add(setPartialState);
-      setPartialState(globalState[stateKey]); // in case it's changed before this effect is handled
-      const cleanup = () => {
-        listeners[stateKey].delete(setPartialState);
+    const getSnapshot = useCallback((s: typeof source) => (
+      s[GLOBAL_STATE_PROPERTY][stateKey]
+    ), [stateKey]);
+    const subscribe = useCallback((s: typeof source, callback: () => void) => {
+      const listeners = s[LISTENERS_PROPERTY][stateKey];
+      listeners.add(callback);
+      const unsubscribe = () => {
+        listeners.delete(callback);
       };
-      return cleanup;
+      return unsubscribe;
     }, [stateKey]);
+    const partialState = useMutableSource(mutableSource, getSnapshot, subscribe);
     const updater = useCallback(
       (u: SetStateAction<State[StateKey]>) => setGlobalState(stateKey, u),
       [stateKey],
@@ -140,34 +112,25 @@ export const createContainer = <State, Action>(
     if (process.env.NODE_ENV !== 'production') {
       validateStateKey(keys, stateKey as string);
     }
-    return globalState[stateKey];
+    return source[GLOBAL_STATE_PROPERTY][stateKey];
   };
 
-  const getWholeState = () => globalState;
+  const getWholeState = () => source[GLOBAL_STATE_PROPERTY];
 
   const setWholeState = (nextGlobalState: State) => {
-    if (linkedDispatch) {
-      linkedDispatch({ type: UPDATE_STATE, [PROP_STATE]: nextGlobalState });
-    } else {
-      const prevGlobalState = globalState;
-      globalState = nextGlobalState;
-      notifyListeners(prevGlobalState, globalState);
-    }
+    const prevGlobalState = source[GLOBAL_STATE_PROPERTY];
+    source[GLOBAL_STATE_PROPERTY] = nextGlobalState;
+    notifyListeners(prevGlobalState, nextGlobalState);
   };
 
   const dispatchAction = (action: Action) => {
-    if (linkedDispatch) {
-      linkedDispatch(action);
-    } else {
-      const prevGlobalState = globalState;
-      globalState = reducer(globalState, action);
-      notifyListeners(prevGlobalState, globalState);
-    }
+    const prevGlobalState = source[GLOBAL_STATE_PROPERTY];
+    source[GLOBAL_STATE_PROPERTY] = reducer(prevGlobalState, action);
+    notifyListeners(prevGlobalState, source[GLOBAL_STATE_PROPERTY]);
     return action;
   };
 
   return {
-    useGlobalStateProvider,
     useGlobalState,
     getGlobalState,
     setGlobalState,

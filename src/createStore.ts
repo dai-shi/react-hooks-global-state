@@ -5,7 +5,6 @@ import { createContainer } from './createContainer';
 type Enhancer<Creator> = (creator: Creator) => Creator;
 
 type ExportFields =
-  | 'useGlobalStateProvider'
   | 'useGlobalState'
   | 'getState'
   | 'dispatch';
