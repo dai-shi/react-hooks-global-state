@@ -2,6 +2,9 @@
   "name": "react-hooks-global-state",
   "description": "Simple global state for React with Hooks API",
   "version": "2.0.0-alpha.1",
+  "publishConfig": {
+    "tag": "next"
+  },
   "author": "Daishi Kato",
   "repository": {
     "type": "git",
