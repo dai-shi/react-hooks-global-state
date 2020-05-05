@@ -3,7 +3,7 @@
 exports[`05_onmount should work with events 1`] = `
 "
     <div id=\\"app\\"><div><h1>PageInfo</h1><span>sunt aut facere repellat provident occaecati excepturi optio reprehenderit</span></div><div><button type=\\"button\\">Random</button></div><div style=\\"color: red;\\"></div></div>
-  <script type=\\"text/javascript\\" src=\\"/main.js\\"></script>
+  <script src=\\"/main.js\\"></script>
 
 "
 `;

@@ -20,7 +20,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: `./examples/${DIR}/public/index.html`,
     }),
-    new ReactRefreshWebpackPlugin(),
+    ...(process.env.NO_REACT_REFRESH ? [] : [new ReactRefreshWebpackPlugin()]),
   ],
   module: {
     rules: [{
@@ -30,7 +30,7 @@ module.exports = {
         loader: 'babel-loader',
         options: {
           plugins: [
-            'react-refresh/babel',
+            ...(process.env.NO_REACT_REFRESH ? [] : ['react-refresh/babel']),
           ],
         },
       }, {
