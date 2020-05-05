@@ -3,7 +3,7 @@ import { render, cleanup } from '@testing-library/react';
 
 import { createGlobalState, createStore } from '../src/index';
 
-describe('startup spec', () => {
+describe.skip('startup spec', () => {
   afterEach(cleanup);
 
   it('should setSetGlobalState at start up', () => {
