@@ -1,13 +1,11 @@
+/* eslint @typescript-eslint/no-explicit-any: off */
+
 import { Reducer } from 'react';
 
-import { createContainer } from './createContainer';
+import { Atom, createAtom } from './createAtom';
+import { useAtom } from './useAtom';
 
 type Enhancer<Creator> = (creator: Creator) => Creator;
-
-type ExportFields =
-  | 'useGlobalState'
-  | 'getState'
-  | 'dispatch';
 
 /**
  * create a global store
@@ -32,12 +30,17 @@ type ExportFields =
  */
 export const createStore = <State, Action>(
   reducer: Reducer<State, Action>,
-  /* eslint-disable @typescript-eslint/no-explicit-any */
   initialState: State = (reducer as any)(undefined, { type: undefined }),
   enhancer?: Enhancer<any>,
-  /* eslint-enable @typescript-eslint/no-explicit-any */
 ) => {
   if (enhancer) return enhancer(createStore)(reducer, initialState) as never;
-  const store = createContainer(reducer, initialState);
-  return store as Pick<typeof store, ExportFields>;
+  const atom = createAtom(initialState, reducer);
+  return {
+    useGlobalState: <StateKey extends keyof State>(stateKey: StateKey) => (
+      useAtom<State, StateKey>(atom as Atom<State, any>, stateKey)
+    ),
+    getState: atom.getState,
+    setState: atom.setState, // for library use
+    dispatch: atom.dispatch,
+  };
 };

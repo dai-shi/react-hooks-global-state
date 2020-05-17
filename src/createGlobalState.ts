@@ -1,9 +1,5 @@
-import { createContainer } from './createContainer';
-
-type ExportFields =
-  | 'useGlobalState'
-  | 'getGlobalState'
-  | 'setGlobalState';
+import { createAtom } from './createAtom';
+import { useAtom } from './useAtom';
 
 /**
  * create a gloal state
@@ -24,6 +20,12 @@ type ExportFields =
  * };
  */
 export const createGlobalState = <State>(initialState: State) => {
-  const store = createContainer((state: State, _action: never) => state, initialState);
-  return store as Pick<typeof store, ExportFields>;
+  const atom = createAtom(initialState);
+  return {
+    useGlobalState: <StateKey extends keyof State>(stateKey: StateKey) => (
+      useAtom<State, StateKey>(atom, stateKey)
+    ),
+    getGlobalState: atom.getStateByKey,
+    setGlobalState: atom.setStateByKey,
+  };
 };
