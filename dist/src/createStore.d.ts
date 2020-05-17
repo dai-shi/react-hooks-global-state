@@ -1,6 +1,5 @@
 import { Reducer } from 'react';
 declare type Enhancer<Creator> = (creator: Creator) => Creator;
-declare type ExportFields = 'useGlobalState' | 'getState' | 'dispatch';
 /**
  * create a global store
  *
@@ -22,12 +21,10 @@ declare type ExportFields = 'useGlobalState' | 'getState' | 'dispatch';
  *   ...
  * };
  */
-export declare const createStore: <State, Action>(reducer: Reducer<State, Action>, initialState?: State, enhancer?: Enhancer<any> | undefined) => Pick<{
-    useGlobalState: <StateKey extends keyof State>(stateKey: StateKey) => readonly [any, (u: import("react").SetStateAction<State[StateKey]>) => void];
-    getGlobalState: <StateKey_1 extends keyof State>(stateKey: StateKey_1) => State[StateKey_1];
-    setGlobalState: <StateKey_2 extends keyof State>(stateKey: StateKey_2, update: import("react").SetStateAction<State[StateKey_2]>) => void;
+export declare const createStore: <State, Action>(reducer: Reducer<State, Action>, initialState?: State, enhancer?: Enhancer<any> | undefined) => {
+    useGlobalState: <StateKey extends keyof State>(stateKey: StateKey) => [State[StateKey], (u: import("react").SetStateAction<State[StateKey]>) => void];
     getState: () => State;
-    setState: (nextGlobalState: State) => void;
+    setState: (update: import("react").SetStateAction<State>) => void;
     dispatch: (action: Action) => Action;
-}, ExportFields>;
+};
 export {};
