@@ -8,9 +8,8 @@
     "url": "https://github.com/dai-shi/react-hooks-global-state.git"
   },
   "source": "./src/index.ts",
-  "main": "./dist/index.js",
-  "module": "./dist/index.esm.js",
-  "browser": "./dist/index.umd.js",
+  "main": "./dist/index.umd.js",
+  "module": "./dist/index.modern.js",
   "types": "./dist/src/index.d.ts",
   "sideEffects": false,
   "files": [
@@ -18,7 +17,7 @@
     "dist"
   ],
   "scripts": {
-    "compile": "microbundle build --format cjs,es,umd",
+    "compile": "microbundle build -f modern,umd",
     "test": "run-s eslint tsc-test jest e2e-test:*",
     "eslint": "eslint --ext .js,.ts,.tsx --ignore-pattern dist .",
     "jest": "jest --preset ts-jest/presets/js-with-ts __tests__/*.tsx",
