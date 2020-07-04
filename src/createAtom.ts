@@ -1,4 +1,4 @@
-/* eslint @typescript-eslint/ban-ts-ignore: off */
+/* eslint @typescript-eslint/ban-ts-comment: off */
 /* eslint @typescript-eslint/no-non-null-assertion: off */
 
 import {
@@ -10,6 +10,7 @@ import {
 
 // utility functions
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 const isFunction = (fn: unknown): fn is Function => (typeof fn === 'function');
 
 const updateValue = <Value>(oldValue: Value, newValue: SetStateAction<Value>) => {

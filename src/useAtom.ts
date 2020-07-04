@@ -1,4 +1,4 @@
-/* eslint @typescript-eslint/ban-ts-ignore: off */
+/* eslint @typescript-eslint/ban-ts-comment: off */
 /* eslint @typescript-eslint/no-non-null-assertion: off */
 
 import {
