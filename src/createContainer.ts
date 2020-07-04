@@ -11,6 +11,7 @@ import {
 
 // utility functions
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 const isFunction = (fn: unknown): fn is Function => (typeof fn === 'function');
 
 const updateValue = <Value>(oldValue: Value, newValue: SetStateAction<Value>) => {

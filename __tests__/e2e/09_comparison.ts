@@ -36,7 +36,6 @@ const run = async () => {
   expect(await page.evaluate(() => document.body.innerHTML)).toMatchSnapshot();
 };
 
-
 describe('09_comparison', () => {
   it('should work with events', async () => {
     await page.goto(`http://localhost:${process.env.PORT || '8080'}/`);
