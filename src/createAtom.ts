@@ -5,7 +5,7 @@ import {
   Reducer,
   SetStateAction,
   // @ts-ignore
-  createMutableSource,
+  unstable_createMutableSource as createMutableSource,
 } from 'react';
 
 // utility functions

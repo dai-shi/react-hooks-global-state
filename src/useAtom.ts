@@ -5,7 +5,7 @@ import {
   SetStateAction,
   useCallback,
   // @ts-ignore
-  useMutableSource,
+  unstable_useMutableSource as useMutableSource,
 } from 'react';
 
 import type { Atom } from './createAtom';
