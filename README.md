@@ -4,7 +4,7 @@
 [![npm](https://img.shields.io/npm/v/react-hooks-global-state)](https://www.npmjs.com/package/react-hooks-global-state)
 [![size](https://img.shields.io/bundlephobia/minzip/react-hooks-global-state)](https://bundlephobia.com/result?p=react-hooks-global-state)
 
-Simple global state for React with Hooks API
+Simple global state for React with Hooks API without Context API
 
 ## Introduction
 
