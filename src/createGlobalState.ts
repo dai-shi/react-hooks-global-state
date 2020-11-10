@@ -7,7 +7,7 @@ type ExportFields =
   | 'setGlobalState';
 
 /**
- * create a gloal state
+ * create a global state
  *
  * It returns a set of functions
  * - `useGlobalState`: a custom hook works like React.useState
