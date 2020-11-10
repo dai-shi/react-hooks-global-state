@@ -100,7 +100,7 @@ const App = () => (
 
 ### createGlobalState
 
-create a gloal state
+create a global state
 
 It returns a set of functions
 
