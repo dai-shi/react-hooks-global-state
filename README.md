@@ -3,6 +3,7 @@
 [![CI](https://img.shields.io/github/workflow/status/dai-shi/react-hooks-global-state/CI)](https://github.com/dai-shi/react-hooks-global-state/actions?query=workflow%3ACI)
 [![npm](https://img.shields.io/npm/v/react-hooks-global-state)](https://www.npmjs.com/package/react-hooks-global-state)
 [![size](https://img.shields.io/bundlephobia/minzip/react-hooks-global-state)](https://bundlephobia.com/result?p=react-hooks-global-state)
+[![discord](https://img.shields.io/discord/627656437971288081)](https://discord.gg/MrQdmzd)
 
 Simple global state for React with Hooks API without Context API
 
