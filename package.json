@@ -104,5 +104,8 @@
   },
   "peerDependencies": {
     "react": ">=16.8.0"
+  },
+  "resolutions": {
+    "@types/node": "^15"
   }
 }
