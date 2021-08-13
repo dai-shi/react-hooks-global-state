@@ -3,7 +3,7 @@
 exports[`02_typescript should work with events 1`] = `
 "
     <div id=\\"app\\"><h1>Counter</h1><div><span>Count: 1</span><button type=\\"button\\">+1</button><button type=\\"button\\">-1</button><span>Bonus: 40</span></div><div><span>Count: 1</span><button type=\\"button\\">+1</button><button type=\\"button\\">-1</button><span>Bonus: 40</span></div></div>
-  <script src=\\"/main.js\\"></script>
+  
 
 "
 `;
@@ -11,7 +11,7 @@ exports[`02_typescript should work with events 1`] = `
 exports[`02_typescript should work with events 2`] = `
 "
     <div id=\\"app\\"><h1>Counter</h1><div><span>Count: 0</span><button type=\\"button\\">+1</button><button type=\\"button\\">-1</button><span>Bonus: 60</span></div><div><span>Count: 0</span><button type=\\"button\\">+1</button><button type=\\"button\\">-1</button><span>Bonus: 60</span></div></div>
-  <script src=\\"/main.js\\"></script>
+  
 
 "
 `;
@@ -19,7 +19,7 @@ exports[`02_typescript should work with events 2`] = `
 exports[`02_typescript should work with events 3`] = `
 "
     <div id=\\"app\\"><h1>Counter</h1><div><span>Count: 1</span><button type=\\"button\\">+1</button><button type=\\"button\\">-1</button><span>Bonus: 80</span></div><div><span>Count: 1</span><button type=\\"button\\">+1</button><button type=\\"button\\">-1</button><span>Bonus: 80</span></div></div>
-  <script src=\\"/main.js\\"></script>
+  
 
 "
 `;
@@ -27,7 +27,7 @@ exports[`02_typescript should work with events 3`] = `
 exports[`02_typescript should work with events 4`] = `
 "
     <div id=\\"app\\"><h1>Counter</h1><div><span>Count: 0</span><button type=\\"button\\">+1</button><button type=\\"button\\">-1</button><span>Bonus: 100</span></div><div><span>Count: 0</span><button type=\\"button\\">+1</button><button type=\\"button\\">-1</button><span>Bonus: 100</span></div></div>
-  <script src=\\"/main.js\\"></script>
+  
 
 "
 `;
