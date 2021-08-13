@@ -169,19 +169,19 @@ PORT=8080 npm run examples:01_minimal
 and open <http://localhost:8080> in your web browser.
 
 You can also try them in codesandbox.io:
-[01](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/01_minimal)
-[02](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/02_typescript)
-[03](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/03_actions)
-[04](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/04_fetch)
-[05](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/05_onmount)
-[06](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/06_reducer)
-[07](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/07_middleware)
-[08](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/08_thunk)
-[09](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/09_comparison)
-[10](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/10_immer)
-[11](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/11_deep)
-[12](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/12_effect)
-[13](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/master/examples/13_persistence)
+[01](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/main/examples/01_minimal)
+[02](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/main/examples/02_typescript)
+[03](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/main/examples/03_actions)
+[04](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/main/examples/04_fetch)
+[05](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/main/examples/05_onmount)
+[06](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/main/examples/06_reducer)
+[07](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/main/examples/07_middleware)
+[08](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/main/examples/08_thunk)
+[09](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/main/examples/09_comparison)
+[10](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/main/examples/10_immer)
+[11](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/main/examples/11_deep)
+[12](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/main/examples/12_effect)
+[13](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/main/examples/13_persistence)
 
 ## Blogs
 
