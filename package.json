@@ -50,6 +50,12 @@
     "examples:12_effect": "DIR=12_effect webpack-cli serve",
     "examples:13_persistence": "DIR=13_persistence webpack-cli serve"
   },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    }
+  },
   "keywords": [
     "react",
     "state",
