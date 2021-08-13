@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [1.0.2] - 2021-08-14
+### Changed
+- Fix package.json properly for ESM
+
 ## [1.0.1] - 2020-07-04
 ### Changed
 - Modern build
