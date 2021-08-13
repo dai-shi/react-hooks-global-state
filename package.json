@@ -36,19 +36,19 @@
     "e2e-test:11_deep": "server-test examples:11_deep 8080 'jest --preset jest-puppeteer __tests__/e2e/11_deep.ts'",
     "e2e-test:12_effect": "server-test examples:12_effect 8080 'jest --preset jest-puppeteer __tests__/e2e/12_effect.ts'",
     "e2e-test:13_persistence": "server-test examples:13_persistence 8080 'jest --preset jest-puppeteer __tests__/e2e/13_persistence.ts'",
-    "examples:01_minimal": "DIR=01_minimal EXT=js webpack-dev-server",
-    "examples:02_typescript": "DIR=02_typescript webpack-dev-server",
-    "examples:03_actions": "DIR=03_actions webpack-dev-server",
-    "examples:04_fetch": "DIR=04_fetch webpack-dev-server",
-    "examples:05_onmount": "DIR=05_onmount webpack-dev-server",
-    "examples:06_reducer": "DIR=06_reducer webpack-dev-server",
-    "examples:07_middleware": "DIR=07_middleware webpack-dev-server",
-    "examples:08_thunk": "DIR=08_thunk webpack-dev-server",
-    "examples:09_comparison": "DIR=09_comparison webpack-dev-server",
-    "examples:10_immer": "DIR=10_immer webpack-dev-server",
-    "examples:11_deep": "DIR=11_deep webpack-dev-server",
-    "examples:12_effect": "DIR=12_effect webpack-dev-server",
-    "examples:13_persistence": "DIR=13_persistence webpack-dev-server"
+    "examples:01_minimal": "DIR=01_minimal EXT=js webpack-cli serve",
+    "examples:02_typescript": "DIR=02_typescript webpack-cli serve",
+    "examples:03_actions": "DIR=03_actions webpack-cli serve",
+    "examples:04_fetch": "DIR=04_fetch webpack-cli serve",
+    "examples:05_onmount": "DIR=05_onmount webpack-cli serve",
+    "examples:06_reducer": "DIR=06_reducer webpack-cli serve",
+    "examples:07_middleware": "DIR=07_middleware webpack-cli serve",
+    "examples:08_thunk": "DIR=08_thunk webpack-cli serve",
+    "examples:09_comparison": "DIR=09_comparison webpack-cli serve",
+    "examples:10_immer": "DIR=10_immer webpack-cli serve",
+    "examples:11_deep": "DIR=11_deep webpack-cli serve",
+    "examples:12_effect": "DIR=12_effect webpack-cli serve",
+    "examples:13_persistence": "DIR=13_persistence webpack-cli serve"
   },
   "keywords": [
     "react",
@@ -100,7 +100,7 @@
     "typescript": "^4.3.5",
     "webpack": "^5.50.0",
     "webpack-cli": "^4.7.2",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-cli serve": "^3.11.2"
   },
   "peerDependencies": {
     "react": ">=16.8.0"
