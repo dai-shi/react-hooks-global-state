@@ -1,10 +1,14 @@
-/* global page */
+import puppeteer from 'puppeteer';
 
 jest.setTimeout(15 * 1000);
 
 describe('08_thunk', () => {
+  const port = process.env.PORT || '8080';
+
   it('should work with events', async () => {
-    await page.goto(`http://localhost:${process.env.PORT || '8080'}/`);
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.goto(`http://localhost:${port}/`);
 
     await page.click('div:nth-of-type(1) > button:nth-of-type(1)');
     expect(await page.evaluate(() => document.body.innerHTML)).toMatchSnapshot();
@@ -42,5 +46,7 @@ describe('08_thunk', () => {
 
     await page.waitForSelector('div:nth-of-type(3) > div:nth-of-type(1) > input');
     expect(await page.evaluate(() => document.body.innerHTML)).toMatchSnapshot();
+
+    await browser.close();
   });
 });

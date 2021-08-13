@@ -1,8 +1,9 @@
-/* global page */
+import puppeteer from 'puppeteer';
 
 jest.setTimeout(15 * 1000);
 
 let base = '';
+let page: puppeteer.Page;
 
 const run = async () => {
   await page.click(`${base}div:nth-of-type(1) > button:nth-of-type(1)`);
@@ -37,13 +38,19 @@ const run = async () => {
 };
 
 describe('09_comparison', () => {
+  const port = process.env.PORT || '8080';
+
   it('should work with events', async () => {
-    await page.goto(`http://localhost:${process.env.PORT || '8080'}/`);
+    const browser = await puppeteer.launch();
+    page = await browser.newPage();
+    await page.goto(`http://localhost:${port}/`);
 
     base = 'body > div > div > div:nth-of-type(1) > ';
     await run();
 
     base = 'body > div > div > div:nth-of-type(2) > ';
     await run();
+
+    await browser.close();
   });
 });
