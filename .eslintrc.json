@@ -30,12 +30,13 @@
     "import/prefer-default-export": "off",
     "import/no-unresolved": ["error", { "ignore": ["react-hooks-global-state"] }],
     "no-underscore-dangle": ["error", { "allow": ["__REDUX_DEVTOOLS_EXTENSION__"] }],
-    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "no-plusplus": "off",
     "default-case": "off",
     "no-param-reassign": "off",
-    "symbol-description": "off"
+    "symbol-description": "off",
+    "no-use-before-define": "off",
+    "no-unused-vars": "off"
   },
   "overrides": [{
     "files": ["__tests__/**/*"],
