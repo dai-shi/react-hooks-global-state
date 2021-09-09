@@ -1,14 +1,15 @@
-import { Reducer } from 'react';
+/* eslint @typescript-eslint/no-explicit-any: off */
 
-import { createContainer } from './createContainer';
+import { Reducer, useCallback } from 'react';
 
-type Enhancer<Creator> = (creator: Creator) => Creator;
+import create from 'zustand';
+import { redux } from 'zustand/middleware';
 
-type ExportFields =
-  | 'useGlobalStateProvider'
-  | 'useGlobalState'
-  | 'getState'
-  | 'dispatch';
+const validateStateKey = (keys: string[], stateKey: string) => {
+  if (!keys.includes(stateKey)) {
+    throw new Error(`'${stateKey}' not found. It must be provided in initialState as a property key.`);
+  }
+};
 
 /**
  * create a global store
@@ -31,14 +32,34 @@ type ExportFields =
  *   ...
  * };
  */
-export const createStore = <State, Action>(
+export const createStore = <State extends object, Action extends { type: unknown }>(
   reducer: Reducer<State, Action>,
-  /* eslint-disable @typescript-eslint/no-explicit-any */
   initialState: State = (reducer as any)(undefined, { type: undefined }),
-  enhancer?: Enhancer<any>,
-  /* eslint-enable @typescript-eslint/no-explicit-any */
+  enhancer?: any,
 ) => {
   if (enhancer) return enhancer(createStore)(reducer, initialState) as never;
-  const store = createContainer(reducer, initialState);
-  return store as Pick<typeof store, ExportFields>;
+
+  const useStore = create<State>(redux(reducer, initialState));
+
+  type StateKeys = keyof State;
+  const keys = Object.keys(initialState);
+
+  const useGlobalState = <StateKey extends StateKeys>(stateKey: StateKey) => {
+    if (process.env.NODE_ENV !== 'production') {
+      validateStateKey(keys, stateKey as string);
+    }
+    const selector = useCallback((state: State) => state[stateKey], [stateKey]);
+    const partialState = useStore(selector);
+    return [partialState] as const;
+  };
+
+  const getState = (): State => useStore.getState();
+
+  const dispatch = (action: Action): Action => (useStore as any).dispatch(action);
+
+  return {
+    useGlobalState,
+    getState,
+    dispatch,
+  };
 };

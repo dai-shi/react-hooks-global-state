@@ -1,6 +1,9 @@
 # Change Log
 
 ## [Unreleased]
+### Changed
+- Re-implemented with zustand as a dependency
+- BREAKING CHANGE: `useGlobalState` created with `createStore` doesn't return the second part of the tuple
 ### Removed
 - BREAKING CHANGE: drop reduxDevToolsExt
   - Reference implementation in `examples/08_thunk/src/devtools.ts`

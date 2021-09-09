@@ -12,14 +12,19 @@ describe('basic spec', () => {
   });
 
   it('should be possible to not specify initial state', () => {
-    const reducer = () => ({ count: 0 });
-    const { useGlobalState } = createStore(reducer);
+    const reducer = (state = { count: 0 }, action: { type: 'INC' }) => {
+      if (action.type === 'INC') {
+        return { count: state.count + 1 };
+      }
+      return state;
+    };
+    const { useGlobalState, dispatch } = createStore(reducer);
     const Counter = () => {
-      const [value, update] = useGlobalState('count');
+      const [value] = useGlobalState('count');
       return (
         <div>
           <span>{value}</span>
-          <button type="button" onClick={() => update(value + 1)}>+1</button>
+          <button type="button" onClick={() => dispatch({ type: 'INC' })}>+1</button>
         </div>
       );
     };
