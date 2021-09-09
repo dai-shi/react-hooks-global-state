@@ -10,12 +10,9 @@ const validateStateKey = (keys: string[], stateKey: string) => {
 
 const isFunction = (fn: unknown): fn is Function => (typeof fn === 'function');
 
-const updateValue = <Value>(oldValue: Value, newValue: SetStateAction<Value>) => {
-  if (isFunction(newValue)) {
-    return newValue(oldValue);
-  }
-  return newValue;
-};
+const updateValue = <Value>(oldValue: Value, newValue: SetStateAction<Value>) => (
+  isFunction(newValue) ? newValue(oldValue) : newValue
+);
 
 /**
  * Create a global state.

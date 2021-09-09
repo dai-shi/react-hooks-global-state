@@ -1,6 +1,6 @@
 /* eslint @typescript-eslint/no-explicit-any: off */
 
-import { Reducer, useCallback } from 'react';
+import { Reducer, SetStateAction, useCallback } from 'react';
 
 import create from 'zustand';
 import { redux } from 'zustand/middleware';
@@ -10,6 +10,12 @@ const validateStateKey = (keys: string[], stateKey: string) => {
     throw new Error(`'${stateKey}' not found. It must be provided in initialState as a property key.`);
   }
 };
+
+const isFunction = (fn: unknown): fn is Function => (typeof fn === 'function');
+
+const updateValue = <Value>(oldValue: Value, newValue: SetStateAction<Value>) => (
+  isFunction(newValue) ? newValue(oldValue) : newValue
+);
 
 /**
  * Create a global store.
@@ -40,7 +46,7 @@ export const createStore = <State extends object, Action extends { type: unknown
   initialState: State = (reducer as any)(undefined, { type: undefined }),
   enhancer?: any,
 ): Store<State, Action> => {
-  if (enhancer) return enhancer(createStore)(reducer, initialState) as never;
+  if (enhancer) return enhancer(createStore)(reducer, initialState);
 
   const useStore = create<State>(redux(reducer, initialState));
 
@@ -60,7 +66,16 @@ export const createStore = <State extends object, Action extends { type: unknown
       // eslint-disable-next-line no-console
       console.warn('[DEPRECATED] useStoreState instead');
     }
-    return [useStoreState(stateKey)] as const;
+    const partialState = useStoreState(stateKey);
+    const updater = useCallback(
+      (update: SetStateAction<State[StateKey]>) => {
+        useStore.setState((previousState) => ({
+          [stateKey]: updateValue(previousState[stateKey], update),
+        } as Pick<State, StateKey>));
+      },
+      [stateKey],
+    );
+    return [partialState, updater] as const;
   };
 
   return {
@@ -78,7 +93,10 @@ type Store<State, Action> = {
    *
    * @deprecated useStoreState instead
    */
-  useGlobalState: <StateKey extends keyof State>(stateKey: StateKey) => readonly [State[StateKey]];
+  useGlobalState: <StateKey extends keyof State>(stateKey: StateKey) => readonly [
+    State[StateKey],
+    (u: SetStateAction<State[StateKey]>) => void,
+  ];
   getState: () => State;
   dispatch: (action: Action) => Action;
 };
