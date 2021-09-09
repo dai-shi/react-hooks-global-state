@@ -18,7 +18,7 @@ const updateValue = <Value>(oldValue: Value, newValue: SetStateAction<Value>) =>
 };
 
 /**
- * create a global state
+ * Create a global state.
  *
  * It returns a set of functions
  * - `useGlobalState`: a custom hook works like React.useState

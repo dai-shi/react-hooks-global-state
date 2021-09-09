@@ -3,7 +3,8 @@
 ## [Unreleased]
 ### Changed
 - Re-implemented with zustand as a dependency
-- BREAKING CHANGE: `useGlobalState` created with `createStore` doesn't return the second part of the tuple
+- BREAKING CHANGE: `createStore` returns `useStoreState`
+  - `useGlobalState` returned by `createStore` is deprecated.
 ### Removed
 - BREAKING CHANGE: drop reduxDevToolsExt
   - Reference implementation in `examples/08_thunk/src/devtools.ts`
