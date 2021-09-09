@@ -1,6 +1,9 @@
 # Change Log
 
 ## [Unreleased]
+### Removed
+- BREAKING CHANGE: drop reduxDevToolsExt
+  - Reference implementation in `examples/08_thunk/src/devtools.ts`
 
 ## [1.0.2] - 2021-08-14
 ### Changed
