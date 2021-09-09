@@ -11,6 +11,12 @@ const validateStateKey = (keys: string[], stateKey: string) => {
   }
 };
 
+type Store<State, Action> = {
+  useGlobalState: <StateKey extends keyof State>(stateKey: StateKey) => readonly [State[StateKey]];
+  getState: () => State;
+  dispatch: (action: Action) => Action;
+};
+
 /**
  * create a global store
  *
@@ -36,7 +42,7 @@ export const createStore = <State extends object, Action extends { type: unknown
   reducer: Reducer<State, Action>,
   initialState: State = (reducer as any)(undefined, { type: undefined }),
   enhancer?: any,
-) => {
+): Store<State, Action> => {
   if (enhancer) return enhancer(createStore)(reducer, initialState) as never;
 
   const useStore = create<State>(redux(reducer, initialState));
@@ -53,13 +59,9 @@ export const createStore = <State extends object, Action extends { type: unknown
     return [partialState] as const;
   };
 
-  const getState = (): State => useStore.getState();
-
-  const dispatch = (action: Action): Action => (useStore as any).dispatch(action);
-
   return {
     useGlobalState,
-    getState,
-    dispatch,
+    getState: useStore.getState,
+    dispatch: (useStore as any).dispatch,
   };
 };
