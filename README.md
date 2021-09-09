@@ -18,9 +18,6 @@ It has following characteristics.
     -   A creator function creates hooks with types inferred.
 -   Redux middleware support to some extent
     -   Some of libraries in Redux ecosystem can be used.
-    -   Redux DevTools Extension could be used in a simple scenario.
--   Concurrent Mode support (Experimental)
-    -   Undocumented `useGlobalStateProvider` supports CM without React Context.
 
 ## Install
 
