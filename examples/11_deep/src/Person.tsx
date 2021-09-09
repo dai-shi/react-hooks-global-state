@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-import { dispatch, useGlobalState } from './state';
+import { dispatch, useStoreState } from './state';
 
 const setFirstName = (event: React.FormEvent<HTMLInputElement>) => dispatch({
   firstName: event.currentTarget.value,
@@ -17,7 +17,7 @@ const setAge = (event: React.FormEvent<HTMLInputElement>) => dispatch({
   type: 'setAge',
 });
 
-const TextBox: React.SFC<{ text: string }> = ({ text }) => {
+const TextBox: React.FC<{ text: string }> = ({ text }) => {
   // eslint-disable-next-line no-console
   console.log('rendering text:', text);
   return <span>{text}</span>;
@@ -25,7 +25,7 @@ const TextBox: React.SFC<{ text: string }> = ({ text }) => {
 
 let numRendered = 0;
 const PersonFirstName = () => {
-  const [value] = useGlobalState('person');
+  const value = useStoreState('person');
   const { firstName } = value;
   return useMemo(
     () => (
@@ -41,7 +41,7 @@ const PersonFirstName = () => {
 };
 
 const PersonLastName = () => {
-  const [value] = useGlobalState('person');
+  const value = useStoreState('person');
   const { lastName } = value;
   return useMemo(
     () => (
@@ -57,7 +57,7 @@ const PersonLastName = () => {
 };
 
 const PersonAge = () => {
-  const [value] = useGlobalState('person');
+  const value = useStoreState('person');
   const { age } = value;
   const ageDoubled = useMemo(() => age * 2, [age]);
   return useMemo(

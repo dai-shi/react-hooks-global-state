@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 
-import { dispatch, useGlobalState } from './state';
+import { dispatch, useStoreState } from './state';
 
 const increment = () => dispatch({ type: 'increment' });
 const decrement = () => dispatch({ type: 'decrement' });
 const addBonus = (value: number) => dispatch({ value, type: 'addBonus' });
 
 const Counter = () => {
-  const [value] = useGlobalState('count');
-  const [bonus] = useGlobalState('bonus');
+  const value = useStoreState('count');
+  const bonus = useStoreState('bonus');
   useEffect(
     () => {
       addBonus(value < 3 ? 10 : Math.random());

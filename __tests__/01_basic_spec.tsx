@@ -18,9 +18,9 @@ describe('basic spec', () => {
       }
       return state;
     };
-    const { useGlobalState, dispatch } = createStore(reducer);
+    const { useStoreState, dispatch } = createStore(reducer);
     const Counter = () => {
-      const [value] = useGlobalState('count');
+      const value = useStoreState('count');
       return (
         <div>
           <span>{value}</span>
