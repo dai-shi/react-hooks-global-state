@@ -123,14 +123,6 @@ const Component = () => {
 };
 ```
 
-### useGlobalState
-
-Type: function (stateKey: StateKey): any
-
-**Meta**
-
-*   **deprecated**: useStoreState instead
-
 ### createStore
 
 Create a global store.
@@ -167,6 +159,16 @@ const Component = () => {
 ```
 
 Returns **Store\<State, Action>** 
+
+### useGlobalState
+
+useGlobalState created by createStore is deprecated.
+
+Type: function (stateKey: StateKey): any
+
+**Meta**
+
+*   **deprecated**: useStoreState instead
 
 ## Examples
 

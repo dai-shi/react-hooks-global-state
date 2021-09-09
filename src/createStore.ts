@@ -11,16 +11,6 @@ const validateStateKey = (keys: string[], stateKey: string) => {
   }
 };
 
-type Store<State, Action> = {
-  useStoreState: <StateKey extends keyof State>(stateKey: StateKey) => State[StateKey];
-  /**
-   * @deprecated useStoreState instead
-   */
-  useGlobalState: <StateKey extends keyof State>(stateKey: StateKey) => readonly [State[StateKey]];
-  getState: () => State;
-  dispatch: (action: Action) => Action;
-};
-
 /**
  * Create a global store.
  *
@@ -79,4 +69,16 @@ export const createStore = <State extends object, Action extends { type: unknown
     getState: useStore.getState,
     dispatch: (useStore as any).dispatch,
   };
+};
+
+type Store<State, Action> = {
+  useStoreState: <StateKey extends keyof State>(stateKey: StateKey) => State[StateKey];
+  /**
+   * useGlobalState created by createStore is deprecated.
+   *
+   * @deprecated useStoreState instead
+   */
+  useGlobalState: <StateKey extends keyof State>(stateKey: StateKey) => readonly [State[StateKey]];
+  getState: () => State;
+  dispatch: (action: Action) => Action;
 };
