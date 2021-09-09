@@ -1,8 +1,5 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const webpack = require('webpack');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-/* eslint-enable @typescript-eslint/no-var-requires */
 
 const { DIR, EXT = 'ts' } = process.env;
 
@@ -14,29 +11,18 @@ module.exports = {
     publicPath: '/',
   },
   plugins: [
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: 'development',
-    }),
     new HtmlWebpackPlugin({
       template: `./examples/${DIR}/public/index.html`,
     }),
-    new ReactRefreshWebpackPlugin(),
   ],
   module: {
     rules: [{
       test: /\.[jt]sx?$/,
       exclude: /node_modules/,
-      use: [{
-        loader: 'babel-loader',
-        options: {
-          plugins: ['react-refresh/babel'],
-        },
-      }, {
-        loader: 'ts-loader',
-        options: {
-          transpileOnly: true,
-        },
-      }],
+      loader: 'ts-loader',
+      options: {
+        transpileOnly: true,
+      },
     }],
   },
   resolve: {
@@ -47,8 +33,9 @@ module.exports = {
   },
   devServer: {
     port: process.env.PORT || '8080',
-    contentBase: `./examples/${DIR}/public`,
+    static: {
+      directory: `./examples/${DIR}/public`,
+    },
     historyApiFallback: true,
-    hot: true,
   },
 };
