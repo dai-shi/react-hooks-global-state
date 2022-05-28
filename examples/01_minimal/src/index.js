@@ -1,5 +1,5 @@
 import React, { StrictMode } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import { createGlobalState } from 'react-hooks-global-state';
 
@@ -41,4 +41,4 @@ const App = () => (
   </StrictMode>
 );
 
-ReactDOM.render(<App />, document.getElementById('app'));
+createRoot(document.getElementById('app')).render(<App />);
