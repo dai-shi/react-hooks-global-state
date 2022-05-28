@@ -26,9 +26,9 @@ describe('issue #33 spec', () => {
       );
     };
     const App = () => (
-      <>
+      <div>
         <Counter />
-      </>
+      </div>
     );
     const { getAllByText, container } = render(<App />);
     expect(container.querySelector('span')?.textContent).toBe('0');

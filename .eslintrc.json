@@ -37,7 +37,9 @@
     "no-param-reassign": "off",
     "symbol-description": "off",
     "no-use-before-define": "off",
-    "no-unused-vars": "off"
+    "no-unused-vars": "off",
+    "react/function-component-definition": ["error", { "namedComponents": "arrow-function" }],
+    "default-param-last": "off"
   },
   "overrides": [{
     "files": ["__tests__/**/*"],
