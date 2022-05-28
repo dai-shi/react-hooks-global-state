@@ -1,4 +1,9 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, {
+  ReactNode,
+  createContext,
+  useContext,
+  useReducer,
+} from 'react';
 
 import {
   Action,
@@ -10,7 +15,7 @@ import {
 const stateCtx = createContext(initialState);
 const dispatchCtx = createContext((() => 0) as React.Dispatch<Action>);
 
-export const Provider: React.ComponentType = ({ children }) => {
+export const Provider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <dispatchCtx.Provider value={dispatch}>

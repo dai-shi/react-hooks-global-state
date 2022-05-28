@@ -11,7 +11,7 @@ describe('issue #33 spec', () => {
       count1: 0,
     };
     const { useGlobalState, getGlobalState } = createGlobalState(initialState);
-    const Positive: React.FC<{ count: number }> = ({ count }) => {
+    const Positive = ({ count }: { count: number }) => {
       if (count !== getGlobalState('count1')) throw Error('count mismatch');
       return <div>{count} is positive</div>;
     };

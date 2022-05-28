@@ -12,7 +12,7 @@ describe('startup spec', () => {
       count2: 0,
     };
     const { setGlobalState, useGlobalState } = createGlobalState(initialState);
-    const Counter: React.FC<{ name: 'count1' | 'count2' }> = ({ name }) => {
+    const Counter = ({ name }: { name: 'count1' | 'count2' }) => {
       setGlobalState(name, 9);
       const [value] = useGlobalState(name);
       return (
@@ -54,7 +54,7 @@ describe('startup spec', () => {
       return state;
     };
     const { dispatch, useStoreState } = createStore(reducer, initialState);
-    const Counter: React.FC<{ name: 'count1' | 'count2' }> = ({ name }) => {
+    const Counter = ({ name }: { name: 'count1' | 'count2' }) => {
       dispatch({ type: 'setCounter', name, value: 9 });
       const value = useStoreState(name);
       return (

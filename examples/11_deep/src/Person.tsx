@@ -17,7 +17,7 @@ const setAge = (event: React.FormEvent<HTMLInputElement>) => dispatch({
   type: 'setAge',
 });
 
-const TextBox: React.FC<{ text: string }> = ({ text }) => {
+const TextBox = ({ text }: { text: string }) => {
   // eslint-disable-next-line no-console
   console.log('rendering text:', text);
   return <span>{text}</span>;
