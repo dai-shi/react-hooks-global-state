@@ -79,7 +79,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "zustand": "^3.5.10"
+    "zustand": "4.0.0-rc.1"
   },
   "devDependencies": {
     "@testing-library/react": "^12.0.0",

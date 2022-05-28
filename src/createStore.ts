@@ -5,6 +5,10 @@ import { Reducer, SetStateAction, useCallback } from 'react';
 import create from 'zustand';
 import { redux } from 'zustand/middleware';
 
+type ExtractState<S> = S extends {
+  getState: () => infer T;
+} ? T : never;
+
 const validateStateKey = (keys: string[], stateKey: string) => {
   if (!keys.includes(stateKey)) {
     throw new Error(`'${stateKey}' not found. It must be provided in initialState as a property key.`);
@@ -48,16 +52,20 @@ export const createStore = <State extends object, Action extends { type: unknown
 ): Store<State, Action> => {
   if (enhancer) return enhancer(createStore)(reducer, initialState);
 
-  const useStore = create<State>(redux(reducer, initialState));
+  const useStore = create(redux(reducer, initialState));
 
-  type StateKeys = keyof State;
+  type BoundState = ExtractState<typeof useStore>;
+  type StateKeys = keyof BoundState;
   const keys = Object.keys(initialState);
 
   const useStoreState = <StateKey extends StateKeys>(stateKey: StateKey) => {
     if (process.env.NODE_ENV !== 'production') {
       validateStateKey(keys, stateKey as string);
     }
-    const selector = useCallback((state: State) => state[stateKey], [stateKey]);
+    const selector = useCallback(
+      (state: BoundState) => state[stateKey],
+      [stateKey],
+    );
     return useStore(selector);
   };
 
@@ -68,10 +76,10 @@ export const createStore = <State extends object, Action extends { type: unknown
     }
     const partialState = useStoreState(stateKey);
     const updater = useCallback(
-      (update: SetStateAction<State[StateKey]>) => {
+      (update: SetStateAction<BoundState[StateKey]>) => {
         useStore.setState((previousState) => ({
           [stateKey]: updateValue(previousState[stateKey], update),
-        } as Pick<State, StateKey>));
+        } as Pick<BoundState, StateKey> as Partial<BoundState>));
       },
       [stateKey],
     );
@@ -82,8 +90,8 @@ export const createStore = <State extends object, Action extends { type: unknown
     useStoreState,
     useGlobalState,
     getState: useStore.getState,
-    dispatch: (useStore as any).dispatch,
-  };
+    dispatch: useStore.dispatch,
+  } as unknown as Store<State, Action>;
 };
 
 type Store<State, Action> = {

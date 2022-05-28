@@ -47,7 +47,7 @@ export const createGlobalState = <State extends object>(initialState: State) => 
     }
     useStore.setState((previousState) => ({
       [stateKey]: updateValue(previousState[stateKey], update),
-    } as Pick<State, StateKey>));
+    } as Pick<State, StateKey> as Partial<State>));
   };
 
   const useGlobalState = <StateKey extends StateKeys>(stateKey: StateKey) => {
