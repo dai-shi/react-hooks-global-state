@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`02_typescript should work with events 1`] = `
+exports[`13_persistence should work with events 1`] = `
 "
     <div id=\\"app\\"><h1>Counter</h1><div><span>Count: 1</span><button type=\\"button\\">+1</button><button type=\\"button\\">-1</button></div><div><span>Count: 1</span><button type=\\"button\\">+1</button><button type=\\"button\\">-1</button></div><h1>Person</h1><div><div>First Name:<input value=\\"\\"></div><div>Last Name:<input value=\\"\\"></div><div>Age:<input value=\\"0\\"></div></div><div><div>First Name:<input value=\\"\\"></div><div>Last Name:<input value=\\"\\"></div><div>Age:<input value=\\"0\\"></div></div></div>
   
@@ -8,7 +8,7 @@ exports[`02_typescript should work with events 1`] = `
 "
 `;
 
-exports[`02_typescript should work with events 2`] = `
+exports[`13_persistence should work with events 2`] = `
 "
     <div id=\\"app\\"><h1>Counter</h1><div><span>Count: 2</span><button type=\\"button\\">+1</button><button type=\\"button\\">-1</button></div><div><span>Count: 2</span><button type=\\"button\\">+1</button><button type=\\"button\\">-1</button></div><h1>Person</h1><div><div>First Name:<input value=\\"\\"></div><div>Last Name:<input value=\\"\\"></div><div>Age:<input value=\\"0\\"></div></div><div><div>First Name:<input value=\\"\\"></div><div>Last Name:<input value=\\"\\"></div><div>Age:<input value=\\"0\\"></div></div></div>
   
@@ -16,7 +16,7 @@ exports[`02_typescript should work with events 2`] = `
 "
 `;
 
-exports[`02_typescript should work with events 3`] = `
+exports[`13_persistence should work with events 3`] = `
 "
     <div id=\\"app\\"><h1>Counter</h1><div><span>Count: 2</span><button type=\\"button\\">+1</button><button type=\\"button\\">-1</button></div><div><span>Count: 2</span><button type=\\"button\\">+1</button><button type=\\"button\\">-1</button></div><h1>Person</h1><div><div>First Name:<input value=\\"1\\"></div><div>Last Name:<input value=\\"\\"></div><div>Age:<input value=\\"0\\"></div></div><div><div>First Name:<input value=\\"1\\"></div><div>Last Name:<input value=\\"\\"></div><div>Age:<input value=\\"0\\"></div></div></div>
   
@@ -24,7 +24,7 @@ exports[`02_typescript should work with events 3`] = `
 "
 `;
 
-exports[`02_typescript should work with events 4`] = `
+exports[`13_persistence should work with events 4`] = `
 "
     <div id=\\"app\\"><h1>Counter</h1><div><span>Count: 2</span><button type=\\"button\\">+1</button><button type=\\"button\\">-1</button></div><div><span>Count: 2</span><button type=\\"button\\">+1</button><button type=\\"button\\">-1</button></div><h1>Person</h1><div><div>First Name:<input value=\\"14\\"></div><div>Last Name:<input value=\\"\\"></div><div>Age:<input value=\\"0\\"></div></div><div><div>First Name:<input value=\\"14\\"></div><div>Last Name:<input value=\\"\\"></div><div>Age:<input value=\\"0\\"></div></div></div>
   
@@ -32,7 +32,7 @@ exports[`02_typescript should work with events 4`] = `
 "
 `;
 
-exports[`02_typescript should work with events 5`] = `
+exports[`13_persistence should work with events 5`] = `
 "
     <div id=\\"app\\"><h1>Counter</h1><div><span>Count: 2</span><button type=\\"button\\">+1</button><button type=\\"button\\">-1</button></div><div><span>Count: 2</span><button type=\\"button\\">+1</button><button type=\\"button\\">-1</button></div><h1>Person</h1><div><div>First Name:<input value=\\"14\\"></div><div>Last Name:<input value=\\"\\"></div><div>Age:<input value=\\"0\\"></div></div><div><div>First Name:<input value=\\"14\\"></div><div>Last Name:<input value=\\"\\"></div><div>Age:<input value=\\"0\\"></div></div></div>
   
