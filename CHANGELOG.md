@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased]
+
+## [2.0.0-rc.0] - 2022-05-28
 ### Changed
 - Re-implemented with zustand as a dependency
 - `createStore` returns `useStoreState`
