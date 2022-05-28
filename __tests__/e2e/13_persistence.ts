@@ -2,7 +2,7 @@ import puppeteer from 'puppeteer';
 
 jest.setTimeout(15 * 1000);
 
-describe('02_typescript', () => {
+describe('13_persistence', () => {
   const port = process.env.PORT || '8080';
 
   it('should work with events', async () => {

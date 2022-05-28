@@ -193,7 +193,6 @@ You can also try them in codesandbox.io:
 [09](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/main/examples/09_comparison)
 [10](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/main/examples/10_immer)
 [11](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/main/examples/11_deep)
-[12](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/main/examples/12_effect)
 [13](https://codesandbox.io/s/github/dai-shi/react-hooks-global-state/tree/main/examples/13_persistence)
 
 ## Blogs

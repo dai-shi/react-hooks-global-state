@@ -1,4 +1,4 @@
-import React, { useEffect, StrictMode } from 'react';
+import React, { useEffect, useRef, StrictMode } from 'react';
 
 import { setPageTitle } from './state';
 
@@ -14,12 +14,12 @@ const initPageInfo = async () => {
 };
 
 const App = () => {
-  useEffect(
-    () => {
-      initPageInfo();
-    },
-    [],
-  );
+  const mounted = useRef(false);
+  useEffect(() => {
+    if (mounted.current) return;
+    mounted.current = true;
+    initPageInfo();
+  });
 
   return (
     <StrictMode>
