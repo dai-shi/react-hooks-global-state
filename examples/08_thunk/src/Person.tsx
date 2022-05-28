@@ -1,6 +1,6 @@
 import React, { Dispatch } from 'react';
 
-import { Action, dispatch, useGlobalState } from './state';
+import { Action, dispatch, useStoreState } from './state';
 
 const setFirstName = (event: React.FormEvent<HTMLInputElement>) => dispatch({
   firstName: event.currentTarget.value,
@@ -49,7 +49,7 @@ const setRandomFirstName = () => {
 };
 
 const Person = () => {
-  const [value] = useGlobalState('person');
+  const value = useStoreState('person');
   return (
     <div>
       <button type="button" onClick={setRandomFirstName}>Random First Name</button>

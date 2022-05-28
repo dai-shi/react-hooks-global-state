@@ -2,7 +2,9 @@ import { applyMiddleware, combineReducers, compose } from 'redux';
 import reduxLogger from 'redux-logger';
 import reduxThunk from 'redux-thunk';
 
-import { createStore, reduxDevToolsExt } from 'react-hooks-global-state';
+import { createStore } from 'react-hooks-global-state';
+
+import { reduxDevToolsExt } from './devtools';
 
 const initialState = {
   count: 0,
@@ -51,7 +53,7 @@ const reducer = combineReducers({
   person: personReducer,
 });
 
-export const { dispatch, useGlobalState } = createStore<
+export const { dispatch, useStoreState } = createStore<
   typeof initialState,
   Action
 >(

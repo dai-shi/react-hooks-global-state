@@ -12,15 +12,12 @@ Simple global state for React with Hooks API without Context API
 This is a library to provide a global state with React Hooks.
 It has following characteristics.
 
--   Optimization for shallow state getter and setter.
-    -   The library cares the state object only one-level deep.
--   TypeScript type definitions
-    -   A creator function creates hooks with types inferred.
--   Redux middleware support to some extent
-    -   Some of libraries in Redux ecosystem can be used.
-    -   Redux DevTools Extension could be used in a simple scenario.
--   Concurrent Mode support (Experimental)
-    -   Undocumented `useGlobalStateProvider` supports CM without React Context.
+*   Optimization for shallow state getter and setter.
+    *   The library cares the state object only one-level deep.
+*   TypeScript type definitions
+    *   A creator function creates hooks with types inferred.
+*   Redux middleware support to some extent
+    *   Some of libraries in Redux ecosystem can be used.
 
 ## Install
 
@@ -74,10 +71,10 @@ const reducer = (state, action) => {
   }
 };
 const initialState = { count: 0 };
-const { dispatch, useGlobalState } = createStore(reducer, initialState);
+const { dispatch, useStoreState } = createStore(reducer, initialState);
 
 const Counter = () => {
-  const [value] = useGlobalState('count');
+  const value = useStoreState('count');
   return (
     <div>
       <span>Counter: {value}</span>
@@ -101,17 +98,17 @@ const App = () => (
 
 ### createGlobalState
 
-create a global state
+Create a global state.
 
 It returns a set of functions
 
--   `useGlobalState`: a custom hook works like React.useState
--   `getGlobalState`: a function to get a global state by key outside React
--   `setGlobalState`: a function to set a global state by key outside React
+*   `useGlobalState`: a custom hook works like React.useState
+*   `getGlobalState`: a function to get a global state by key outside React
+*   `setGlobalState`: a function to set a global state by key outside React
 
 #### Parameters
 
--   `initialState` **State** 
+*   `initialState` **State** 
 
 #### Examples
 
@@ -128,17 +125,21 @@ const Component = () => {
 
 ### createStore
 
-create a global store
+Create a global store.
 
-In additon to `useGlobalState` which is the same hook as in createGlobalState,
-a store has `getState` and `dispatch`.
+It returns a set of functions
+
+*   `useStoreState`: a custom hook to read store state by key
+*   `getState`: a function to get store state by key outside React
+*   `dispatch`: a function to dispatch an action to store
+
 A store works somewhat similarly to Redux, but not the same.
 
 #### Parameters
 
--   `reducer` **Reducer&lt;State, Action>** 
--   `initialState` **State**  (optional, default `(reducer as any)(undefined,{type:undefined})`)
--   `enhancer` **Enhancer&lt;any>?** 
+*   `reducer` **Reducer\<State, Action>** 
+*   `initialState` **State**  (optional, default `(reducer as any)(undefined,{type:undefined})`)
+*   `enhancer` **any?** 
 
 #### Examples
 
@@ -149,13 +150,25 @@ const initialState = { count: 0 };
 const reducer = ...;
 
 const store = createStore(reducer, initialState);
-const { useGlobalState } = store;
+const { useStoreState, dispatch } = store;
 
 const Component = () => {
-  const [count, setCount] = useGlobalState('count');
+  const count = useStoreState('count');
   ...
 };
 ```
+
+Returns **Store\<State, Action>** 
+
+### useGlobalState
+
+useGlobalState created by createStore is deprecated.
+
+Type: function (stateKey: StateKey): any
+
+**Meta**
+
+*   **deprecated**: useStoreState instead
 
 ## Examples
 
@@ -185,14 +198,14 @@ You can also try them in codesandbox.io:
 
 ## Blogs
 
--   [TypeScript-aware React hooks for global state](https://blog.axlight.com/posts/typescript-aware-react-hooks-for-global-state/)
--   [An alternative to React Redux by React Hooks API (For both JavaScript and TypeScript)](https://blog.axlight.com/posts/an-alternative-to-react-redux-by-react-hooks-api-for-both-javascript-and-typescript/)
--   [Redux middleware compatible React Hooks library for easy global state management](https://blog.axlight.com/posts/redux-middleware-compatible-react-hooks-library-for-easy-global-state-management/)
--   [React Hooks Tutorial on pure useReducer + useContext for global state like Redux and comparison with react-hooks-global-state](https://blog.axlight.com/posts/react-hooks-tutorial-for-pure-usereducer-usecontext-for-global-state-like-redux-and-comparison/)
--   [Four patterns for global state with React hooks: Context or Redux](https://blog.axlight.com/posts/four-patterns-for-global-state-with-react-hooks-context-or-redux/)
--   [Steps to Develop Global State for React With Hooks Without Context](https://blog.axlight.com/posts/steps-to-develop-global-state-for-react/)
+*   [TypeScript-aware React hooks for global state](https://blog.axlight.com/posts/typescript-aware-react-hooks-for-global-state/)
+*   [An alternative to React Redux by React Hooks API (For both JavaScript and TypeScript)](https://blog.axlight.com/posts/an-alternative-to-react-redux-by-react-hooks-api-for-both-javascript-and-typescript/)
+*   [Redux middleware compatible React Hooks library for easy global state management](https://blog.axlight.com/posts/redux-middleware-compatible-react-hooks-library-for-easy-global-state-management/)
+*   [React Hooks Tutorial on pure useReducer + useContext for global state like Redux and comparison with react-hooks-global-state](https://blog.axlight.com/posts/react-hooks-tutorial-for-pure-usereducer-usecontext-for-global-state-like-redux-and-comparison/)
+*   [Four patterns for global state with React hooks: Context or Redux](https://blog.axlight.com/posts/four-patterns-for-global-state-with-react-hooks-context-or-redux/)
+*   [Steps to Develop Global State for React With Hooks Without Context](https://blog.axlight.com/posts/steps-to-develop-global-state-for-react/)
 
 ## Community Wiki
 
--   [Persistence](https://github.com/dai-shi/react-hooks-global-state/wiki/Persistence)
--   [Optional initialState](https://github.com/dai-shi/react-hooks-global-state/wiki/Optional-initialState)
+*   [Persistence](https://github.com/dai-shi/react-hooks-global-state/wiki/Persistence)
+*   [Optional initialState](https://github.com/dai-shi/react-hooks-global-state/wiki/Optional-initialState)

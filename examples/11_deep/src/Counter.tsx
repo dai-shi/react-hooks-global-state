@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { dispatch, useGlobalState } from './state';
+import { dispatch, useStoreState } from './state';
 
 const increment = () => dispatch({ type: 'increment' });
 const decrement = () => dispatch({ type: 'decrement' });
@@ -8,7 +8,7 @@ const decrement = () => dispatch({ type: 'decrement' });
 let numRendered = 0;
 
 const Counter = () => {
-  const [value] = useGlobalState('count');
+  const value = useStoreState('count');
   numRendered += 1;
   return (
     <div>

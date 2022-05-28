@@ -1,7 +1,10 @@
 {
   "name": "react-hooks-global-state",
   "description": "Simple global state for React with Hooks API without Context API",
-  "version": "1.0.2",
+  "version": "2.0.0-alpha.5",
+  "publishConfig": {
+    "tag": "next"
+  },
   "author": "Daishi Kato",
   "repository": {
     "type": "git",
@@ -75,7 +78,9 @@
     "pure"
   ],
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "zustand": "4.0.0-rc.1"
+  },
   "devDependencies": {
     "@testing-library/react": "^12.0.0",
     "@types/expect-puppeteer": "^4.4.6",

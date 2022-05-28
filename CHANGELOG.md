@@ -1,6 +1,13 @@
 # Change Log
 
 ## [Unreleased]
+### Changed
+- Re-implemented with zustand as a dependency
+- `createStore` returns `useStoreState`
+  - `useGlobalState` returned by `createStore` is deprecated
+### Removed
+- BREAKING CHANGE: drop reduxDevToolsExt
+  - Reference implementation in `examples/08_thunk/src/devtools.ts`
 
 ## [1.0.2] - 2021-08-14
 ### Changed

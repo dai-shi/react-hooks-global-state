@@ -12,14 +12,19 @@ describe('basic spec', () => {
   });
 
   it('should be possible to not specify initial state', () => {
-    const reducer = () => ({ count: 0 });
-    const { useGlobalState } = createStore(reducer);
+    const reducer = (state = { count: 0 }, action: { type: 'INC' }) => {
+      if (action.type === 'INC') {
+        return { count: state.count + 1 };
+      }
+      return state;
+    };
+    const { useStoreState, dispatch } = createStore(reducer);
     const Counter = () => {
-      const [value, update] = useGlobalState('count');
+      const value = useStoreState('count');
       return (
         <div>
           <span>{value}</span>
-          <button type="button" onClick={() => update(value + 1)}>+1</button>
+          <button type="button" onClick={() => dispatch({ type: 'INC' })}>+1</button>
         </div>
       );
     };
@@ -56,7 +61,7 @@ describe('basic spec', () => {
     );
     const { getAllByText, container } = render(<App />);
     expect(container).toMatchSnapshot();
-    fireEvent.click(getAllByText('+1')[0]);
+    fireEvent.click(getAllByText('+1')[0] as HTMLElement);
     expect(container).toMatchSnapshot();
   });
 });

@@ -33,7 +33,7 @@ describe('issue #33 spec', () => {
     const { getAllByText, container } = render(<App />);
     expect(container.querySelector('span')?.textContent).toBe('0');
     expect(getGlobalState('count1')).toBe(0);
-    fireEvent.click(getAllByText('+1')[0]);
+    fireEvent.click(getAllByText('+1')[0] as HTMLElement);
     expect(container.querySelector('span')?.textContent).toBe('1');
     expect(getGlobalState('count1')).toBe(1);
   });
