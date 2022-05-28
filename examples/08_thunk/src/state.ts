@@ -4,8 +4,6 @@ import reduxThunk from 'redux-thunk';
 
 import { createStore } from 'react-hooks-global-state';
 
-import { reduxDevToolsExt } from './devtools';
-
 const initialState = {
   count: 0,
   person: {
@@ -61,6 +59,5 @@ export const { dispatch, useStoreState } = createStore<
   initialState,
   compose(
     applyMiddleware(reduxThunk, reduxLogger),
-    reduxDevToolsExt(),
   ),
 );
