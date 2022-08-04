@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [2.0.0] - 2022-08-05
+### Changed from 2.0.0-rc.0
+- Depends on zustand v4.0.0
+
 ## [2.0.0-rc.0] - 2022-05-28
 ### Changed
 - Re-implemented with zustand as a dependency
