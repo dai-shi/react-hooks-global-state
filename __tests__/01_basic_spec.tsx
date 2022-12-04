@@ -64,4 +64,40 @@ describe('basic spec', () => {
     fireEvent.click(getAllByText('+1')[0] as HTMLElement);
     expect(container).toMatchSnapshot();
   });
+
+  it('should subscribe to global state change', () => {
+    const containerRef : { current: null | HTMLDivElement } = {
+      current: null,
+    };
+    const { useGlobalState, subscribe } = createGlobalState({
+      count: 0,
+    });
+    subscribe((state) => {
+      containerRef.current?.setAttribute('data-testid', `count ${state.count}`);
+    });
+
+    const Counter = () => {
+      const [value, update] = useGlobalState('count');
+      return (
+        <div
+          ref={(ref) => {
+            if (ref) {
+              containerRef.current = ref;
+            }
+          }}
+        >
+          <span>{value}</span>
+          <button type="button" onClick={() => update(value + 1)}>+1</button>
+        </div>
+      );
+    };
+    const App = () => (
+      <StrictMode>
+        <Counter />
+      </StrictMode>
+    );
+    const { getByTestId, getAllByText } = render(<App />);
+    fireEvent.click(getAllByText('+1')[0] as HTMLElement);
+    expect(getByTestId('count 1')).toBeDefined();
+  });
 });

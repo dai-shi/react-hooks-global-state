@@ -105,6 +105,7 @@ It returns a set of functions
 *   `useGlobalState`: a custom hook works like React.useState
 *   `getGlobalState`: a function to get a global state by key outside React
 *   `setGlobalState`: a function to set a global state by key outside React
+*   `subscribe`: a function that subscribes to state changes
 
 #### Parameters
 

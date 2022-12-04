@@ -74,5 +74,6 @@ export const createGlobalState = <State extends object>(initialState: State) => 
     useGlobalState,
     getGlobalState,
     setGlobalState,
+    subscribe: useStore.subscribe,
   };
 };
