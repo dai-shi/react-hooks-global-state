@@ -21,6 +21,7 @@ const updateValue = <Value>(oldValue: Value, newValue: SetStateAction<Value>) =>
  * - `useGlobalState`: a custom hook works like React.useState
  * - `getGlobalState`: a function to get a global state by key outside React
  * - `setGlobalState`: a function to set a global state by key outside React
+ * - `subscribe`: a function that subscribes to state changes
  *
  * @example
  * import { createGlobalState } from 'react-hooks-global-state';
@@ -70,9 +71,21 @@ export const createGlobalState = <State extends object>(initialState: State) => 
     return useStore.getState()[stateKey];
   };
 
+  const subscribe = <StateKey extends StateKeys>(
+    stateKey: StateKey,
+    listener: (value: State[StateKey]) => void,
+  ) => {
+    useStore.subscribe((state, prevState) => {
+      if (state[stateKey] !== prevState[stateKey]) {
+        listener(state[stateKey]);
+      }
+    });
+  };
+
   return {
     useGlobalState,
     getGlobalState,
     setGlobalState,
+    subscribe,
   };
 };
