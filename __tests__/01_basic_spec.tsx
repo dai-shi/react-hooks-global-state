@@ -72,8 +72,8 @@ describe('basic spec', () => {
     const { useGlobalState, subscribe } = createGlobalState({
       count: 0,
     });
-    subscribe((state) => {
-      containerRef.current?.setAttribute('data-testid', `count ${state.count}`);
+    subscribe('count', (count) => {
+      containerRef.current?.setAttribute('data-testid', `count ${count}`);
     });
 
     const Counter = () => {

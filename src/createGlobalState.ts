@@ -70,10 +70,21 @@ export const createGlobalState = <State extends object>(initialState: State) => 
     return useStore.getState()[stateKey];
   };
 
+  const subscribe = <StateKey extends StateKeys>(
+    stateKey: StateKey,
+    listener: (value: State[StateKey]) => void,
+  ) => {
+    useStore.subscribe((state, prevState) => {
+      if (state[stateKey] !== prevState[stateKey]) {
+        listener(state[stateKey]);
+      }
+    });
+  };
+
   return {
     useGlobalState,
     getGlobalState,
     setGlobalState,
-    subscribe: useStore.subscribe,
+    subscribe,
   };
 };
