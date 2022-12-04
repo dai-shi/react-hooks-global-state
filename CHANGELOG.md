@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [2.1.0] - 2022-12-04
+### Added
+- expose "subscribe" function for "createGlobalState" #85
+
 ## [2.0.0] - 2022-08-05
 ### Changed from 2.0.0-rc.0
 - Depends on zustand v4.0.0
