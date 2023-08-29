@@ -1,6 +1,11 @@
+This project is no longer maintained.
+Please directly use [Zustand](https://github.com/pmndrs/zustand).
+
+---
+
 # react-hooks-global-state
 
-[![CI](https://img.shields.io/github/workflow/status/dai-shi/react-hooks-global-state/CI)](https://github.com/dai-shi/react-hooks-global-state/actions?query=workflow%3ACI)
+[![CI](https://img.shields.io/github/actions/workflow/status/dai-shi/react-hooks-global-state/ci.yml?branch=main)](https://github.com/dai-shi/react-hooks-global-state/actions?query=workflow%3ACI)
 [![npm](https://img.shields.io/npm/v/react-hooks-global-state)](https://www.npmjs.com/package/react-hooks-global-state)
 [![size](https://img.shields.io/bundlephobia/minzip/react-hooks-global-state)](https://bundlephobia.com/result?p=react-hooks-global-state)
 [![discord](https://img.shields.io/discord/627656437971288081)](https://discord.gg/MrQdmzd)
